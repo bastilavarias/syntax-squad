@@ -18,8 +18,19 @@ const routes = [
     },
     {
         path: "/chat",
-        name: "chat-page",
         component: () => import("@/pages/ChatPage.vue"),
+        children: [
+            {
+                path: "",
+                name: "chat-page",
+                component: () => import("@/pages/ChatRoomPage.vue"),
+            },
+            {
+                path: "room/:roomID",
+                name: "chat-conversation-page",
+                component: () => import("@/pages/ChatConversationPage.vue"),
+            },
+        ],
         meta: {
             requiresAuth: true,
         },

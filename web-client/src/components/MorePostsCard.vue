@@ -6,7 +6,6 @@ import { ListPostsPayload, usePostStore } from "@/stores/post.ts";
 import { useToast } from "@/components/ui/toast";
 import { useCustomComposable } from "@/custom-composable.ts";
 import { formatDistanceToNow } from "date-fns";
-import { BookmarkIcon, HeartIcon, MessageCircleIcon } from "lucide-vue-next";
 import { Badge } from "@/components/ui/badge";
 
 const props = defineProps(["exclude", "userId"]);

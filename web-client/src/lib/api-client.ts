@@ -132,6 +132,20 @@ const apiClient = {
             })
             .json();
     },
+    put: async ({ route, body, url, transform }: HttpFunctionPayload) => {
+        if (transform && transform === "form-data") {
+            return await api
+                .put(toURLEndpoint(route, url), {
+                    body: toFormData(body),
+                })
+                .json();
+        }
+        return await api
+            .put(toURLEndpoint(route, url), {
+                json: body,
+            })
+            .json();
+    },
     delete: async ({ route, body, url }: HttpFunctionPayload) => {
         return await api
             .delete(toURLEndpoint(route, url), {

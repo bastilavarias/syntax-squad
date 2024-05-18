@@ -7,26 +7,20 @@ const list = async (payload) => {
     const roomID = payload.parameters.room_id;
     const page = parseInt(payload.query.page) || 1;
     const perPage = parseInt(payload.query.per_page) || 5;
-    const totalCountQuery = await database("chat_messages")
+    return await database("chat_messages")
         .where("room_id", roomID)
-        .count("id as total")
-        .first();
-    const total = parseInt(totalCountQuery.total);
-    const offset = Math.max(total - page * perPage, 0);
-    const messages = await database("chat_messages")
-        .where("room_id", roomID)
-        .orderBy("id", "asc")
-        .limit(perPage)
-        .offset(offset)
-        .then(async (messages) => {
-            return await Promise.all(
-                await messages.map(async (message) => {
-                    return await getBasicMessage(message.id);
-                })
-            );
-        });
-
-    return { messages, total };
+        .orderBy("id", "desc")
+        .paginate({ perPage, currentPage: page })
+        .then(
+            async (messages) =>
+                await Promise.all(
+                    await messages.data
+                        .reverse()
+                        .map(
+                            async (message) => await getBasicMessage(message.id)
+                        )
+                )
+        );
 };
 
 const create = async (payload) => {
@@ -46,6 +40,7 @@ const create = async (payload) => {
         room_id: payload.body.room_id,
         user_id: payload.user.id,
         message: payload.body.message,
+        read_by_sender: 1,
         created_at: timeHelper.getTimestamp(),
         updated_at: timeHelper.getTimestamp(),
     });

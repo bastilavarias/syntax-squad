@@ -39,7 +39,9 @@ const customComposable = useCustomComposable();
                                 new Date(createdAt),
                                 subDays(new Date(), 3)
                             )
-                                ? `(${formatDistanceToNow(createdAt)})`
+                                ? `(${formatDistanceToNow(
+                                      new Date(createdAt)
+                                  )})`
                                 : ""
                         }}
                     </p>

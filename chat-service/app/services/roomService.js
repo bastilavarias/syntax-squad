@@ -75,20 +75,45 @@ const list = async (payload) => {
         .whereIn("chat_room_members.user_id", [payload.user.id])
         .groupBy("chat_room_members.room_id")
         .orderBy("latest_message_created_at", "desc")
-        .limit(perPage)
-        .then(async (rooms) => {
-            return await Promise.all(
-                await rooms.map(async (room) => {
-                    return await getBasicRoom(room.room_id);
-                })
-            );
-        });
+        .paginate({ perPage, currentPage: page })
+        .then(
+            async (rooms) =>
+                await Promise.all(
+                    await rooms.data.map(async (room) => {
+                        return await getBasicRoom(room.room_id);
+                    })
+                )
+        );
+};
+
+const get = async (payload) => {
+    const room = await getBasicRoom(payload.parameters.room_id);
+    if (!room) {
+        throw new Error("Room not found!");
+    }
+    return room;
 };
 
 const getBasicRoom = async (roomID) => {
     const room = await database("chat_rooms")
         .where("chat_rooms.id", roomID)
         .first();
+    if (!room) {
+        return null;
+    }
+    room.members = await database("chat_room_members")
+        .where("room_id", roomID)
+        .then(async (members) => {
+            return await Promise.all(
+                await members.map(async (member) => {
+                    member.user = await database("users")
+                        .where("id", member.user_id)
+                        .first();
+
+                    return member;
+                })
+            );
+        });
     room.latest_message = await database("chat_messages")
         .where("room_id", room.id)
         .orderBy("id", "desc")
@@ -103,4 +128,4 @@ const getBasicRoom = async (roomID) => {
     return room;
 };
 
-module.exports = { create, list };
+module.exports = { create, list, get };

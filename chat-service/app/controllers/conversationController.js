@@ -7,7 +7,7 @@ const index = async (request, response) => {
             parameters: request.params,
             query: request.query,
         });
-        response.formatter.ok(result);
+        response.formatter.ok({ data: result });
     } catch (error) {
         response.formatter.badRequest(error.message);
     }

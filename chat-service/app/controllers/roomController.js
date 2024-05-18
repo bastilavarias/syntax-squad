@@ -21,10 +21,23 @@ const index = async (request, response) => {
             query: request.query,
             parameters: request.params,
         });
-        response.formatter.ok(result);
+        response.formatter.ok({ data: result });
     } catch (error) {
         response.formatter.badRequest(error.message);
     }
 };
 
-module.exports = { create, index };
+const get = async (request, response) => {
+    try {
+        const result = await service.get({
+            body: request.body,
+            query: request.query,
+            parameters: request.params,
+        });
+        response.formatter.ok({ data: result });
+    } catch (error) {
+        response.formatter.badRequest(error.message);
+    }
+};
+
+module.exports = { create, index, get };

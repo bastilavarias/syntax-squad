@@ -15,7 +15,7 @@ import {
 import { computed, ref, watch } from "vue";
 import CardFooter from "@/components/ui/card/CardFooter.vue";
 import { Button } from "@/components/ui/button";
-import { usePostStore } from "@/stores/post.ts";
+import { CreatePostPayload, usePostStore } from "@/stores/post.ts";
 import { useToast } from "@/components/ui/toast/use-toast";
 import { useRoute, useRouter } from "vue-router";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
@@ -85,7 +85,7 @@ const onFileInputChange = (event: Element) => {
 };
 const onCreate = async () => {
     formLoading.value = true;
-    const payload = {
+    const payload: CreatePostPayload = {
         ...form.value,
         content: JSON.stringify(form.value.content),
         is_draft: 0,

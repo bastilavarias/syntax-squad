@@ -10,9 +10,9 @@ const ensureTokenIsValid = () => async (request, response, next) => {
         );
     }
     try {
-        const authServiceEndpoint = `${process.env.AUTH_SERVICE_ENDPOINT}`;
+        const apiGatewayEndpoint = `${process.env.API_GATEWAY_ENDPOINT}`;
         const result = await superagent
-            .get(`${authServiceEndpoint}/api/auth`)
+            .get(`${apiGatewayEndpoint}/auth/api/check`)
             .set("Authorization", token)
             .set("user-agent", "node-js");
         request.user = result.body.data;
