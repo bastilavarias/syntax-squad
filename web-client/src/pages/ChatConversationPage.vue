@@ -139,8 +139,6 @@ const checkUserIfRoomMember = async () => {
     }
 };
 const establishSocketListener = () => {
-    console.log("establish");
-    console.log(socketState);
     socket.on(`room-${roomID.value}`, (data) => {
         messages.value = [...messages.value, data];
         nextTick(() => {

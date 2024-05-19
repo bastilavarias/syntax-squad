@@ -2,6 +2,7 @@ const database = require("../../database");
 const websocket = require("../../socketio");
 const { getIO } = require("../../socketio");
 const timeHelper = require("../../helpers/timeHelper");
+const { getBasicRoom } = require("./roomService");
 
 const list = async (payload) => {
     const roomID = payload.parameters.room_id;
@@ -49,6 +50,14 @@ const create = async (payload) => {
     const io = getIO();
     if (io) {
         io.emit(`room-${payload.body.room_id}`, message);
+        const members = await database("chat_room_members").where(
+            "room_id",
+            payload.body.room_id
+        );
+        for (const member of members) {
+            const foundRoom = await getBasicRoom(payload.body.room_id);
+            io.emit(`user-${member.user_id}`, foundRoom);
+        }
     }
 
     return message;

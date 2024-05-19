@@ -128,4 +128,4 @@ const getBasicRoom = async (roomID) => {
     return room;
 };
 
-module.exports = { create, list, get };
+module.exports = { create, list, get, getBasicRoom };
