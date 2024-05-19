@@ -24,6 +24,7 @@ import {
 } from "@/stores/postBookmark.ts";
 import MiniProfileCard from "@/components/MiniProfileCard.vue";
 import { GithubIcon } from "lucide-vue-next";
+import MessageComposerDialog from "@/components/MessageComposerDialog.vue";
 
 const { toast } = useToast();
 const userStore = userUserStore();
@@ -65,6 +66,7 @@ const followingContent = ref({
     perPage: 5,
 });
 const followingsIdentifier = ref(0);
+const shouldShowDialog = ref(false);
 
 const username = computed(() => route.params.username || null);
 const authuser = computed(() =>
@@ -355,6 +357,16 @@ getUser();
                                                     : ""
                                             }}
                                         </p>
+                                        <Button
+                                            variant="ghost"
+                                            class="text-xs w-auto h-7 underline pl-0"
+                                            @click="shouldShowDialog = true"
+                                            v-if="
+                                                authStore.isAuthenticated &&
+                                                !isSelf
+                                            "
+                                            >Send a Message</Button
+                                        >
                                     </div>
                                 </div>
                             </div>
@@ -560,6 +572,8 @@ getUser();
                     <SyntaxSquadAboutCard />
                 </div>
             </div>
+
+            <MessageComposerDialog :user="user" v-model="shouldShowDialog" />
         </template>
     </div>
 </template>

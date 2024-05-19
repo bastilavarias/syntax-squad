@@ -1,4 +1,8 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { useAuthStore } from "@/stores/auth.ts";
+
+const authStore = useAuthStore();
+</script>
 
 <template>
     <aside class="overflow-y-auto pt-2">
@@ -26,7 +30,7 @@
                             </router-link>
                         </div>
                     </div>
-                    <div class="pb-4">
+                    <div class="pb-4" v-if="authStore.isAuthenticated">
                         <div class="grid grid-flow-row auto-rows-max text-sm">
                             <router-link :to="{ name: 'chat-page' }"
                                 ><span
