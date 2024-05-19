@@ -20,7 +20,7 @@ export function useCustomComposable() {
             let src = "";
             if (image) {
                 if (image.path) {
-                    src = `${import.meta.env.VITE_BASE_API_URL}/storage/${
+                    src = `${import.meta.env.VITE_BASE_API_ENDPOINT}/storage/${
                         image.path
                     }`;
                 } else {

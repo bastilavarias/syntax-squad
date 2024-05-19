@@ -1,22 +1,38 @@
 <script setup lang="ts">
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ref, computed } from "vue";
+import { ref, computed, onBeforeMount, watch, onUnmounted } from "vue";
 import { ListChatsPayload, useChatStore } from "@/stores/chat.ts";
 import InfiniteLoading from "v3-infinite-loading";
 import { useToast } from "@/components/ui/toast";
 import { useRouter } from "vue-router";
-import { useAuthStore } from "@/stores/auth.ts";
 import ChatRoomButtonItem from "@/components/ChatRoomButtonItem.vue";
+import CustomSocketConnectionBadge from "@/components/CustomSocketConnectionBadge.vue";
+import { socket, state as socketState } from "@/socket";
+import { useAuthStore } from "@/stores/auth.ts";
 
 const chatStore = useChatStore();
 const { toast } = useToast();
 const router = useRouter();
+const authStore = useAuthStore();
 
 const loading = ref(true);
 const roomsIdentifier = ref(0);
 
+const authuser = computed(() =>
+    authStore.isAuthenticated ? authStore.user : null
+);
+
 const roomContents = computed(() => chatStore.room.value);
+
+watch(
+    () => socketState.connected,
+    () => {
+        if (socketState.connected) {
+            establishSocketListener();
+        }
+    }
+);
 
 const getRooms = async ($state) => {
     const payload: ListChatsPayload = {
@@ -44,12 +60,43 @@ const getRooms = async ($state) => {
         description: result.message,
     });
 };
+const establishSocketListener = () => {
+    socket.on(`user-${authuser.value.id}`, (data) => {
+        if (
+            [...chatStore.room.value].map((room) => room.id).includes(data.id)
+        ) {
+            chatStore.room.value = chatStore.room.value.filter(
+                (room) => room.id !== data.id
+            );
+        }
+        chatStore.room.value = [data, ...chatStore.room.value];
+    });
+};
+
+onBeforeMount(async () => {
+    if (!authuser.value.id) {
+        await router.push({ name: "home-page" });
+        toast({
+            variant: "destructive",
+            title: "Invalid room!",
+            description: "You are entering a room that you are not a part of.",
+        });
+    }
+    socket.connect();
+});
+
+onUnmounted(() => {
+    socket.disconnect();
+});
 </script>
 
 <template>
     <Card class="h-full">
         <CardHeader class="h-[8%]">
-            <CardTitle>Chats</CardTitle>
+            <CardTitle class="flex justify-between"
+                ><span>Chats</span>
+                <CustomSocketConnectionBadge />
+            </CardTitle>
         </CardHeader>
         <CardContent class="h-[92%]">
             <ScrollArea class="h-full">

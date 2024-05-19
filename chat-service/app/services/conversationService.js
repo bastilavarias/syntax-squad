@@ -1,6 +1,6 @@
 const database = require("../../database");
-const websocket = require("../../websocket");
-const { getSocket } = require("../../websocket");
+const websocket = require("../../socketio");
+const { getIO } = require("../../socketio");
 const timeHelper = require("../../helpers/timeHelper");
 
 const list = async (payload) => {
@@ -46,9 +46,9 @@ const create = async (payload) => {
     });
     message = await getBasicMessage(message[0]);
 
-    const socket = getSocket();
-    if (socket) {
-        socket.emit(`room-${payload.body.room_id}`, message);
+    const io = getIO();
+    if (io) {
+        io.emit(`room-${payload.body.room_id}`, message);
     }
 
     return message;
@@ -68,13 +68,8 @@ const read = async (payload) => {
     const messageID = await database("chat_messages")
         .where("id", payload.parameters.message_id)
         .update(updateData);
-    message = getBasicMessage(messageID);
-    const socket = getSocket();
-    if (socket) {
-        socket.emit(`room-${payload.body.message.room_id}`, message);
-    }
 
-    return message;
+    return messageID;
 };
 
 const getBasicMessage = async (messageID) => {

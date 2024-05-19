@@ -1,4 +1,4 @@
-const rateLimit = 60;
+const rateLimit = 500;
 const interval = 60 * 1000;
 const requestCounts = {};
 

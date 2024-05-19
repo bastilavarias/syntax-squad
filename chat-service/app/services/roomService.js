@@ -1,5 +1,5 @@
 const database = require("../../database");
-const { getSocket } = require("../../websocket");
+const { getIO } = require("../../socketio");
 const timeHelper = require("../../helpers/timeHelper");
 
 const create = async (payload) => {
@@ -48,10 +48,10 @@ const create = async (payload) => {
         }
     }
     const foundRoom = await getBasicRoom(roomID);
-    const socket = getSocket();
+    const io = getIO();
     for (const memberID of memberIDs) {
-        if (socket) {
-            socket.emit(`user-${memberID}`, foundRoom);
+        if (io) {
+            io.emit(`user-${memberID}`, foundRoom);
         }
     }
 

@@ -7,12 +7,12 @@ const api = require("./api");
 const responseFilter = require("./middlewares/response-filter");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const websocket = require("./websocket");
+const socketio = require("./socketio");
 const ensureTokenIsValid = require("./middlewares/ensure-token-is-valid");
 
 const application = express();
 const server = http.createServer(application);
-websocket.initialize(server);
+socketio.initialize(server);
 application.use(cors());
 application.use(
     morgan("combined", {

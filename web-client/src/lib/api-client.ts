@@ -15,7 +15,7 @@ interface HttpResponse {
     pagination: Array;
 }
 
-const baseURL = import.meta.env.VITE_BASE_API_URL;
+const baseURL = import.meta.env.VITE_BASE_API_ENDPOINT;
 
 const api = ky.extend({
     timeout: false,

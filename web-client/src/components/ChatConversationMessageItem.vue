@@ -35,6 +35,13 @@ const read = async () => {
             _method: "PUT",
         };
         await chatStore.read(payload);
+        chatStore.room.value = chatStore.room.value.map((room) => {
+            if (room.latest_message.id === props.message.id) {
+                room.latest_message.read_by_receiver = 1;
+            }
+
+            return room;
+        });
     }
 };
 

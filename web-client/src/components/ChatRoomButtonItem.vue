@@ -12,11 +12,8 @@ const authStore = useAuthStore();
 const authuser = computed(() =>
     authStore.isAuthenticated ? authStore.user : null
 );
-const otherMember = computed(
-    () =>
-        props.room.members.filter(
-            (member) => member.user_id !== authuser.value.id
-        )[0]
+const otherMember = computed(() =>
+    props.room.members.find((member) => member.user_id !== authuser.value.id)
 );
 const lastMessageIsYou = computed(
     () => props.room.latest_message.user_id === authuser.value.id
