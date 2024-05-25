@@ -37,7 +37,11 @@ const services = [
     },
 ];
 services.forEach(({ route, target }) => {
-    server.use(route, proxy(target));
+    try {
+        server.use(route, proxy(target));
+    } catch (e) {
+        console.log(e);
+    }
 });
 
 const port = 3000;

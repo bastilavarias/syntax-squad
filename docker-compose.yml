@@ -5,5 +5,100 @@ services:
     build:
       context: ./api-gateway
       dockerfile: Dockerfile
+    container_name: api-gateway
+    env_file:
+      - ./api-gateway/.env
     ports:
       - "3000:3000"
+    volumes:
+      - ./api-gateway:/usr/src/app/syntax-squad/api-gateway
+      - ./api-gateway/package.json:/usr/src/app/syntax-squad/api-gateway/package.json
+      - ./api-gateway/package-lock.json:/usr/src/app/syntax-squad/api-gateway/package-lock.json
+      - ./api-gateway/node_modules:/opt/app/node_modules
+
+  auth-service:
+    build:
+      context: ./auth-service
+      dockerfile: Dockerfile
+    container_name: auth-service
+    env_file:
+      - ./auth-service/.env
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./auth-service:/usr/src/app/syntax-squad/auth-service
+      - ./auth-service/package.json:/usr/src/app/syntax-squad/auth-service/package.json
+      - ./auth-service/package-lock.json:/usr/src/app/syntax-squad/auth-service/package-lock.json
+      - ./auth-service/node_modules:/opt/app/node_modules
+
+  chat-service:
+    build:
+      context: ./chat-service
+      dockerfile: Dockerfile
+    container_name: chat-service
+    env_file:
+      - ./chat-service/.env
+    ports:
+      - "3002:3002"
+    volumes:
+      - ./chat-service:/usr/src/app/syntax-squad/chat-service
+      - ./chat-service/package.json:/usr/src/app/syntax-squad/chat-service/package.json
+      - ./chat-service/package-lock.json:/usr/src/app/syntax-squad/chat-service/package-lock.json
+      - ./chat-service/node_modules:/opt/app/node_modules
+
+  post-service:
+    build:
+      context: ./post-service
+      dockerfile: Dockerfile
+    container_name: post-service
+    restart: unless-stopped
+    tty: true
+    env_file:
+      - ./post-service/.env
+    volumes:
+      - ./post-service:/var/www
+      - ./post-service/docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
+    networks:
+      - post-service-network
+
+  server:
+    image: nginx:alpine
+    container_name: server
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "8080:80"
+      - "443:443"
+    depends_on:
+      - post-service
+      - database
+    volumes:
+      - ./post-service:/var/www
+      - ./.nginx/:/etc/nginx/conf.d/
+    networks:
+      - post-service-network
+
+  database:
+    image: mysql:8
+    container_name: database
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: syntax_squad
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: laravel
+      MYSQL_PASSWORD: password
+    volumes:
+      - database-data:/var/lib/mysql/
+    networks:
+      - post-service-network
+        
+networks:
+  post-service-network:
+    driver: bridge
+
+volumes:
+  database-data:
+    driver: bridge
