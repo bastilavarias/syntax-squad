@@ -58,8 +58,6 @@ post-service/yarn-error.log
 post-service/.fleet
 post-service/.idea
 post-service/.vscode
-
-web-client/.env
 api-gateway/.idea
 api-gateway/node_modules
 api-gateway/access.log
