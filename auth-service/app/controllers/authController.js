@@ -16,6 +16,7 @@ const check = async (request, response) => {
         const result = await service.check(request.headers);
         response.formatter.ok(result);
     } catch (error) {
+        console.log(error);
         response.formatter.badRequest(error.message);
     }
 };

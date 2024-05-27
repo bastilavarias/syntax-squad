@@ -48,39 +48,13 @@ export const useAuthStore = defineStore("auth", {
             }
         },
         async refresh() {
-            /*  try {
-                const response = await apiClient.get({
-                    route: `auth/refresh`,
+            try {
+                await apiClient.get({
+                    route: `auth/api/check`,
                 });
-                const authData = response.data;
-                this.establishAuth({
-                    user: authData.user,
-                    token: authData.token,
-                });
-                return await apiClient.toReadableResponse("complete", response);
             } catch (e) {
                 this.disableAuth();
                 this.removeAuth();
-                return await apiClient.toReadableResponse("error", e);
-            }*/
-            const user = window.localStorage.getItem("user");
-            const token = window.localStorage.getItem("token");
-            if (user && token) {
-                this.establishAuth({
-                    user: JSON.parse(user),
-                    token,
-                });
-            }
-        },
-
-        async logout() {
-            try {
-                const response = await apiClient.get({
-                    route: `auth/logout`,
-                });
-                return await apiClient.toReadableResponse("complete", response);
-            } catch (e) {
-                return await apiClient.toReadableResponse("error", e);
             }
         },
     },

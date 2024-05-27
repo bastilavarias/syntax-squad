@@ -74,7 +74,9 @@ router.beforeEach(async (to, from, next) => {
     const isProtectedRoute = to.matched.some(
         (record) => record.meta.requiresAuth
     );
-    await authStore.refresh();
+    if (isProtectedRoute) {
+        await authStore.refresh();
+    }
     const isAuthenticated = authStore.isAuthenticated;
     if (isProtectedRoute && !isAuthenticated) {
         toast({
