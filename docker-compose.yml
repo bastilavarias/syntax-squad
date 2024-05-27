@@ -8,8 +8,6 @@ services:
     container_name: api-gateway
     env_file:
       - ./api-gateway/.env
-    ports:
-      - "3000:3000"
     volumes:
       - ./api-gateway:/usr/src/app/syntax-squad/api-gateway
       - ./api-gateway/package.json:/usr/src/app/syntax-squad/api-gateway/package.json
@@ -25,8 +23,6 @@ services:
     container_name: auth-service
     env_file:
       - ./auth-service/.env
-    ports:
-      - "3001:3001"
     volumes:
       - ./auth-service:/usr/src/app/syntax-squad/auth-service
       - ./auth-service/package.json:/usr/src/app/syntax-squad/auth-service/package.json
@@ -42,8 +38,6 @@ services:
     container_name: chat-service
     env_file:
       - ./chat-service/.env
-    ports:
-      - "3002:3002"
     volumes:
       - ./chat-service:/usr/src/app/syntax-squad/chat-service
       - ./chat-service/package.json:/usr/src/app/syntax-squad/chat-service/package.json
@@ -61,6 +55,8 @@ services:
     tty: true
     env_file:
       - ./post-service/.env
+    ports:
+      - "9000:9000"
     volumes:
       - ./post-service:/var/www
       - ./post-service/docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
@@ -73,14 +69,16 @@ services:
     restart: unless-stopped
     tty: true
     ports:
-      - "8080:80"
+      - "80:80"
       - "443:443"
     depends_on:
       - post-service
       - database
+      - api-gateway
+      - chat-service
     volumes:
       - ./post-service:/var/www
-      - ./.nginx/:/etc/nginx/conf.d/
+      - ./.nginx:/etc/nginx/conf.d
     networks:
       - post-service-network
 
@@ -100,7 +98,7 @@ services:
       - database-data:/var/lib/mysql/
     networks:
       - post-service-network
-        
+
 networks:
   post-service-network:
     driver: bridge
