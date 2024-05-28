@@ -68,12 +68,12 @@ const resetPosts = () => {
 
 <template>
     <div
-        class="container flex flex-col lg:flex-row items-start lg:gap-5 h-screen pt-10"
+        class="px-4 lg:container grid grid-cols-12 items-start lg:gap-5 h-screen pt-5 lg:pt-10"
     >
-        <div class="md:w-2/12">
+        <div class="col-span-2 max-lg:hidden">
             <CustomSideBar />
         </div>
-        <div class="md:w-1/2">
+        <div class="col-span-12 lg:col-span-6">
             <main class="relative pb-10">
                 <div class="space-y-3">
                     <CustomSortBySelect v-model="sortBy" />
@@ -108,7 +108,7 @@ const resetPosts = () => {
                 </div>
             </main>
         </div>
-        <div class="md:w-2/6">
+        <div class="col-span-4 max-lg:hidden">
             <div class="space-y-5">
                 <RecentPostsCard />
                 <SyntaxSquadAboutCard />

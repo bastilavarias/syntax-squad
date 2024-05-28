@@ -100,11 +100,9 @@ services:
       - database-data:/var/lib/mysql/
     networks:
       - post-service-network
-        
+
 networks:
   post-service-network:
-    driver: bridge
 
 volumes:
   database-data:
-    driver: bridge
