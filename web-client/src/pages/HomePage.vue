@@ -10,6 +10,7 @@ import { computed, ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import InfiniteLoading from "v3-infinite-loading";
 import "v3-infinite-loading/lib/style.css";
+import PageContainer from "@/components/PageContainer.vue";
 
 const postStore = usePostStore();
 const { toast } = useToast();
@@ -67,9 +68,7 @@ const resetPosts = () => {
 </script>
 
 <template>
-    <div
-        class="px-4 lg:container h-screen pt-5 lg:pt-10"
-    >
+    <PageContainer>
         <div class="grid grid-cols-12 lg:gap-5">
             <div class="col-span-2 max-lg:hidden">
                 <CustomSideBar />
@@ -116,6 +115,5 @@ const resetPosts = () => {
                 </div>
             </div>
         </div>
-
-    </div>
+    </PageContainer>
 </template>

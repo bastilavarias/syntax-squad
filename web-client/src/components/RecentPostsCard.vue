@@ -122,10 +122,12 @@ getPosts();
                                     {{ post.comments_count }}
                                 </span>
                             </div>
-                            <span class="text-xs text-muted-foreground"
-                                >Posted
+                            <p class="text-xs text-muted-foreground"
+                                >
+                                <span class="max-lg:hidden">Posted</span>
                                 {{ formatDistanceToNow(post.created_at) }}
-                                ago</span
+                                <span class="max-lg:hidden">ago</span>
+                            </p
                             >
                         </div>
                         <Separator v-if="posts.length - 1 !== index" />

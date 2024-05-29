@@ -9,22 +9,17 @@ import { useToast } from "@/components/ui/toast";
 import { userUserStore } from "@/stores/user.ts";
 import { useRoute } from "vue-router";
 import { format, formatDistanceToNow, isBefore, subDays } from "date-fns";
-import {
-    ListUserFollowerPayload,
-    useUserFollowerStore,
-} from "@/stores/userFollower.ts";
+import { ListUserFollowerPayload, useUserFollowerStore } from "@/stores/userFollower.ts";
 import { useAuthStore } from "@/stores/auth.ts";
 import CustomLoadingSpinner from "@/components/CustomLoadingSpinner.vue";
 import { ListPostsPayload, usePostStore } from "@/stores/post.ts";
 import InfiniteLoading from "v3-infinite-loading";
 import PostItemCard from "@/components/PostItemCard.vue";
-import {
-    ListBookmarksPayload,
-    usePostBookmarkStore,
-} from "@/stores/postBookmark.ts";
+import { ListBookmarksPayload, usePostBookmarkStore } from "@/stores/postBookmark.ts";
 import MiniProfileCard from "@/components/MiniProfileCard.vue";
 import { GithubIcon } from "lucide-vue-next";
 import MessageComposerDialog from "@/components/MessageComposerDialog.vue";
+import PageContainer from "@/components/PageContainer.vue";
 
 const { toast } = useToast();
 const userStore = userUserStore();
@@ -45,25 +40,25 @@ const postContent = ref({
     value: [],
     page: 1,
     perPage: 5,
-    sortBy: "latest",
+    sortBy: "latest"
 });
 const postsIdentifier = ref(0);
 const bookmarkContent = ref({
     value: [],
     page: 1,
-    perPage: 5,
+    perPage: 5
 });
 const bookmarksIdentifier = ref(0);
 const followerContent = ref({
     value: [],
     page: 1,
-    perPage: 5,
+    perPage: 5
 });
 const followersIdentifier = ref(0);
 const followingContent = ref({
     value: [],
     page: 1,
-    perPage: 5,
+    perPage: 5
 });
 const followingsIdentifier = ref(0);
 const shouldShowDialog = ref(false);
@@ -116,13 +111,13 @@ const getUser = async () => {
     }
     toast({
         title: "Something went wrong.",
-        description: result.message,
+        description: result.message
     });
 };
 const onFollow = async () => {
     followerLoading.value = true;
     const payload = {
-        user_id: user.value.id,
+        user_id: user.value.id
     };
     let result;
     if (alreadyFollowed.value) {
@@ -141,7 +136,7 @@ const onFollow = async () => {
 };
 const checkFollowers = async () => {
     const payload = {
-        user_id: user.value.id,
+        user_id: user.value.id
     };
     const result = await userFollowerStore.check(payload);
     if (result.success) {
@@ -156,7 +151,7 @@ const getPosts = async ($state) => {
         per_page: postContent.value.perPage,
         sort_by: postContent.value.sortBy,
         user_id: user.value.id,
-        is_draft: 0,
+        is_draft: 0
     };
     loading.value = true;
     const result = await postStore.list(payload);
@@ -175,7 +170,7 @@ const getPosts = async ($state) => {
     toast({
         variant: "destructive",
         title: "Server error.",
-        description: result.message,
+        description: result.message
     });
 };
 const resetPosts = () => {
@@ -188,7 +183,7 @@ const getBookmarks = async ($state) => {
     const payload: ListBookmarksPayload = {
         page: bookmarkContent.value.page,
         per_page: bookmarkContent.value.perPage,
-        user_id: user.value.id,
+        user_id: user.value.id
     };
     loading.value = true;
     const result = await postBookmarkStore.list(payload);
@@ -197,7 +192,7 @@ const getBookmarks = async ($state) => {
         const _postBookmarks = result.data.data;
         bookmarkContent.value.value = [
             ...bookmarkContent.value.value,
-            ..._postBookmarks,
+            ..._postBookmarks
         ];
         if (_postBookmarks.length >= bookmarkContent.value.perPage) {
             $state.loaded();
@@ -210,7 +205,7 @@ const getBookmarks = async ($state) => {
     toast({
         variant: "destructive",
         title: "Server error.",
-        description: result.message,
+        description: result.message
     });
 };
 const resetBookmarks = () => {
@@ -224,7 +219,7 @@ const getFollowers = async ($state) => {
         page: followerContent.value.page,
         per_page: followerContent.value.perPage,
         user_id: user.value.id,
-        filter_by: "follower",
+        filter_by: "follower"
     };
     loading.value = true;
     const result = await userFollowerStore.list(payload);
@@ -233,7 +228,7 @@ const getFollowers = async ($state) => {
         const _userFollowers = result.data.data;
         followerContent.value.value = [
             ...followerContent.value.value,
-            ..._userFollowers,
+            ..._userFollowers
         ];
         if (_userFollowers.length >= followerContent.value.perPage) {
             $state.loaded();
@@ -246,7 +241,7 @@ const getFollowers = async ($state) => {
     toast({
         variant: "destructive",
         title: "Server error.",
-        description: result.message,
+        description: result.message
     });
 };
 const resetFollowers = () => {
@@ -260,7 +255,7 @@ const getFollowings = async ($state) => {
         page: followingContent.value.page,
         per_page: followingContent.value.perPage,
         user_id: user.value.id,
-        filter_by: "following",
+        filter_by: "following"
     };
     loading.value = true;
     const result = await userFollowerStore.list(payload);
@@ -269,7 +264,7 @@ const getFollowings = async ($state) => {
         const _userFollowings = result.data.data;
         followingContent.value.value = [
             ...followingContent.value.value,
-            ..._userFollowings,
+            ..._userFollowings
         ];
         if (_userFollowings.length >= followingContent.value.perPage) {
             $state.loaded();
@@ -282,7 +277,7 @@ const getFollowings = async ($state) => {
     toast({
         variant: "destructive",
         title: "Server error.",
-        description: result.message,
+        description: result.message
     });
 };
 const resetFollowings = () => {
@@ -296,54 +291,54 @@ getUser();
 </script>
 
 <template>
-    <div
-        class="container flex flex-col lg:flex-row items-start lg:gap-5 h-screen pt-10"
-    >
-        <template v-if="!isPageReady">
-            <div class="flex justify-center w-full">
-                <img class="w-auto h-40" src="/nyan-cat.gif" alt="Auth GIF" />
-            </div>
-        </template>
-        <template v-else>
-            <div class="md:w-2/3">
-                <main class="relative pb-10">
-                    <div class="space-y-3">
+    <PageContainer>
+        <div class="grid grid-cols-12 md:gap-5">
+            <template v-if="!isPageReady">
+                <div class="flex justify-center col-span-12">
+                    <img class="w-auto h-40" src="/nyan-cat.gif" alt="Auth GIF" />
+                </div>
+            </template>
+            <template v-else>
+                <div class="col-span-12 md:col-span-8">
+                    <main class="max-lg:w-full flex flex-col gap-y-3 relative pb-10">
                         <div
                             class="flex items-center justify-between space-x-4"
                         >
                             <div class="flex items-center space-x-4">
-                                <Avatar size="lg">
+                                <Avatar class="size-[100px] lg:size-[128px]" size="lg">
                                     <AvatarImage :src="user.avatar_url" />
                                     <AvatarFallback>{{
-                                        user.name[0]
-                                    }}</AvatarFallback>
+                                            user.name[0]
+                                        }}
+                                    </AvatarFallback>
                                 </Avatar>
                                 <div class="space-y-2">
                                     <h1
-                                        class="text-2xl font-bold leading-none text-black"
+                                        class="text-xl lg:text-2xl font-bold leading-none text-black"
                                     >
                                         {{ user.name }}
                                     </h1>
-                                    <div>
+                                    <div class="flex flex-col gap-y-1">
                                         <a
-                                            class="text-muted-foreground hover:underline hover:cursor-pointer flex items-center space-x-1"
+                                            class="max-lg:text-sm text-muted-foreground hover:underline hover:cursor-pointer flex items-center space-x-1"
                                             target="_blank"
                                             :href="`https://github.com/${user.username}`"
                                         >
-                                            @{{ user.username }} <GithubIcon />
+                                            @{{ user.username }}
+                                            <GithubIcon class="h-5" />
                                         </a>
-                                        <p class="text-muted-foreground">
+                                        <p class="text-sm text-muted-foreground">
                                             {{ followersCountLocal }} followers
                                             &
                                             {{ user.followings_count }}
                                             following
                                         </p>
-                                        <p class="text-muted-foreground">
+                                        <p class="text-sm text-muted-foreground">
                                             Joined
                                             {{
                                                 format(
                                                     new Date(user.created_at),
-                                                    "MMM dd yy"
+                                                    "MMM dd yyyy"
                                                 )
                                             }}
                                             {{
@@ -352,8 +347,8 @@ getUser();
                                                     subDays(new Date(), 3)
                                                 )
                                                     ? `(${formatDistanceToNow(
-                                                          user.created_at
-                                                      )})`
+                                                        user.created_at
+                                                    )})`
                                                     : ""
                                             }}
                                         </p>
@@ -365,7 +360,8 @@ getUser();
                                                 authStore.isAuthenticated &&
                                                 !isSelf
                                             "
-                                            >Send a Message</Button
+                                        >Send a Message
+                                        </Button
                                         >
                                     </div>
                                 </div>
@@ -382,16 +378,19 @@ getUser();
                                 <template v-if="followerLoading">
                                     <CustomLoadingSpinner
                                         class="mr-2 w-4 h-4"
-                                    /> </template
-                                ><template v-else>{{
-                                    alreadyFollowed ? "Unfollow" : "Follow"
-                                }}</template></Button
+                                    />
+                                </template
+                                >
+                                <template v-else>{{
+                                        alreadyFollowed ? "Unfollow" : "Follow"
+                                    }}
+                                </template>
+                            </Button
                             >
                         </div>
-
-                        <Tabs class="w-full" v-model="tab">
+                        <Tabs class="max-md:w-full" v-model="tab">
                             <TabsList>
-                                <TabsTrigger value="posts"> Posts </TabsTrigger>
+                                <TabsTrigger value="posts"> Posts</TabsTrigger>
                                 <TabsTrigger value="bookmarks">
                                     Bookmarks
                                 </TabsTrigger>
@@ -434,7 +433,7 @@ getUser();
                                             >
                                                 <span
                                                     class="text-muted-foreground text-xs"
-                                                    >End of posts.</span
+                                                >End of posts.</span
                                                 >
                                             </div>
                                         </template>
@@ -473,7 +472,7 @@ getUser();
                                             >
                                                 <span
                                                     class="text-muted-foreground text-xs"
-                                                    >End of bookmarks.</span
+                                                >End of bookmarks.</span
                                                 >
                                             </div>
                                         </template>
@@ -514,7 +513,7 @@ getUser();
                                             >
                                                 <span
                                                     class="text-muted-foreground text-xs"
-                                                    >End of followers.</span
+                                                >End of followers.</span
                                                 >
                                             </div>
                                         </template>
@@ -555,7 +554,7 @@ getUser();
                                             >
                                                 <span
                                                     class="text-muted-foreground text-xs"
-                                                    >End of followings.</span
+                                                >End of followings.</span
                                                 >
                                             </div>
                                         </template>
@@ -563,17 +562,17 @@ getUser();
                                 </div>
                             </TabsContent>
                         </Tabs>
-                    </div>
-                </main>
-            </div>
-            <div class="md:w-2/6">
-                <div class="space-y-5">
-                    <RecentPostsCard :exclude="[]" :user-id="user.id" />
-                    <SyntaxSquadAboutCard />
+                    </main>
                 </div>
-            </div>
+                <div class="max-md:hidden col-span-4">
+                    <div class="space-y-5">
+                        <RecentPostsCard :exclude="[]" :user-id="user.id" />
+                        <SyntaxSquadAboutCard />
+                    </div>
+                </div>
 
-            <MessageComposerDialog :user="user" v-model="shouldShowDialog" />
-        </template>
-    </div>
+                <MessageComposerDialog :user="user" v-model="shouldShowDialog" />
+            </template>
+        </div>
+    </PageContainer>
 </template>

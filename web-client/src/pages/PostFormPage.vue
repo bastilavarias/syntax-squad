@@ -24,6 +24,7 @@ import CustomLoadingSpinner from "@/components/CustomLoadingSpinner.vue";
 import { useAuthStore } from "@/stores/auth.ts";
 import { Delta } from "@vueup/vue-quill";
 import { Badge } from "@/components/ui/badge";
+import PageContainer from "@/components/PageContainer.vue";
 
 const postStore = usePostStore();
 const { toast } = useToast();
@@ -200,11 +201,9 @@ if (postID.value) {
 </script>
 
 <template>
-    <div
-        class="px-4 lg:container items-start min-h-screen py-5 lg:py-10"
-    >
+    <PageContainer>
         <div class="grid grid-cols-12 lg:gap-5">
-            <div class="col-span-12 lg:col-span-8">
+            <div class="col-span-12 lg:col-span-7 xl:col-span-8">
                 <template v-if="postDetailsLoading">
                     <div class="flex flex-col items-center">
                         <img
@@ -372,10 +371,10 @@ if (postID.value) {
                     </main>
                 </template>
             </div>
-            <div class="col-span-12 lg:col-span-4 max-lg:mt-3 flex flex-col gap-y-4">
+            <div class="col-span-12 lg:col-span-5 xl:col-span-4 max-lg:mt-3 flex flex-col gap-y-4">
                 <SelfPostListCard class="max-lg:hidden" />
                 <PostingGuideCard />
             </div>
         </div>
-    </div>
+    </PageContainer>
 </template>
