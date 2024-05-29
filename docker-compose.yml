@@ -59,7 +59,7 @@ services:
       - "9000:9000"
     volumes:
       - ./post-service:/var/www
-      - ./post-service/docker/php.ini:/usr/local/etc/php/conf.d/local.ini
+      - ./post-service/docker/php/local.ini:/usr/local/etc/php/local.ini
     networks:
       - post-service-network
 
