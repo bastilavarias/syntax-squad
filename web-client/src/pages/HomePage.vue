@@ -69,11 +69,11 @@ const resetPosts = () => {
 
 <template>
     <PageContainer>
-        <div class="grid grid-cols-12 lg:gap-5">
+        <div class="grid grid-cols-12 md:gap-5">
             <div class="col-span-2 max-lg:hidden">
                 <CustomSideBar />
             </div>
-            <div class="col-span-12 lg:col-span-6">
+            <div class="col-span-12 md:col-span-7 lg:col-span-6">
                 <main class="relative pb-10">
                     <div class="space-y-3">
                         <CustomSortBySelect v-model="sortBy" />
@@ -108,7 +108,7 @@ const resetPosts = () => {
                     </div>
                 </main>
             </div>
-            <div class="col-span-4 max-lg:hidden">
+            <div class="col-span-5 lg:col-span-4 max-lg:hidden">
                 <div class="space-y-5">
                     <RecentPostsCard />
                     <SyntaxSquadAboutCard />

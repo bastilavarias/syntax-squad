@@ -11,54 +11,52 @@ defineProps(["post"]);
 </script>
 
 <template>
-    <Card :class="cn('pb-0', $attrs.class ?? '')">
+    <Card :class="cn('pb-0 overflow-hidden', $attrs.class ?? '')">
         <img
             class="w-full h-80 object-cover"
             :src="post.cover_image_url"
             alt=""
             v-if="post.cover_image_url"
         />
-        <CardContent class="space-y-5 mt-6">
-            <div>
-                <div class="space-y-3">
-                    <router-link
-                        :to="{
+        <CardContent class="space-y-5 pt-4">
+            <div class="flex flex-col space-y-2 lg:space-y-3">
+                <router-link
+                    :to="{
                             name: 'view-post-page',
                             params: {
                                 username: post.user.username,
                                 slug: post.slug,
                             },
                         }"
+                >
+                    <p class="text-2xl lg:text-3xl font-bold">
+                        {{ post.title }}
+                    </p>
+                </router-link>
+                <div class="flex gap-1">
+                    <template
+                        v-for="(tag, index) in post.tags"
+                        :key="index"
                     >
-                        <p class="text-3xl font-bold">
-                            {{ post.title }}
-                        </p>
-                    </router-link>
-
-                    <div class="flex gap-1">
-                        <template
-                            v-for="(tag, index) in post.tags"
-                            :key="index"
-                        >
-                            <Badge variant="outline">
-                                <router-link
-                                    :to="{
+                        <Badge variant="outline">
+                            <router-link
+                                :to="{
                                         name: 'search-page',
                                         query: {
                                             keyword: tag.name,
                                         },
                                     }"
-                                >
+                            >
                                     <span
                                         class="font-light lowercase text-xs hover:cursor-pointer hover:underline"
                                     >
                                         {{ tag.name }}
                                     </span>
-                                </router-link>
-                            </Badge>
-                        </template>
-                    </div>
+                            </router-link>
+                        </Badge>
+                    </template>
                 </div>
+
             </div>
             <PostUserItem
                 :user="post.user"
@@ -78,8 +76,9 @@ defineProps(["post"]);
                         <Avatar class="w-6 h-6">
                             <AvatarImage :src="comment.user.avatar_url" />
                             <AvatarFallback>{{
-                                comment.user.name[0]
-                            }}</AvatarFallback>
+                                    comment.user.name[0]
+                                }}
+                            </AvatarFallback>
                         </Avatar>
                         <div
                             class="bg-gray-50 rounded p-2 text-sm font-light space-y-2 w-full"
@@ -87,7 +86,7 @@ defineProps(["post"]);
                             <div>
                                 {{ comment.user.name }}
                                 <small
-                                    >{{
+                                >{{
                                         formatDistanceToNow(comment.created_at)
                                     }}
                                     ago</small
@@ -103,7 +102,8 @@ defineProps(["post"]);
                     variant="ghost"
                     class="font-light text-xs"
                     v-if="post.comments_count > 3"
-                    >See all {{ post.comments_count }} comments</Button
+                >See all {{ post.comments_count }} comments
+                </Button
                 >
             </CardContent>
         </template>

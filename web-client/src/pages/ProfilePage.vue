@@ -299,7 +299,7 @@ getUser();
                 </div>
             </template>
             <template v-else>
-                <div class="col-span-12 md:col-span-8">
+                <div class="col-span-12 md:col-span-7 lg:col-span-8">
                     <main class="max-lg:w-full flex flex-col gap-y-3 relative pb-10">
                         <div
                             class="flex items-center justify-between space-x-4"
@@ -564,11 +564,9 @@ getUser();
                         </Tabs>
                     </main>
                 </div>
-                <div class="max-md:hidden col-span-4">
-                    <div class="space-y-5">
-                        <RecentPostsCard :exclude="[]" :user-id="user.id" />
-                        <SyntaxSquadAboutCard />
-                    </div>
+                <div class="max-md:hidden flex flex-col gap-y-5 col-span-5 lg:col-span-4">
+                    <RecentPostsCard :exclude="[]" :user-id="user.id" />
+                    <SyntaxSquadAboutCard />
                 </div>
 
                 <MessageComposerDialog :user="user" v-model="shouldShowDialog" />

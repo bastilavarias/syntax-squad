@@ -92,7 +92,7 @@ if (route.query.keyword) {
                             }"
                         >
                             <PlusIcon />
-                            <span class="max-lg:hidden ml-1">Create&nbsp;Post</span>
+                            <span class="max-sm:hidden ml-1">Create&nbsp;Post</span>
                         </router-link>
                     </Button>
                     <BaseUserMenuDropdown />
