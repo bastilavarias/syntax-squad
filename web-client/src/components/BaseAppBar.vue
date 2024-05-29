@@ -65,14 +65,7 @@ if (route.query.keyword) {
 
                 <Search @click="toggleMobileSearch" class="lg:hidden" />
                 <div class="max-lg:hidden md:w-40 lg:w-64">
-                    <form @submit="goToSearchPage">
-                        <Input
-                            type="search"
-                            placeholder="Search..."
-                            class="md:w-40 lg:w-64"
-                            v-model="keyword"
-                        />
-                    </form>
+                    <SearchBar ref="mobileSearch" @go-search="goToSearchPage" v-model="keyword"></SearchBar>
                 </div>
             </nav>
             <nav class="flex items-center gap-x-2 ml-auto">
@@ -98,8 +91,8 @@ if (route.query.keyword) {
                                 params: { operation: 'new' },
                             }"
                         >
-                            <PlusIcon class="mr-1" />
-                            Create Post
+                            <PlusIcon />
+                            <span class="max-lg:hidden ml-1">Create&nbsp;Post</span>
                         </router-link>
                     </Button>
                     <BaseUserMenuDropdown />

@@ -5,7 +5,7 @@
                 <Menu />
             </Button>
         </DialogTrigger>
-        <DialogContent class="h-screen w-[300px] translate-x-0 left-0 !rounded-none">
+        <DialogContent class="min-h-screen w-[300px] translate-x-0 left-0 !rounded-none">
             <CustomSideBar />
         </DialogContent>
     </Dialog>

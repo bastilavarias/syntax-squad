@@ -10,7 +10,7 @@ import {
     TagsInputInput,
     TagsInputItem,
     TagsInputItemDelete,
-    TagsInputItemText,
+    TagsInputItemText
 } from "@/components/ui/tags-input";
 import { computed, ref, watch } from "vue";
 import CardFooter from "@/components/ui/card/CardFooter.vue";
@@ -19,7 +19,7 @@ import { CreatePostPayload, usePostStore } from "@/stores/post.ts";
 import { useToast } from "@/components/ui/toast/use-toast";
 import { useRoute, useRouter } from "vue-router";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { TriangleAlertIcon, ServerOffIcon } from "lucide-vue-next";
+import { ServerOffIcon, TriangleAlertIcon } from "lucide-vue-next";
 import CustomLoadingSpinner from "@/components/CustomLoadingSpinner.vue";
 import { useAuthStore } from "@/stores/auth.ts";
 import { Delta } from "@vueup/vue-quill";
@@ -37,7 +37,7 @@ const defaultForm = {
     tags: [],
     is_draft: 0,
     cover_image: null,
-    cover_image_url: null,
+    cover_image_url: null
 };
 const form = ref(Object.assign({}, defaultForm));
 const error = ref(null);
@@ -88,18 +88,18 @@ const onCreate = async () => {
     const payload: CreatePostPayload = {
         ...form.value,
         content: JSON.stringify(form.value.content),
-        is_draft: 0,
+        is_draft: 0
     };
     const result = await postStore.create(payload);
     if (result.success) {
         toast({
             title: "Post successfully published",
             description:
-                "Congratulations! Your post has been successfully published and is now viewable to the public. You will be redirected to your post shortly.",
+                "Congratulations! Your post has been successfully published and is now viewable to the public. You will be redirected to your post shortly."
         });
         await router.push({
             name: "view-post-page",
-            params: { username: user.value.username, slug: result.data.slug },
+            params: { username: user.value.username, slug: result.data.slug }
         });
 
         return;
@@ -120,7 +120,7 @@ const getPost = async () => {
                 title: post.title,
                 content: new Delta(JSON.parse(post.content.value)),
                 cover_image_url: post.cover_image_url,
-                tags: post.tags.map((tag) => tag.name),
+                tags: post.tags.map((tag) => tag.name)
             }
         );
         isDraftPost.value = post.is_draft || null;
@@ -129,14 +129,14 @@ const getPost = async () => {
     }
     toast({
         title: "Something went wrong.",
-        description: result.message,
+        description: result.message
     });
 };
 const checkIfAuthor = async (authorID) => {
     if (authorID !== user.value.id) {
         toast({
             title: "Something went wrong.",
-            description: `You're not allowed to access this resource.`,
+            description: `You're not allowed to access this resource.`
         });
         await router.push({ name: "home-page" });
     }
@@ -148,18 +148,18 @@ const onUpdate = async () => {
         content: JSON.stringify(form.value.content),
         _method: "PUT",
         post_id: postID.value,
-        is_draft: 0,
+        is_draft: 0
     };
     const result = await postStore.update(payload);
     if (result.success) {
         toast({
             title: "Post successfully updated",
             description:
-                "Congratulations! Your post has been successfully updated. You will be redirected to your post shortly.",
+                "Congratulations! Your post has been successfully updated. You will be redirected to your post shortly."
         });
         await router.push({
             name: "view-post-page",
-            params: { username: user.value.username, slug: result.data.slug },
+            params: { username: user.value.username, slug: result.data.slug }
         });
 
         return;
@@ -172,7 +172,7 @@ const onSaveDraft = async () => {
     const payload = {
         ...form.value,
         content: JSON.stringify(form.value.content),
-        is_draft: 1,
+        is_draft: 1
     };
     let result;
     if (postID.value && operation.value === "edit") {
@@ -185,7 +185,7 @@ const onSaveDraft = async () => {
     if (result.success) {
         toast({
             title: "Post successfully drafted",
-            description: "Your post has been successfully drafted.",
+            description: "Your post has been successfully drafted."
         });
         window.location.reload();
         return;
@@ -201,171 +201,179 @@ if (postID.value) {
 
 <template>
     <div
-        class="container flex flex-col lg:flex-row items-start lg:gap-5 h-screen py-10"
+        class="px-4 lg:container items-start min-h-screen py-5 lg:py-10"
     >
-        <div class="md:w-4/6">
-            <template v-if="postDetailsLoading">
-                <div class="flex flex-col items-center">
-                    <img
-                        class="w-auto h-40"
-                        src="/nyan-cat.gif"
-                        alt="Auth GIF"
-                    />
-                </div>
-            </template>
-            <template v-else>
-                <main class="relative space-y-3">
-                    <Alert>
-                        <ServerOffIcon class="w-4 h-4" />
-                        <AlertTitle
-                            >Hey! Just a friendly reminder... 👮</AlertTitle
-                        >
-                        <AlertDescription>
-                            Due to limited server resources, you are only
-                            permitted to publish one post per day. Please
-                            refrain from spamming and ensure that each post
-                            respects the content payload size limit of 3MB. If
-                            you'd like to contribute to upgrading our server,
-                            you can donate here to help improve our services.
-                        </AlertDescription>
-                    </Alert>
-                    <Card class="bg-white">
-                        <CardHeader>
-                            <CardTitle class="flex justify-between">
-                                {{ formTitle }}
-                                <Badge
-                                    :variant="
+        <div class="grid grid-cols-12 lg:gap-5">
+            <div class="col-span-12 lg:col-span-8">
+                <template v-if="postDetailsLoading">
+                    <div class="flex flex-col items-center">
+                        <img
+                            class="w-auto h-40"
+                            src="/nyan-cat.gif"
+                            alt="Auth GIF"
+                        />
+                    </div>
+                </template>
+                <template v-else>
+                    <main class="relative space-y-3">
+                        <Alert>
+                            <ServerOffIcon class="w-4 h-4" />
+                            <AlertTitle
+                            >Hey! Just a friendly reminder... 👮
+                            </AlertTitle
+                            >
+                            <AlertDescription>
+                                Due to limited server resources, you are only
+                                permitted to publish one post per day. Please
+                                refrain from spamming and ensure that each post
+                                respects the content payload size limit of 3MB. If
+                                you'd like to contribute to upgrading our server,
+                                you can donate here to help improve our services.
+                            </AlertDescription>
+                        </Alert>
+                        <Card class="bg-white">
+                            <CardHeader>
+                                <CardTitle class="flex justify-between">
+                                    {{ formTitle }}
+                                    <Badge
+                                        :variant="
                                         isDraftPost ? 'outline' : 'default'
                                     "
-                                    class="tracking-wide"
-                                    v-if="operation === 'edit'"
-                                >
-                                    <template v-if="isDraftPost"
-                                        >Unpublished</template
+                                        class="tracking-wide"
+                                        v-if="operation === 'edit'"
                                     >
-                                    <template v-else>Published</template>
-                                </Badge>
-                            </CardTitle>
-                        </CardHeader>
-                        <CardContent>
-                            <div class="grid items-center w-full gap-4">
-                                <template v-if="!!error">
-                                    <Alert variant="destructive">
-                                        <TriangleAlertIcon class="w-4 h-4" />
-                                        <AlertTitle>Request Error</AlertTitle>
-                                        <AlertDescription>
-                                            {{ error }}
-                                        </AlertDescription>
-                                    </Alert>
-                                </template>
-                                <div class="flex flex-col space-y-2">
-                                    <Label for="title">Title</Label>
-                                    <Input
-                                        id="title"
-                                        placeholder="New post title..."
-                                        v-model="form.title"
-                                    />
-                                </div>
-                                <div class="flex flex-col space-y-1.5">
-                                    <Label for="picture">{{
-                                        coverImageInputLabel
-                                    }}</Label>
-                                    <Input
-                                        id="picture"
-                                        type="file"
-                                        accept="image/png, image/jpg, image/jpeg"
-                                        @change="onFileInputChange"
-                                    />
-                                    <template v-if="form.cover_image_url">
-                                        <div class="flex justify-between">
-                                            <div></div>
-                                            <small
-                                                class="underline text-blue-600 cursor-pointer"
-                                                @click="
+                                        <template v-if="isDraftPost"
+                                        >Unpublished
+                                        </template
+                                        >
+                                        <template v-else>Published</template>
+                                    </Badge>
+                                </CardTitle>
+                            </CardHeader>
+                            <CardContent>
+                                <div class="grid items-center w-full gap-4">
+                                    <template v-if="!!error">
+                                        <Alert variant="destructive">
+                                            <TriangleAlertIcon class="w-4 h-4" />
+                                            <AlertTitle>Request Error</AlertTitle>
+                                            <AlertDescription>
+                                                {{ error }}
+                                            </AlertDescription>
+                                        </Alert>
+                                    </template>
+                                    <div class="flex flex-col space-y-2">
+                                        <Label for="title">Title</Label>
+                                        <Input
+                                            id="title"
+                                            placeholder="New post title..."
+                                            v-model="form.title"
+                                        />
+                                    </div>
+                                    <div class="flex flex-col space-y-1.5">
+                                        <Label for="picture">{{
+                                                coverImageInputLabel
+                                            }}</Label>
+                                        <Input
+                                            id="picture"
+                                            type="file"
+                                            accept="image/png, image/jpg, image/jpeg"
+                                            @change="onFileInputChange"
+                                        />
+                                        <template v-if="form.cover_image_url">
+                                            <div class="flex justify-between">
+                                                <div></div>
+                                                <small
+                                                    class="underline text-blue-600 cursor-pointer"
+                                                    @click="
                                                     isUploadedCoverImageShow =
                                                         !isUploadedCoverImageShow
                                                 "
                                                 >{{
-                                                    isUploadedCoverImageShow
-                                                        ? "Hide"
-                                                        : "Show"
-                                                }}
-                                                uploaded cover image</small
+                                                        isUploadedCoverImageShow
+                                                            ? "Hide"
+                                                            : "Show"
+                                                    }}
+                                                    uploaded cover image</small
+                                                >
+                                            </div>
+                                            <img
+                                                class="w-full h-auto"
+                                                :alt="form.title"
+                                                :src="form.cover_image_url"
+                                                v-if="isUploadedCoverImageShow"
+                                            />
+                                        </template>
+                                    </div>
+                                    <div class="flex flex-col space-y-2">
+                                        <Label for="tags">Tags</Label>
+                                        <TagsInput v-model="form.tags">
+                                            <TagsInputItem
+                                                v-for="item in form.tags"
+                                                :key="item"
+                                                :value="item"
                                             >
-                                        </div>
-                                        <img
-                                            class="w-full h-auto"
-                                            :alt="form.title"
-                                            :src="form.cover_image_url"
-                                            v-if="isUploadedCoverImageShow"
+                                                <TagsInputItemText />
+                                                <TagsInputItemDelete />
+                                            </TagsInputItem>
+
+                                            <TagsInputInput />
+                                        </TagsInput>
+                                    </div>
+                                    <div>
+                                        <Label for="tags">Content</Label>
+                                        <div class="pt-2"></div>
+                                        <CustomTextEditor v-model="form.content" />
+                                    </div>
+                                </div>
+                            </CardContent>
+                            <CardFooter>
+                                <Button
+                                    :disabled="formLoading"
+                                    @click="onCreate"
+                                    v-if="showPublishButton"
+                                >
+                                    <template v-if="formLoading">
+                                        <CustomLoadingSpinner
+                                            class="mr-2 w-4 h-4"
                                         />
                                     </template>
-                                </div>
-                                <div class="flex flex-col space-y-2">
-                                    <Label for="tags">Tags</Label>
-                                    <TagsInput v-model="form.tags">
-                                        <TagsInputItem
-                                            v-for="item in form.tags"
-                                            :key="item"
-                                            :value="item"
-                                        >
-                                            <TagsInputItemText />
-                                            <TagsInputItemDelete />
-                                        </TagsInputItem>
-
-                                        <TagsInputInput />
-                                    </TagsInput>
-                                </div>
-                                <div>
-                                    <Label for="tags">Content</Label>
-                                    <div class="pt-2"></div>
-                                    <CustomTextEditor v-model="form.content" />
-                                </div>
-                            </div>
-                        </CardContent>
-                        <CardFooter>
-                            <Button
-                                :disabled="formLoading"
-                                @click="onCreate"
-                                v-if="showPublishButton"
-                            >
-                                <template v-if="formLoading">
-                                    <CustomLoadingSpinner
-                                        class="mr-2 w-4 h-4"
-                                    />
-                                </template>
-                                Publish</Button
-                            >
-                            <Button
-                                :disabled="formLoading"
-                                @click="onUpdate"
-                                v-if="showUpdateButton"
-                            >
-                                <template v-if="formLoading">
-                                    <CustomLoadingSpinner
-                                        class="mr-2 w-4 h-4"
-                                    />
-                                </template>
-                                Update post</Button
-                            >
-                            <Button
-                                variant="ghost"
-                                :disabled="formLoading"
-                                @click="onSaveDraft"
-                                ><template v-if="formLoading">
-                                    <CustomLoadingSpinner
-                                        class="mr-2 w-4 h-4"
-                                    /> </template
-                                >Save as Draft</Button
-                            >
-                        </CardFooter>
-                    </Card>
-                </main>
-            </template>
-        </div>
-        <div class="md:w-2/6">
-            <div class="space-y-5">
-                <SelfPostListCard />
+                                    Publish
+                                </Button
+                                >
+                                <Button
+                                    :disabled="formLoading"
+                                    @click="onUpdate"
+                                    v-if="showUpdateButton"
+                                >
+                                    <template v-if="formLoading">
+                                        <CustomLoadingSpinner
+                                            class="mr-2 w-4 h-4"
+                                        />
+                                    </template>
+                                    Update post
+                                </Button
+                                >
+                                <Button
+                                    variant="ghost"
+                                    :disabled="formLoading"
+                                    @click="onSaveDraft"
+                                >
+                                    <template v-if="formLoading">
+                                        <CustomLoadingSpinner
+                                            class="mr-2 w-4 h-4"
+                                        />
+                                    </template
+                                    >
+                                    Save as Draft
+                                </Button
+                                >
+                            </CardFooter>
+                        </Card>
+                    </main>
+                </template>
+            </div>
+            <div class="col-span-12 lg:col-span-4 max-lg:mt-3 flex flex-col gap-y-4">
+                <SelfPostListCard class="max-lg:hidden" />
                 <PostingGuideCard />
             </div>
         </div>
