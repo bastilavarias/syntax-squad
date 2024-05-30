@@ -56,7 +56,7 @@ services:
     env_file:
       - ./post-service/.env
     volumes:
-      - ./post-service:/var/www
+      - ./post-service:/var/www/post-service
       - ./post-service/docker/php/local.ini:/usr/local/etc/php/local.ini
     networks:
       - post-service-network
@@ -75,7 +75,7 @@ services:
       - api-gateway
       - chat-service
     volumes:
-      - ./post-service:/var/www
+      - ./post-service:/var/www/post-service
       - ./.nginx:/etc/nginx/conf.d
     networks:
       - post-service-network

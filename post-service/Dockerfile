@@ -24,11 +24,11 @@ RUN docker-php-ext-install gd
 
 RUN curl -sS https://getcomposer.org/installer | php -- --version=2.4.1 && mv composer.phar /usr/local/bin/composer
 
-WORKDIR /var/www
+WORKDIR /var/www/post-service
 
-COPY . /var/www
+COPY . /var/www/post-service
 
-COPY --chown=www-data:www-data . /var/www
+COPY --chown=www-data:www-data . /var/www/post-service
 
 EXPOSE 9000
 CMD ["php-fpm"]
