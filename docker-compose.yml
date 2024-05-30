@@ -55,8 +55,6 @@ services:
     tty: true
     env_file:
       - ./post-service/.env
-    ports:
-      - "9000:9000"
     volumes:
       - ./post-service:/var/www
       - ./post-service/docker/php/local.ini:/usr/local/etc/php/local.ini
