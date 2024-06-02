@@ -72,7 +72,7 @@ const router = createRouter({
 router.beforeEach(async (to, from, next) => {
     const authStore = useAuthStore();
     const isProtectedRoute = to.matched.some(
-        (record) => record.meta.requiresAuth
+        (record) => record.meta.requiresAuth,
     );
     if (isProtectedRoute) {
         await authStore.refresh();

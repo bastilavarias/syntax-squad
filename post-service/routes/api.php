@@ -9,10 +9,6 @@ use App\Http\Controllers\API\PostBookmarkController;
 use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\API\UserFollowerController;
 
-Route::middleware(EnsureTokenIsValid::class)->post("/", [
-    PostController::class,
-    "store",
-]);
 Route::middleware(EnsureTokenIsValid::class)
     ->prefix("reaction")
     ->group(function () {
@@ -79,4 +75,8 @@ Route::get("/", [PostController::class, "index"]);
 Route::middleware(EnsureTokenIsValid::class)->delete("/{postID}", [
     PostController::class,
     "delete",
+]);
+Route::middleware(EnsureTokenIsValid::class)->post("/", [
+    PostController::class,
+    "store",
 ]);

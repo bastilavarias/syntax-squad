@@ -8,21 +8,11 @@ const cors = require("cors");
 const responseFilter = require("./middlewares/response-filter");
 const rateLimiter = require("./middlewares/rate-limiter");
 const proxy = require("express-http-proxy");
+const url = require("url");
 
 const server = express();
 
-const whitelist = [process.env.WEB_CLIENT_URL];
-server.use(
-    cors({
-        origin: function (origin, callback) {
-            if (whitelist.indexOf(origin) !== -1) {
-                callback(null, true);
-            } else {
-                callback(new Error("Not allowed by CORS"));
-            }
-        },
-    }),
-);
+server.use(cors());
 server.use(
     morgan("combined", {
         stream: createWriteStream(join(__dirname, "access.log"), {
@@ -56,7 +46,6 @@ const services = [
 ];
 services.forEach(({ route, target }) => {
     try {
-        console.log(target);
         server.use(route, proxy(target));
     } catch (e) {
         console.log(e);

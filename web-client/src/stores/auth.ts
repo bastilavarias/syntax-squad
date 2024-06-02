@@ -49,8 +49,13 @@ export const useAuthStore = defineStore("auth", {
         },
         async refresh() {
             try {
-                await apiClient.get({
+                const response = await apiClient.get({
                     route: `auth/api/check`,
+                });
+                const authData = response.data;
+                this.establishAuth({
+                    user: authData.user,
+                    token: authData.token,
                 });
             } catch (e) {
                 this.disableAuth();
