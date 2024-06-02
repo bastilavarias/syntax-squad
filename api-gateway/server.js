@@ -23,6 +23,12 @@ server.disable("x-powered-by");
 server.use(responseFilter());
 server.use(rateLimiter());
 
+server.get("/", (_, response) => {
+    response.send(
+        "Welcome to the API Gateway of the SyntaxSquad microservices!"
+    );
+});
+
 const services = [
     {
         route: "/auth",
@@ -39,6 +45,7 @@ const services = [
 ];
 services.forEach(({ route, target }) => {
     try {
+        console.log(target);
         server.use(route, proxy(target));
     } catch (e) {
         console.log(e);

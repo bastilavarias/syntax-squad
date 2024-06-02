@@ -57,7 +57,7 @@ services:
       - ./post-service/.env
     volumes:
       - ./post-service:/var/www/post-service
-      - ./post-service/docker/php/local.ini:/usr/local/etc/php/local.ini
+      - ./.docker/php/local.ini:/usr/local/etc/php/local.ini
     networks:
       - post-service-network
 
@@ -76,7 +76,8 @@ services:
       - chat-service
     volumes:
       - ./post-service:/var/www/post-service
-      - ./.nginx:/etc/nginx/conf.d
+      - ./.docker/nginx:/etc/nginx/conf.d
+      - ./.docker/nginx/log:/var/log/nginx
     networks:
       - post-service-network
 
@@ -103,4 +104,3 @@ networks:
 
 volumes:
   database-data:
-    driver: bridge
