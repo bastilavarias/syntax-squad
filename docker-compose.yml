@@ -1,66 +1,6 @@
 version: '3.8'
 
 services:
-  api-gateway:
-    build:
-      context: ./api-gateway
-      dockerfile: Dockerfile
-    container_name: api-gateway
-    env_file:
-      - ./api-gateway/.env
-    volumes:
-      - ./api-gateway:/usr/src/app/syntax-squad/api-gateway
-      - ./api-gateway/package.json:/usr/src/app/syntax-squad/api-gateway/package.json
-      - ./api-gateway/package-lock.json:/usr/src/app/syntax-squad/api-gateway/package-lock.json
-      - ./api-gateway/node_modules:/opt/app/node_modules
-    networks:
-      - post-service-network
-
-  auth-service:
-    build:
-      context: ./auth-service
-      dockerfile: Dockerfile
-    container_name: auth-service
-    env_file:
-      - ./auth-service/.env
-    volumes:
-      - ./auth-service:/usr/src/app/syntax-squad/auth-service
-      - ./auth-service/package.json:/usr/src/app/syntax-squad/auth-service/package.json
-      - ./auth-service/package-lock.json:/usr/src/app/syntax-squad/auth-service/package-lock.json
-      - ./auth-service/node_modules:/opt/app/node_modules
-    networks:
-      - post-service-network
-
-  chat-service:
-    build:
-      context: ./chat-service
-      dockerfile: Dockerfile
-    container_name: chat-service
-    env_file:
-      - ./chat-service/.env
-    volumes:
-      - ./chat-service:/usr/src/app/syntax-squad/chat-service
-      - ./chat-service/package.json:/usr/src/app/syntax-squad/chat-service/package.json
-      - ./chat-service/package-lock.json:/usr/src/app/syntax-squad/chat-service/package-lock.json
-      - ./chat-service/node_modules:/opt/app/node_modules
-    networks:
-      - post-service-network
-
-  post-service:
-    build:
-      context: ./post-service
-      dockerfile: Dockerfile
-    container_name: post-service
-    restart: unless-stopped
-    tty: true
-    env_file:
-      - ./post-service/.env
-    volumes:
-      - ./post-service:/var/www/post-service
-      - ./.docker/php/local.ini:/usr/local/etc/php/local.ini
-    networks:
-      - post-service-network
-
   server:
     image: nginx:alpine
     container_name: server
@@ -79,7 +19,75 @@ services:
       - ./.docker/nginx:/etc/nginx/conf.d
       - ./.docker/nginx/log:/var/log/nginx
     networks:
-      - post-service-network
+      - app-network
+
+  api-gateway:
+    build:
+      context: ./api-gateway
+      dockerfile: Dockerfile
+    container_name: api-gateway
+    env_file:
+      - ./api-gateway/.env
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./api-gateway:/usr/src/app/syntax-squad/api-gateway
+      - ./api-gateway/package.json:/usr/src/app/syntax-squad/api-gateway/package.json
+      - ./api-gateway/package-lock.json:/usr/src/app/syntax-squad/api-gateway/package-lock.json
+      - ./api-gateway/node_modules:/opt/app/node_modules
+    networks:
+      - app-network
+
+  auth-service:
+    build:
+      context: ./auth-service
+      dockerfile: Dockerfile
+    container_name: auth-service
+    env_file:
+      - ./auth-service/.env
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./auth-service:/usr/src/app/syntax-squad/auth-service
+      - ./auth-service/package.json:/usr/src/app/syntax-squad/auth-service/package.json
+      - ./auth-service/package-lock.json:/usr/src/app/syntax-squad/auth-service/package-lock.json
+      - ./auth-service/node_modules:/opt/app/node_modules
+    networks:
+      - app-network
+
+  chat-service:
+    build:
+      context: ./chat-service
+      dockerfile: Dockerfile
+    container_name: chat-service
+    env_file:
+      - ./chat-service/.env
+    ports:
+      - "3002:3002"
+    volumes:
+      - ./chat-service:/usr/src/app/syntax-squad/chat-service
+      - ./chat-service/package.json:/usr/src/app/syntax-squad/chat-service/package.json
+      - ./chat-service/package-lock.json:/usr/src/app/syntax-squad/chat-service/package-lock.json
+      - ./chat-service/node_modules:/opt/app/node_modules
+    networks:
+      - app-network
+
+  post-service:
+    build:
+      context: ./post-service
+      dockerfile: Dockerfile
+    container_name: post-service
+    restart: unless-stopped
+    tty: true
+    env_file:
+      - ./post-service/.env
+    ports:
+      - "9000:9000"
+    volumes:
+      - ./post-service:/var/www/post-service
+      - ./.docker/php/local.ini:/usr/local/etc/php/local.ini
+    networks:
+      - app-network
 
   database:
     image: mysql:8
@@ -87,7 +95,7 @@ services:
     restart: unless-stopped
     tty: true
     ports:
-      - "5200:3306"
+      - "3306:3306"
     environment:
       MYSQL_DATABASE: syntax_squad
       MYSQL_ROOT_PASSWORD: root
@@ -96,10 +104,10 @@ services:
     volumes:
       - database-data:/var/lib/mysql/
     networks:
-      - post-service-network
+      - app-network
 
 networks:
-  post-service-network:
+  app-network:
     driver: bridge
 
 volumes:

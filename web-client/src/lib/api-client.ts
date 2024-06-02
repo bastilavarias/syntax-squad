@@ -75,9 +75,9 @@ const toURLSearchParams = (payload: HttpFunctionPayload) => {
                 value.forEach((value, index) =>
                     queries.push(
                         `${key}[${index}]=${encodeURIComponent(
-                            value.toString()
-                        ).replace(/%20/g, "+")}`
-                    )
+                            value.toString(),
+                        ).replace(/%20/g, "+")}`,
+                    ),
                 );
             }
         } else {
@@ -85,8 +85,8 @@ const toURLSearchParams = (payload: HttpFunctionPayload) => {
                 queries.push(
                     `${key}=${encodeURIComponent(value.toString()).replace(
                         /%20/g,
-                        "+"
-                    )}`
+                        "+",
+                    )}`,
                 );
             }
         }
@@ -95,7 +95,7 @@ const toURLSearchParams = (payload: HttpFunctionPayload) => {
 };
 const toReadableResponse = async (
     type: string,
-    body: any
+    body: any,
 ): Promise<HttpResponse> => {
     if (type === "complete") {
         return {
@@ -162,9 +162,9 @@ const apiClient = {
                     value.forEach((value, index) =>
                         queries.push(
                             `${key}[${index}]=${encodeURIComponent(
-                                value.toString()
-                            ).replace(/%20/g, "+")}`
-                        )
+                                value.toString(),
+                            ).replace(/%20/g, "+")}`,
+                        ),
                     );
                 }
             } else {
@@ -172,8 +172,8 @@ const apiClient = {
                     queries.push(
                         `${key}=${encodeURIComponent(value.toString()).replace(
                             /%20/g,
-                            "+"
-                        )}`
+                            "+",
+                        )}`,
                     );
                 }
             }
