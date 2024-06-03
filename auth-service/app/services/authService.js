@@ -48,7 +48,10 @@ const check = async (payload) => {
         throw new Error("Invalid token!");
     }
 
-    return jsonWebToken.verify(token, process.env.AUTH_SECRET_KEY);
+    return {
+        token,
+        user: jsonWebToken.verify(token, process.env.AUTH_SECRET_KEY)
+    };
 };
 
 const signToken = (user) => {

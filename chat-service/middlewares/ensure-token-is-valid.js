@@ -15,7 +15,7 @@ const ensureTokenIsValid = () => async (request, response, next) => {
             .get(`${apiGatewayEndpoint}/auth/api/check`)
             .set("Authorization", token)
             .set("user-agent", "node-js");
-        request.user = result.body.data;
+        request.user = result.body.data.user;
         next();
     } catch (error) {
         return response.formatter.unauthorized(error);

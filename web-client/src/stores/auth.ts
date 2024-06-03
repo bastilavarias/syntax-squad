@@ -49,6 +49,10 @@ export const useAuthStore = defineStore("auth", {
         },
         async refresh() {
             try {
+                const savedToken = window.localStorage.getItem('token') || null;
+                if (!savedToken) {
+                    return;
+                }
                 const response = await apiClient.get({
                     route: `auth/api/check`,
                 });
