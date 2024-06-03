@@ -6,6 +6,7 @@ let _socket;
 const initialize = (server) => {
     if (!io) {
         io = new Server(server, {
+            path: "/chat-service/",
             cors: {
                 origin: process.env.WEB_CLIENT_ENDPOINT,
             },

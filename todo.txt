@@ -1,0 +1,2 @@
+// TODO Mobile responsiveness enhancement.
+// TODO Setup the files for deployment (DockerFile, DockerComposeEnvironments).

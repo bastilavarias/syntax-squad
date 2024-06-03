@@ -12,16 +12,12 @@ return Application::configure(basePath: dirname(__DIR__))
         commands: __DIR__ . "/../routes/console.php",
         health: "/up"
     )
-    ->withMiddleware(function (Middleware $middleware) {})
+    ->withMiddleware(function (Middleware $middleware) {
+
+    })
     ->withExceptions(function (Exceptions $exceptions) {
-        $exceptions->report(function (RouteNotFoundException $e) {
-            return customResponse()
-                ->data([])
-                ->message(
-                    "You do not have the necessary permission to access this resource.."
-                )
-                ->failed(403)
-                ->generate();
+        $exceptions->shouldRenderJsonWhen(function () {
+            return true;
         });
     })
     ->create();

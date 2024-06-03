@@ -40,7 +40,7 @@ export const useChatStore = defineStore("chat", {
         async create(payload: CreateChatPayload) {
             try {
                 const response = await apiClient.post({
-                    route: "chat/api/conversation",
+                    route: "message/api/conversation",
                     body: payload,
                 });
                 return await apiClient.toReadableResponse("complete", response);
@@ -53,7 +53,7 @@ export const useChatStore = defineStore("chat", {
             try {
                 const parameters = apiClient.toURLSearchParams(payload);
                 const response = await apiClient.get({
-                    route: `chat/api/room?${parameters}`,
+                    route: `message/api/room?${parameters}`,
                 });
                 return await apiClient.toReadableResponse("complete", response);
             } catch (e) {
@@ -65,7 +65,7 @@ export const useChatStore = defineStore("chat", {
             try {
                 const parameters = apiClient.toURLSearchParams(payload);
                 const response = await apiClient.get({
-                    route: `chat/api/conversation/${payload.room_id}?${parameters}`,
+                    route: `message/api/conversation/${payload.room_id}?${parameters}`,
                 });
                 return await apiClient.toReadableResponse("complete", response);
             } catch (e) {
@@ -76,7 +76,7 @@ export const useChatStore = defineStore("chat", {
         async getRoom(payload: GetChatRoomPayload) {
             try {
                 const response = await apiClient.get({
-                    route: `chat/api/room/${payload.room_id}`,
+                    route: `message/api/room/${payload.room_id}`,
                 });
                 return await apiClient.toReadableResponse("complete", response);
             } catch (e) {
@@ -87,7 +87,7 @@ export const useChatStore = defineStore("chat", {
         async read(payload: ReadChatPayload) {
             try {
                 const response = await apiClient.put({
-                    route: `chat/api/conversation/read/${payload.message_id}`,
+                    route: `message/api/conversation/read/${payload.message_id}`,
                     body: payload,
                 });
                 return await apiClient.toReadableResponse("complete", response);
@@ -99,7 +99,7 @@ export const useChatStore = defineStore("chat", {
         async createRoom(payload: CreateChatRoomPayload) {
             try {
                 const response = await apiClient.post({
-                    route: "chat/api/room",
+                    route: "message/api/room",
                     body: payload,
                 });
                 return await apiClient.toReadableResponse("complete", response);

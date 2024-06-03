@@ -8,6 +8,7 @@ const cors = require("cors");
 const responseFilter = require("./middlewares/response-filter");
 const rateLimiter = require("./middlewares/rate-limiter");
 const proxy = require("express-http-proxy");
+const url = require("url");
 
 const server = express();
 
@@ -17,24 +18,30 @@ server.use(
         stream: createWriteStream(join(__dirname, "access.log"), {
             flags: "a",
         }),
-    })
+    }),
 );
 server.disable("x-powered-by");
 server.use(responseFilter());
 server.use(rateLimiter());
 
+server.get("/", (_, response) => {
+    response.send(
+        "Welcome to the API Gateway of the SyntaxSquad microservices!",
+    );
+});
+
 const services = [
-    {
-        route: "/auth",
-        target: process.env.AUTH_SERVICE_ENDPOINT,
-    },
     {
         route: "/post",
         target: process.env.POST_SERVICE_ENDPOINT,
     },
     {
-        route: "/chat",
+        route: "/message",
         target: process.env.CHAT_SERVICE_ENDPOINT,
+    },
+    {
+        route: "/auth",
+        target: process.env.AUTH_SERVICE_ENDPOINT,
     },
 ];
 services.forEach(({ route, target }) => {

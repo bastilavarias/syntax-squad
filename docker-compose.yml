@@ -1,6 +1,26 @@
 version: '3.8'
 
 services:
+  server:
+    image: nginx:alpine
+    container_name: server
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - post-service
+      - database
+      - api-gateway
+      - chat-service
+    volumes:
+      - ./post-service:/var/www/post-service
+      - ./.docker/nginx:/etc/nginx/conf.d
+      - ./.docker/nginx/log:/var/log/nginx
+    networks:
+      - app-network
+
   api-gateway:
     build:
       context: ./api-gateway
@@ -16,7 +36,7 @@ services:
       - ./api-gateway/package-lock.json:/usr/src/app/syntax-squad/api-gateway/package-lock.json
       - ./api-gateway/node_modules:/opt/app/node_modules
     networks:
-      - post-service-network
+      - app-network
 
   auth-service:
     build:
@@ -33,7 +53,7 @@ services:
       - ./auth-service/package-lock.json:/usr/src/app/syntax-squad/auth-service/package-lock.json
       - ./auth-service/node_modules:/opt/app/node_modules
     networks:
-      - post-service-network
+      - app-network
 
   chat-service:
     build:
@@ -50,7 +70,7 @@ services:
       - ./chat-service/package-lock.json:/usr/src/app/syntax-squad/chat-service/package-lock.json
       - ./chat-service/node_modules:/opt/app/node_modules
     networks:
-      - post-service-network
+      - app-network
 
   post-service:
     build:
@@ -61,28 +81,13 @@ services:
     tty: true
     env_file:
       - ./post-service/.env
-    volumes:
-      - ./post-service:/var/www
-      - ./post-service/docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
-    networks:
-      - post-service-network
-
-  server:
-    image: nginx:alpine
-    container_name: server
-    restart: unless-stopped
-    tty: true
     ports:
-      - "8080:80"
-      - "443:443"
-    depends_on:
-      - post-service
-      - database
+      - "9000:9000"
     volumes:
-      - ./post-service:/var/www
-      - ./.nginx/:/etc/nginx/conf.d/
+      - ./post-service:/var/www/post-service
+      - ./.docker/php/local.ini:/usr/local/etc/php/local.ini
     networks:
-      - post-service-network
+      - app-network
 
   database:
     image: mysql:8
@@ -90,7 +95,7 @@ services:
     restart: unless-stopped
     tty: true
     ports:
-      - "3306:3306"
+      - "5506:3306"
     environment:
       MYSQL_DATABASE: syntax_squad
       MYSQL_ROOT_PASSWORD: root
@@ -99,10 +104,11 @@ services:
     volumes:
       - database-data:/var/lib/mysql/
     networks:
-      - post-service-network
+      - app-network
 
 networks:
-  post-service-network:
+  app-network:
+    driver: bridge
 
 volumes:
   database-data:
