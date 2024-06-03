@@ -1,6 +1,6 @@
 <template>
     <div
-        class="px-4 lg:container h-screen pt-5 lg:pt-8"
+        class="md:px-4 md:container h-screen pt-5 md:pt-8"
     >
         <slot />
     </div>

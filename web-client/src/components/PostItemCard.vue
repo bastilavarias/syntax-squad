@@ -11,7 +11,7 @@ defineProps(["post"]);
 </script>
 
 <template>
-    <Card :class="cn('pb-0 overflow-hidden', $attrs.class ?? '')">
+    <Card :class="cn('pb-0 overflow-hidden rounded-none shadow-none border-0 md:rounded-lg md:shadow-sm md:border', $attrs.class ?? '')">
         <img
             class="w-full h-80 object-cover"
             :src="post.cover_image_url"

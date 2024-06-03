@@ -12,6 +12,7 @@ import InfiniteLoading from "v3-infinite-loading";
 import "v3-infinite-loading/lib/style.css";
 import PageContainer from "@/components/PageContainer.vue";
 
+
 const postStore = usePostStore();
 const { toast } = useToast();
 const router = useRouter();
@@ -74,9 +75,9 @@ const resetPosts = () => {
                 <CustomSideBar />
             </div>
             <div class="col-span-12 md:col-span-7 lg:col-span-6">
-                <main class="relative pb-10">
-                    <div class="space-y-3">
-                        <CustomSortBySelect v-model="sortBy" />
+                <main class="relative md:pb-10">
+                    <div class="md:space-y-3">
+                        <CustomSortBySelect class="mb-3" v-model="sortBy" />
                         <template
                             v-for="(post, index) in postContents"
                             :key="index"
@@ -98,7 +99,7 @@ const resetPosts = () => {
                                 </div>
                             </template>
                             <template #complete>
-                                <div class="flex flex-col items-center">
+                                <div class=" hidden md:flex flex-col items-center">
                                 <span class="text-muted-foreground text-xs"
                                 >End of SyntaxSquad community posts.</span
                                 >

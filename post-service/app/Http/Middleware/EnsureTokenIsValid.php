@@ -22,7 +22,7 @@ class EnsureTokenIsValid
                     "You do not have the necessary permission to access this resource."
                 );
             }
-            $request->merge(["auth_user" => $response->json("data")]);
+            $request->merge(["auth_user" => $response->json("data")["user"]]);
         } catch (Exception $e) {
             return customResponse()
                 ->data([])

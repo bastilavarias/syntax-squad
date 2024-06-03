@@ -9,13 +9,16 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { ArrowUp, Clock, Flame } from "lucide-vue-next";
+import { cn } from '@/lib/utils'
 
+const props = defineProps(["class"]);
 const model = defineModel();
+
 </script>
 
 <template>
     <Select v-model="model">
-        <SelectTrigger class="w-[180px]">
+        <SelectTrigger :class="cn('w-[180px]', props.class)">
             <SelectValue placeholder="Select sorting" />
         </SelectTrigger>
         <SelectContent>

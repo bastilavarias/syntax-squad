@@ -102,7 +102,7 @@ if (slug) {
 
 <template>
     <div
-        class="container flex flex-col lg:flex-row items-start lg:gap-5 h-screen pt-10"
+        class="md:pt-10 md:container md:flex md:flex-col lg:flex-row lg:items-start lg:gap-5 h-screen"
     >
         <template v-if="!isPageReady">
             <div class="flex justify-center w-full">
@@ -127,8 +127,8 @@ if (slug) {
         </div>
         <template v-if="isPageReady">
             <div class="md:w-8/12">
-                <main class="relative pb-10">
-                    <Card :class="cn('', $attrs.class ?? '')">
+                <main class="relative md:pb-10">
+                    <Card :class="cn('rounded-none md:rounded-lg', $attrs.class ?? '')">
                         <img
                             class="w-full h-80 object-cover"
                             :src="post.cover_image_url"
@@ -186,7 +186,7 @@ if (slug) {
                     </Card>
                 </main>
             </div>
-            <div class="md:w-2/6">
+            <div class="hidden md:block md:w-2/6">
                 <div class="space-y-5">
                     <MiniProfileCard :user="post.user" />
                     <MorePostsCard
