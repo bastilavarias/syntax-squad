@@ -8,12 +8,12 @@ export const state = reactive({
 const URL =
     process.env.NODE_ENV === "production"
         ? undefined
-        : import.meta.env.VITE_SOCKET_IO_ENDPOINT;
+        : import.meta.env.VITE_BASE_API_ENDPOINT;
 
 export const socket = io(URL, {
     reconnection: true,
     autoConnect: false,
-    path: '/chat-service/'
+    path: "/chat-service/",
 });
 
 socket.on("connect", () => {
