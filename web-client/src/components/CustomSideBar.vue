@@ -5,11 +5,10 @@ const authStore = useAuthStore();
 </script>
 
 <template>
-    <aside class="overflow-y-auto pt-2">
+    <aside class="!overflow-hidden pt-2">
         <div
             data-radix-scroll-area-viewport=""
-            style="overflow: hidden scroll"
-            class="h-full w-full rounded-[inherit]"
+            class="h-full w-full rounded-[inherit] overflow-hidden"
             tabindex="0"
         >
             <div style="min-width: 100%; display: table">

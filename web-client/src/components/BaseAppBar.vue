@@ -1,19 +1,24 @@
 <script setup lang="ts">
 import { Button } from "@/components/ui/button";
 import { useRoute, useRouter } from "vue-router";
-import { PlusIcon, GithubIcon } from "lucide-vue-next";
+import { GithubIcon, PlusIcon, Search } from "lucide-vue-next";
 import { Input } from "@/components/ui/input";
 import BaseUserMenuDropdown from "@/components/BaseUserMenuDropdown.vue";
 import CustomLoadingSpinner from "@/components/CustomLoadingSpinner.vue";
 import { computed, ref, watch } from "vue";
 import { useAuthStore } from "@/stores/auth.ts";
+import BaseSidebar from "@/components/BaseSidebar.vue";
+import AppLogo from "@/AppLogo.vue";
+import SearchBar from "@/SearchBar.vue";
 
+const mobileSearch = ref(null);
 const router = useRouter();
 const authStore = useAuthStore();
 const route = useRoute();
 
 const loading = ref(false);
 const keyword = ref(null);
+const showMobileSearch = ref(false);
 
 const showLoginButton = computed(() => route.name !== "auth-callback-page");
 
@@ -26,10 +31,14 @@ watch(
     }
 );
 
+const toggleMobileSearch = () => {
+    showMobileSearch.value = !showMobileSearch.value;
+};
 const goToSearchPage = (e) => {
     e.preventDefault();
     if (keyword.value) {
         router.push({ name: "search-page", query: { keyword: keyword.value } });
+        showMobileSearch.value = false;
     }
 };
 const onOpenGithub0auth = () => {
@@ -41,33 +50,25 @@ const onOpenGithub0auth = () => {
 if (route.query.keyword) {
     keyword.value = route.query.keyword;
 }
+
+
 </script>
 
 <template>
     <header
-        class="sticky z-40 top-0 bg-background/80 backdrop-blur-lg border-b border-border"
+        class="fixed w-screen min-h-14 flex flex-col z-20 top-0 bg-background/80 backdrop-blur-lg border-b border-border"
     >
-        <div class="container flex justify-between h-14 items-center">
-            <nav class="flex items-center space-x-2">
-                <router-link :to="{ name: 'home-page' }">
-                    <span
-                        class="text-md bg-black font-black text-white decoration-0 tracking-tight py-2 px-2 rounded"
-                    >
-                        SyntaxSquad
-                    </span>
-                </router-link>
-                <div>
-                    <form @submit="goToSearchPage">
-                        <Input
-                            type="search"
-                            placeholder="Search..."
-                            class="md:w-40 lg:w-64"
-                            v-model="keyword"
-                        />
-                    </form>
+        <div class="px-4 lg:container flex items-center h-14 gap-x-2">
+            <BaseSidebar />
+            <nav class="flex items-center gap-x-2">
+                <AppLogo class="" />
+
+                <Search @click="toggleMobileSearch" class="lg:hidden" />
+                <div class="max-lg:hidden md:w-40 lg:w-64">
+                    <SearchBar ref="mobileSearch" @go-search="goToSearchPage" v-model="keyword"></SearchBar>
                 </div>
             </nav>
-            <nav class="flex items-center space-x-2">
+            <nav class="flex items-center gap-x-2 ml-auto">
                 <Button
                     @click="onOpenGithub0auth"
                     :loading="loading"
@@ -76,9 +77,11 @@ if (route.query.keyword) {
                     <template v-if="loading">
                         <CustomLoadingSpinner class="mr-2 w-4 h-4" />
                     </template>
-                    <template> </template>
+                    <template></template>
                     <GithubIcon class="mr-2" />
-                    Login via GitHub</Button
+                    Login
+                    <span class="max-lg:hidden">&nbsp;via GitHub</span>
+                </Button
                 >
                 <template v-if="authStore.isAuthenticated">
                     <Button variant="outline" as-child>
@@ -88,12 +91,16 @@ if (route.query.keyword) {
                                 params: { operation: 'new' },
                             }"
                         >
-                            <PlusIcon class="mr-1" />Create Post
+                            <PlusIcon />
+                            <span class="max-sm:hidden ml-1">Create&nbsp;Post</span>
                         </router-link>
                     </Button>
                     <BaseUserMenuDropdown />
                 </template>
             </nav>
+        </div>
+        <div v-if="showMobileSearch" class="px-4 pb-2 w-full lg:hidden">
+            <SearchBar ref="mobileSearch" @go-search="goToSearchPage" v-model="keyword"></SearchBar>
         </div>
     </header>
 </template>

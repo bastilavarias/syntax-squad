@@ -2,25 +2,26 @@
 import CustomSideBar from "@/components/CustomSideBar.vue";
 import RecentPostsCard from "@/components/RecentPostsCard.vue";
 import SyntaxSquadAboutCard from "@/components/SyntaxSquadAboutCard.vue";
+import PageContainer from "@/components/PageContainer.vue";
 </script>
 
 <template>
-    <div
-        class="container flex flex-col lg:flex-row items-start lg:gap-5 h-screen pt-10"
-    >
-        <div class="md:w-2/12">
-            <CustomSideBar />
-        </div>
-        <div class="md:w-1/2 h-full">
-            <main class="relative pb-10 h-full">
-                <RouterView />
-            </main>
-        </div>
-        <div class="md:w-2/6">
-            <div class="space-y-5">
-                <RecentPostsCard />
-                <SyntaxSquadAboutCard />
+    <PageContainer>
+        <div class="grid grid-cols-12 lg:gap-5">
+            <div class="col-span-2 max-lg:hidden">
+                <CustomSideBar />
+            </div>
+            <div class="col-span-12 lg:col-span-6">
+                <main class="relative pb-10 h-full">
+                    <RouterView />
+                </main>
+            </div>
+            <div class="col-span-4 max-lg:hidden">
+                <div class="space-y-5">
+                    <RecentPostsCard />
+                    <SyntaxSquadAboutCard />
+                </div>
             </div>
         </div>
-    </div>
+    </PageContainer>
 </template>

@@ -10,6 +10,7 @@ import { computed, ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import InfiniteLoading from "v3-infinite-loading";
 import "v3-infinite-loading/lib/style.css";
+import PageContainer from "@/components/PageContainer.vue";
 
 const postStore = usePostStore();
 const { toast } = useToast();
@@ -35,7 +36,7 @@ const getPosts = async ($state) => {
         page: postStore.content.page,
         per_page: postStore.content.perPage,
         sort_by: sortBy.value,
-        is_draft: 0,
+        is_draft: 0
     };
     loading.value = true;
     const result = await postStore.list(payload);
@@ -55,7 +56,7 @@ const getPosts = async ($state) => {
     toast({
         variant: "destructive",
         title: "Server error.",
-        description: result.message,
+        description: result.message
     });
 };
 const resetPosts = () => {
@@ -67,52 +68,52 @@ const resetPosts = () => {
 </script>
 
 <template>
-    <div
-        class="container flex flex-col lg:flex-row items-start lg:gap-5 h-screen pt-10"
-    >
-        <div class="md:w-2/12">
-            <CustomSideBar />
-        </div>
-        <div class="md:w-1/2">
-            <main class="relative pb-10">
-                <div class="space-y-3">
-                    <CustomSortBySelect v-model="sortBy" />
-                    <template
-                        v-for="(post, index) in postContents"
-                        :key="index"
-                    >
-                        <PostItemCard :post="post" />
-                    </template>
-                    <InfiniteLoading
-                        class="pt-5"
-                        :identifier="postsIdentifier"
-                        @infinite="getPosts"
-                    >
-                        <template #spinner>
-                            <div class="flex flex-col items-center">
-                                <img
-                                    class="w-auto h-40"
-                                    src="/nyan-cat.gif"
-                                    alt="Auth GIF"
-                                />
-                            </div>
+    <PageContainer>
+        <div class="grid grid-cols-12 md:gap-5">
+            <div class="col-span-2 max-lg:hidden">
+                <CustomSideBar />
+            </div>
+            <div class="col-span-12 md:col-span-7 lg:col-span-6">
+                <main class="relative pb-10">
+                    <div class="space-y-3">
+                        <CustomSortBySelect v-model="sortBy" />
+                        <template
+                            v-for="(post, index) in postContents"
+                            :key="index"
+                        >
+                            <PostItemCard :post="post" />
                         </template>
-                        <template #complete>
-                            <div class="flex flex-col items-center">
+                        <InfiniteLoading
+                            class="pt-5"
+                            :identifier="postsIdentifier"
+                            @infinite="getPosts"
+                        >
+                            <template #spinner>
+                                <div class="flex flex-col items-center">
+                                    <img
+                                        class="w-auto h-40"
+                                        src="/nyan-cat.gif"
+                                        alt="Auth GIF"
+                                    />
+                                </div>
+                            </template>
+                            <template #complete>
+                                <div class="flex flex-col items-center">
                                 <span class="text-muted-foreground text-xs"
-                                    >End of SyntaxSquad community posts.</span
+                                >End of SyntaxSquad community posts.</span
                                 >
-                            </div>
-                        </template>
-                    </InfiniteLoading>
+                                </div>
+                            </template>
+                        </InfiniteLoading>
+                    </div>
+                </main>
+            </div>
+            <div class="col-span-5 lg:col-span-4 max-lg:hidden">
+                <div class="space-y-5">
+                    <RecentPostsCard />
+                    <SyntaxSquadAboutCard />
                 </div>
-            </main>
-        </div>
-        <div class="md:w-2/6">
-            <div class="space-y-5">
-                <RecentPostsCard />
-                <SyntaxSquadAboutCard />
             </div>
         </div>
-    </div>
+    </PageContainer>
 </template>

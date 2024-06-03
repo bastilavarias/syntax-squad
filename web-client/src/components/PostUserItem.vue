@@ -13,7 +13,7 @@ const customComposable = useCustomComposable();
 <template>
     <div class="space-y-2">
         <div class="flex items-center justify-between space-x-4">
-            <div class="flex items-center space-x-4">
+            <div class="flex items-center space-x-2 lg:space-x-3">
                 <Avatar>
                     <AvatarImage :src="user.avatar_url" />
                     <AvatarFallback>{{ user.name[0] }}</AvatarFallback>
@@ -33,7 +33,7 @@ const customComposable = useCustomComposable();
                     </router-link>
                     <p class="text-xs text-muted-foreground">
                         Posted on
-                        {{ format(new Date(createdAt), "MMM dd yy") }}
+                        {{ format(new Date(createdAt), "MMM dd yyyy") }}
                         {{
                             isBefore(
                                 new Date(createdAt),
