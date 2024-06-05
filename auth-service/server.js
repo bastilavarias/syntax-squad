@@ -27,7 +27,7 @@ server.get("/", (_, response) => {
         "Welcome to the Auth Service of the SyntaxSquad microservices!",
     );
 });
-server.use("/api", api);
+server.use("/api/auth", api);
 server.use(passport.initialize());
 jwtPassport(passport);
 
