@@ -54,7 +54,7 @@ export const usePostStore = defineStore("post", {
             try {
                 const parameters = apiClient.toURLSearchParams(payload);
                 const response = await apiClient.get({
-                    route: `post/api?${parameters}`,
+                    route: `post-service/api?${parameters}`,
                 });
                 return await apiClient.toReadableResponse("complete", response);
             } catch (e) {
