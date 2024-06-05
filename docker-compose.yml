@@ -10,31 +10,14 @@ services:
       - "80:80"
       - "443:443"
     depends_on:
-      - post-service
       - database
-      - api-gateway
+      - post-service
       - chat-service
+      - auth-service
     volumes:
       - ./post-service:/var/www/post-service
       - ./.docker/nginx:/etc/nginx/conf.d
       - ./.docker/nginx/log:/var/log/nginx
-    networks:
-      - app-network
-
-  api-gateway:
-    build:
-      context: ./api-gateway
-      dockerfile: Dockerfile
-    container_name: api-gateway
-    env_file:
-      - ./api-gateway/.env
-    ports:
-      - "3000:3000"
-    volumes:
-      - ./api-gateway:/usr/src/app/syntax-squad/api-gateway
-      - ./api-gateway/package.json:/usr/src/app/syntax-squad/api-gateway/package.json
-      - ./api-gateway/package-lock.json:/usr/src/app/syntax-squad/api-gateway/package-lock.json
-      - ./api-gateway/node_modules:/opt/app/node_modules
     networks:
       - app-network
 

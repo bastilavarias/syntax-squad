@@ -24,33 +24,9 @@ server.disable("x-powered-by");
 server.use(responseFilter());
 server.use(rateLimiter());
 
-server.get("/", (_, response) => {
-    response.send(
-        "Welcome to the API Gateway of the SyntaxSquad microservices!",
-    );
-});
-
-const services = [
-    {
-        route: "/post",
-        target: process.env.POST_SERVICE_ENDPOINT,
-    },
-    {
-        route: "/message",
-        target: process.env.CHAT_SERVICE_ENDPOINT,
-    },
-    {
-        route: "/auth",
-        target: process.env.AUTH_SERVICE_ENDPOINT,
-    },
-];
-services.forEach(({ route, target }) => {
-    try {
-        server.use(route, proxy(target));
-    } catch (e) {
-        console.log(e);
-    }
-});
+server.use("/auth", proxy("http://localhost:8001"));
+server.use("/chat", proxy("http://localhost:8002"));
+server.use("/", proxy("http://localhost"));
 
 const port = 3000;
 server.listen(port, () => {
