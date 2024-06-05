@@ -19,7 +19,7 @@ application.use(
         stream: createWriteStream(join(__dirname, "access.log"), {
             flags: "a",
         }),
-    })
+    }),
 );
 application.use(responseFilter());
 application.use(ensureTokenIsValid());
@@ -27,10 +27,10 @@ application.use(bodyParser.json());
 application.use(bodyParser.urlencoded({ extended: true }));
 application.get("/", (_, response) => {
     response.send(
-        "Welcome to the Chat Service of the SyntaxSquad microservices!"
+        "Welcome to the Chat Service of the SyntaxSquad microservices!",
     );
 });
-application.use("/api", api);
+application.use("/api/chat", api);
 
 const port = 3002;
 server.listen(port, () => {
