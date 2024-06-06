@@ -16,7 +16,7 @@ class EnsureTokenIsValid
             $apiGatewayEndpoint = config("microservice.endpoint.api_gateway");
             $response = Http::withHeaders([
                 "Authorization" => $request->header("Authorization"),
-            ])->get("$apiGatewayEndpoint/auth/api/check");
+            ])->get("$apiGatewayEndpoint/api/auth/check");
             if (!$response->ok()) {
                 throw new Exception(
                     "You do not have the necessary permission to access this resource."

@@ -40,7 +40,7 @@ export const usePostStore = defineStore("post", {
         async create(payload: CreatePostPayload) {
             try {
                 const response = await apiClient.post({
-                    route: "post/api",
+                    route: "post",
                     body: payload,
                     transform: "form-data",
                 });
@@ -65,7 +65,7 @@ export const usePostStore = defineStore("post", {
         async get(postID: number) {
             try {
                 const response = await apiClient.get({
-                    route: `post/api/${postID}`,
+                    route: `post/${postID}`,
                 });
                 return await apiClient.toReadableResponse("complete", response);
             } catch (e) {
@@ -76,7 +76,7 @@ export const usePostStore = defineStore("post", {
         async getBySlug(slug: string) {
             try {
                 const response = await apiClient.get({
-                    route: `post/api/public/${slug}`,
+                    route: `post/public/${slug}`,
                 });
                 return await apiClient.toReadableResponse("complete", response);
             } catch (e) {
@@ -87,7 +87,7 @@ export const usePostStore = defineStore("post", {
         async update(payload: UpdatePostPayload) {
             try {
                 const response = await apiClient.post({
-                    route: `post/api/${payload.post_id}`,
+                    route: `post/${payload.post_id}`,
                     body: payload,
                     transform: "form-data",
                 });

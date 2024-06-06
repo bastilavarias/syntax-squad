@@ -34,7 +34,7 @@ export const useAuthStore = defineStore("auth", {
         async login(payload: AuthLoginPayload) {
             try {
                 const response = await apiClient.post({
-                    route: "auth/api/login",
+                    route: "auth/login",
                     body: payload,
                 });
                 const authData = response.data;
@@ -54,7 +54,7 @@ export const useAuthStore = defineStore("auth", {
                     return;
                 }
                 const response = await apiClient.get({
-                    route: `auth/api/check`,
+                    route: `auth/check`,
                 });
                 const authData = response.data;
                 this.establishAuth({

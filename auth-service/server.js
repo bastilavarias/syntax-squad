@@ -22,11 +22,6 @@ server.use(
 server.use(responseFilter());
 server.use(bodyParser.json());
 server.use(bodyParser.urlencoded({ extended: true }));
-server.get("/", (_, response) => {
-    response.send(
-        "Welcome to the Auth Service of the SyntaxSquad microservices!",
-    );
-});
 server.use("/api/auth", api);
 server.use(passport.initialize());
 jwtPassport(passport);

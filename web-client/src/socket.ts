@@ -13,7 +13,6 @@ const URL =
 export const socket = io(URL, {
     reconnection: true,
     autoConnect: false,
-    path: "/chat-service/",
 });
 
 socket.on("connect", () => {

@@ -4,6 +4,7 @@ const superagent = require("superagent");
 
 const ensureTokenIsValid = () => async (request, response, next) => {
     const token = request.get("Authorization");
+    console.log(token);
     if (!token) {
         return response.formatter.unauthorized(
             "You're not allowed to access this resource."
@@ -12,12 +13,13 @@ const ensureTokenIsValid = () => async (request, response, next) => {
     try {
         const apiGatewayEndpoint = `${process.env.API_GATEWAY_ENDPOINT}`;
         const result = await superagent
-            .get(`${apiGatewayEndpoint}/auth/api/check`)
+            .get(`${apiGatewayEndpoint}/api/auth/check`)
             .set("Authorization", token)
             .set("user-agent", "node-js");
         request.user = result.body.data.user;
         next();
     } catch (error) {
+        console.log(error);
         return response.formatter.unauthorized(error);
     }
 };

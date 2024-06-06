@@ -25,11 +25,6 @@ application.use(responseFilter());
 application.use(ensureTokenIsValid());
 application.use(bodyParser.json());
 application.use(bodyParser.urlencoded({ extended: true }));
-application.get("/", (_, response) => {
-    response.send(
-        "Welcome to the Chat Service of the SyntaxSquad microservices!",
-    );
-});
 application.use("/api/chat", api);
 
 const port = 3002;

@@ -78,7 +78,7 @@ services:
     restart: unless-stopped
     tty: true
     ports:
-      - "3306:3306"
+      - "5506:3306"
     environment:
       MYSQL_DATABASE: syntax_squad
       MYSQL_ROOT_PASSWORD: root
