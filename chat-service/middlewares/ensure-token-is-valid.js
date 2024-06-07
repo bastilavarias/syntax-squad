@@ -4,7 +4,6 @@ const superagent = require("superagent");
 
 const ensureTokenIsValid = () => async (request, response, next) => {
     const token = request.get("Authorization");
-    console.log(token);
     if (!token) {
         return response.formatter.unauthorized(
             "You're not allowed to access this resource."
@@ -19,7 +18,6 @@ const ensureTokenIsValid = () => async (request, response, next) => {
         request.user = result.body.data.user;
         next();
     } catch (error) {
-        console.log(error);
         return response.formatter.unauthorized(error);
     }
 };
