@@ -21,7 +21,6 @@ const api = ky.extend({
     timeout: false,
     headers: {
         "Access-Control-Allow-Origin": "*",
-        "ngrok-skip-browser-warning": "69420"
     },
     hooks: {
         beforeRequest: [
