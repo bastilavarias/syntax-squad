@@ -18,8 +18,14 @@ services:
       - ./post-service:/var/www/post-service
       - ./.docker/nginx:/etc/nginx/conf.d
       - ./.docker/nginx/log:/var/log/nginx
+      - ./.docker/nginx/.certbot/www:/var/www/certbot/:ro
     networks:
       - app-network
+      -
+  certbot:
+    image: certbot/certbot:latest
+    volumes:
+      - ./certbot/www/:/var/www/certbot/:rw
 
   auth-service:
     build:
