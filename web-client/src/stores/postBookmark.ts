@@ -15,7 +15,7 @@ export const usePostBookmarkStore = defineStore("post-bookmark", {
         async create(payload: PostBookmarkPayload) {
             try {
                 const response = await apiClient.post({
-                    route: "post/api/bookmark",
+                    route: "post/bookmark",
                     body: payload,
                 });
                 return await apiClient.toReadableResponse("complete", response);
@@ -27,7 +27,7 @@ export const usePostBookmarkStore = defineStore("post-bookmark", {
         async delete(payload: PostBookmarkPayload) {
             try {
                 const response = await apiClient.delete({
-                    route: `post/api/bookmark/${payload.post_id}?`,
+                    route: `post/bookmark/${payload.post_id}?`,
                     body: payload,
                 });
                 return await apiClient.toReadableResponse("complete", response);
@@ -39,7 +39,7 @@ export const usePostBookmarkStore = defineStore("post-bookmark", {
         async check(payload: PostBookmarkPayload) {
             try {
                 const response = await apiClient.get({
-                    route: `post/api/bookmark/check/${payload.post_id}`,
+                    route: `post/bookmark/check/${payload.post_id}`,
                     body: payload,
                 });
                 return await apiClient.toReadableResponse("complete", response);
@@ -52,7 +52,7 @@ export const usePostBookmarkStore = defineStore("post-bookmark", {
             try {
                 const parameters = apiClient.toURLSearchParams(payload);
                 const response = await apiClient.get({
-                    route: `post/api/bookmark?${parameters}`,
+                    route: `post/bookmark?${parameters}`,
                     body: payload,
                 });
                 return await apiClient.toReadableResponse("complete", response);

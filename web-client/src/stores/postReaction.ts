@@ -11,7 +11,7 @@ export const usePostReactionStore = defineStore("post-reaction", {
         async create(payload: PostReactionPayload) {
             try {
                 const response = await apiClient.post({
-                    route: "post/api/reaction",
+                    route: "post/reaction",
                     body: payload,
                 });
                 return await apiClient.toReadableResponse("complete", response);
@@ -23,7 +23,7 @@ export const usePostReactionStore = defineStore("post-reaction", {
         async delete(payload: PostReactionPayload) {
             try {
                 const response = await apiClient.delete({
-                    route: `post/api/reaction/${payload.post_id}?name=${payload.name}`,
+                    route: `post/reaction/${payload.post_id}?name=${payload.name}`,
                     body: payload,
                 });
                 return await apiClient.toReadableResponse("complete", response);
@@ -35,7 +35,7 @@ export const usePostReactionStore = defineStore("post-reaction", {
         async check(payload: PostReactionPayload) {
             try {
                 const response = await apiClient.get({
-                    route: `post/api/reaction/check/${payload.post_id}?name=${payload.name}`,
+                    route: `post/reaction/check/${payload.post_id}?name=${payload.name}`,
                     body: payload,
                 });
                 return await apiClient.toReadableResponse("complete", response);

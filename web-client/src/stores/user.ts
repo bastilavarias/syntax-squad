@@ -11,7 +11,7 @@ export const userUserStore = defineStore("user", {
         async getByUsername(payload: UserPayload) {
             try {
                 const response = await apiClient.get({
-                    route: `post/api/user/${payload.username}`,
+                    route: `post/user/${payload.username}`,
                     body: payload,
                 });
                 return await apiClient.toReadableResponse("complete", response);

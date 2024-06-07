@@ -17,7 +17,7 @@ export const useUserFollowerStore = defineStore("user-follower", {
         async create(payload: UserFollowerPayload) {
             try {
                 const response = await apiClient.post({
-                    route: "post/api/user/follower",
+                    route: "post/user/follower",
                     body: payload,
                 });
                 return await apiClient.toReadableResponse("complete", response);
@@ -29,7 +29,7 @@ export const useUserFollowerStore = defineStore("user-follower", {
         async delete(payload: UserFollowerPayload) {
             try {
                 const response = await apiClient.delete({
-                    route: `post/api/user/follower/${payload.user_id}?`,
+                    route: `post/user/follower/${payload.user_id}?`,
                     body: payload,
                 });
                 return await apiClient.toReadableResponse("complete", response);
@@ -41,7 +41,7 @@ export const useUserFollowerStore = defineStore("user-follower", {
         async check(payload: UserFollowerPayload) {
             try {
                 const response = await apiClient.get({
-                    route: `post/api/user/follower/check/${payload.user_id}`,
+                    route: `post/user/follower/check/${payload.user_id}`,
                     body: payload,
                 });
                 return await apiClient.toReadableResponse("complete", response);
@@ -54,7 +54,7 @@ export const useUserFollowerStore = defineStore("user-follower", {
             try {
                 const parameters = apiClient.toURLSearchParams(payload);
                 const response = await apiClient.get({
-                    route: `post/api/user/follower?${parameters}`,
+                    route: `post/user/follower?${parameters}`,
                     body: payload,
                 });
                 return await apiClient.toReadableResponse("complete", response);

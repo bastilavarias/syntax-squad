@@ -20,7 +20,7 @@ export const usePostCommentStore = defineStore("post-comment", {
         async create(payload: CreatePostCommentPayload) {
             try {
                 const response = await apiClient.post({
-                    route: "post/api/comment",
+                    route: "post/comment",
                     body: payload,
                 });
                 return await apiClient.toReadableResponse("complete", response);
@@ -33,7 +33,7 @@ export const usePostCommentStore = defineStore("post-comment", {
             try {
                 const parameters = apiClient.toURLSearchParams(payload);
                 const response = await apiClient.get({
-                    route: `post/api/comment?${parameters}`,
+                    route: `post/comment?${parameters}`,
                 });
                 return await apiClient.toReadableResponse("complete", response);
             } catch (e) {
