@@ -1,6 +1,6 @@
 FROM node:22.2-alpine
 
-WORKDIR /usr/src/app/syntax-squad/auth-service
+WORKDIR /usr/src/app/syntax-squad/chat-service
 
 COPY package*.json ./
 
@@ -10,4 +10,4 @@ COPY . .
 
 EXPOSE 3001
 
-CMD ["npm", "start"]
+CMD ["npm", "run", "start"]
