@@ -30,8 +30,8 @@ COPY . /var/www/post-service
 
 COPY --chown=www-data:www-data . /var/www/post-service
 
-RUN sudo chown -R storage
-RUN sudo chown -R bootstrap/cache
+RUN chown -R storage
+RUN chown -R bootstrap/cache
 RUN chmod -R 775 storage
 RUN chmod -R 775 bootstrap/cache
 
