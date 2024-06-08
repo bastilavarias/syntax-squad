@@ -30,8 +30,8 @@ COPY . /var/www/post-service
 
 COPY --chown=www-data:www-data . /var/www/post-service
 
-RUN chmod -R 775 storage bootstrap/cache
-RUN chmod -R ugo+rw storage bootstrap/cache
+RUN chmod -R 775 /var/www/post-service/storage
+RUN chmod -R 775 /var/www/post-service/bootstrap/cache
 
 EXPOSE 9000
 CMD ["php-fpm"]
