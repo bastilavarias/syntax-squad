@@ -19,7 +19,7 @@ services:
       - ./post-service:/var/www/post-service
       - ./.docker/nginx:/etc/nginx/conf.d
       - ./.docker/nginx/log:/var/log/nginx
-      - ./.docker/nginx/letsencrypt:/etc/letsencrypt
+      - ./.docker/nginx/certbot/conf:/etc/letsencrypt
       - ./.docker/nginx/certbot/www:/var/www/certbot
     networks:
       - app-network
@@ -28,7 +28,7 @@ services:
     image: certbot/certbot
     container_name: certbot
     volumes:
-      - ./.docker/nginx/letsencrypt:/etc/letsencrypt
+      - ./.docker/nginx/certbot/conf:/etc/letsencrypt
       - ./.docker/nginx/certbot/www:/var/www/certbot
     command: "certonly --webroot -w /var/www/certbot --force-renewal --email sebastiancurtislavarias@gmail.com -d syntaxsquad.site --agree-tos"
 
