@@ -35,7 +35,7 @@ services:
   auth-service:
     build:
       context: ./auth-service
-      dockerfile: prod.Dockerfile
+      dockerfile: Dockerfile
     container_name: auth-service
     env_file:
       - ./auth-service/.env
@@ -52,7 +52,7 @@ services:
   chat-service:
     build:
       context: ./chat-service
-      dockerfile: prod.Dockerfile
+      dockerfile: Dockerfile
     container_name: chat-service
     env_file:
       - ./chat-service/.env
@@ -69,7 +69,7 @@ services:
   post-service:
     build:
       context: ./post-service
-      dockerfile: prod.Dockerfile
+      dockerfile: Dockerfile
     container_name: post-service
     restart: unless-stopped
     tty: true
