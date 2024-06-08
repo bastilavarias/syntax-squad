@@ -16,7 +16,7 @@ services:
       - auth-service
     volumes:
       - ./post-service:/var/www/post-service
-      - ./.docker/nginx/local.conf:/etc/nginx/conf.d
+      - ./.docker/nginx/conf/local:/etc/nginx/conf.d
       - ./.docker/nginx/log:/var/log/nginx
     networks:
       - app-network

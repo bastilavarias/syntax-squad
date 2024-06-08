@@ -10,21 +10,32 @@ services:
       - "80:80"
       - "443:443"
     depends_on:
+      - certbot
       - database
       - post-service
       - chat-service
       - auth-service
     volumes:
       - ./post-service:/var/www/post-service
-      - ./.docker/nginx/local.conf:/etc/nginx/conf.d
+      - ./.docker/nginx/conf/production:/etc/nginx/conf.d
       - ./.docker/nginx/log:/var/log/nginx
+      - ./.docker/nginx/certbot/conf:/etc/letsencrypt
+      - ./.docker/nginx/certbot/www:/var/www/certbot
     networks:
       - app-network
+
+  certbot:
+    image: certbot/certbot
+    container_name: certbot
+    volumes:
+      - ./.docker/nginx/certbot/conf:/etc/letsencrypt
+      - ./.docker/nginx/certbot/www:/var/www/certbot
+    entrypoint: /bin/sh -c 'trap exit TERM; while :; do certbot renew --webroot -w /var/www/certbot --quiet --deploy-hook "docker exec server -s reload"; sleep 12h & wait $${!}; done;'
 
   auth-service:
     build:
       context: ./auth-service
-      dockerfile: Dockerfile
+      dockerfile: prod.Dockerfile
     container_name: auth-service
     env_file:
       - ./auth-service/.env
@@ -41,7 +52,7 @@ services:
   chat-service:
     build:
       context: ./chat-service
-      dockerfile: Dockerfile
+      dockerfile: prod.Dockerfile
     container_name: chat-service
     env_file:
       - ./chat-service/.env
@@ -58,7 +69,7 @@ services:
   post-service:
     build:
       context: ./post-service
-      dockerfile: Dockerfile
+      dockerfile: prod.Dockerfile
     container_name: post-service
     restart: unless-stopped
     tty: true
@@ -79,11 +90,8 @@ services:
     tty: true
     ports:
       - "5506:3306"
-    environment:
-      MYSQL_DATABASE: syntax_squad
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_USER: laravel
-      MYSQL_PASSWORD: password
+    env_file:
+      - ./.env.database
     volumes:
       - database-data:/var/lib/mysql/
     networks:

@@ -10,4 +10,4 @@ COPY . .
 
 EXPOSE 3001
 
-CMD [ "npm", "run", "dev"]
+CMD ["sh", "-c", "if [ \"$NODE_ENV\" = \"production\" ]; then npm run start; else npm run dev; fi"]
