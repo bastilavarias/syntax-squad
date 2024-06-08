@@ -27,7 +27,7 @@ services:
     image: certbot/certbot
     container_name: certbot
     volumes:
-      - ./.docker/nginx/certbot/conf:/etc/letsencrypt
+      - ./.docker/nginx/letsencrypt/conf:/etc/letsencrypt
       - ./.docker/nginx/certbot/www:/var/www/certbot
     command: "certonly --webroot -w /var/www/certbot --force-renewal --email sebastiancurtislavarias@gmail.com -d syntaxsquad.site --agree-tos"
 
