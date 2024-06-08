@@ -5,12 +5,7 @@ export const state = reactive({
     connected: false,
 });
 
-const URL =
-    process.env.NODE_ENV === "production"
-        ? undefined
-        : import.meta.env.VITE_BASE_API_ENDPOINT;
-
-export const socket = io(URL, {
+export const socket = io(import.meta.env.VITE_BASE_API_ENDPOINT, {
     reconnection: true,
     autoConnect: false,
 });

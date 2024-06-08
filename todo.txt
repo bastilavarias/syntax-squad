@@ -1,5 +1,4 @@
 // TODO Mobile responsiveness enhancement.
-// TODO Setup the files for deployment (DockerFile, DockerComposeEnvironments).
 // TODO Delete post
-// TODO Make a way to use the api-gateway
 // TODO Test why laravel is slow in development
+// TODO fix auth-service token checker and chat service socket io not connecting in production
