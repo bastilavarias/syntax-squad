@@ -20,7 +20,7 @@ const loading = ref(true);
 const roomsIdentifier = ref(0);
 
 const authuser = computed(() =>
-    authStore.isAuthenticated ? authStore.user : null
+    authStore.isAuthenticated ? authStore.user : null,
 );
 
 const roomContents = computed(() => chatStore.room.value);
@@ -31,7 +31,7 @@ watch(
         if (socketState.connected) {
             establishSocketListener();
         }
-    }
+    },
 );
 
 const getRooms = async ($state) => {
@@ -66,7 +66,7 @@ const establishSocketListener = () => {
             [...chatStore.room.value].map((room) => room.id).includes(data.id)
         ) {
             chatStore.room.value = chatStore.room.value.filter(
-                (room) => room.id !== data.id
+                (room) => room.id !== data.id,
             );
         }
         chatStore.room.value = [data, ...chatStore.room.value];
@@ -99,7 +99,7 @@ onUnmounted(() => {
             </CardTitle>
         </CardHeader>
         <CardContent class="h-[92%]">
-            <ScrollArea class="h-full">
+            <ScrollArea class="h-full pt-3">
                 <div class="space-y-3">
                     <template
                         v-for="(room, index) in roomContents"
@@ -116,7 +116,7 @@ onUnmounted(() => {
                     <template #spinner>
                         <div class="flex flex-col items-center">
                             <img
-                                class="w-auto h-40"
+                                class="w-auto h-20 md:h-40"
                                 src="/nyan-cat.gif"
                                 alt="Auth GIF"
                             />

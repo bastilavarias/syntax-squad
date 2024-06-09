@@ -10,7 +10,7 @@ import {
     TagsInputInput,
     TagsInputItem,
     TagsInputItemDelete,
-    TagsInputItemText
+    TagsInputItemText,
 } from "@/components/ui/tags-input";
 import { computed, ref, watch } from "vue";
 import CardFooter from "@/components/ui/card/CardFooter.vue";
@@ -38,7 +38,7 @@ const defaultForm = {
     tags: [],
     is_draft: 0,
     cover_image: null,
-    cover_image_url: null
+    cover_image_url: null,
 };
 const form = ref(Object.assign({}, defaultForm));
 const error = ref(null);
@@ -50,32 +50,32 @@ const isUploadedCoverImageShow = ref(false);
 const isDraftPost = ref(null);
 
 const user = computed(() =>
-    authStore.isAuthenticated ? authStore.user : null
+    authStore.isAuthenticated ? authStore.user : null,
 );
 const formTitle = computed(() =>
-    operation.value === "new" ? "Create new Post" : "Edit Post"
+    operation.value === "new" ? "Create new Post" : "Edit Post",
 );
 const showPublishButton = computed(
-    () => operation.value === "new" || isDraftPost.value
+    () => operation.value === "new" || isDraftPost.value,
 );
 const showUpdateButton = computed(
-    () => operation.value === "edit" && !isDraftPost.value
+    () => operation.value === "edit" && !isDraftPost.value,
 );
 const coverImageInputLabel = computed(() =>
-    operation.value === "new" ? "Cover Image" : "New Cover Image"
+    operation.value === "new" ? "Cover Image" : "New Cover Image",
 );
 
 watch(
     () => route.params.operation,
     () => {
         window.location.reload();
-    }
+    },
 );
 watch(
     () => route.query.postID,
     () => {
         window.location.reload();
-    }
+    },
 );
 
 const onFileInputChange = (event: Element) => {
@@ -89,18 +89,18 @@ const onCreate = async () => {
     const payload: CreatePostPayload = {
         ...form.value,
         content: JSON.stringify(form.value.content),
-        is_draft: 0
+        is_draft: 0,
     };
     const result = await postStore.create(payload);
     if (result.success) {
         toast({
             title: "Post successfully published",
             description:
-                "Congratulations! Your post has been successfully published and is now viewable to the public. You will be redirected to your post shortly."
+                "Congratulations! Your post has been successfully published and is now viewable to the public. You will be redirected to your post shortly.",
         });
         await router.push({
             name: "view-post-page",
-            params: { username: user.value.username, slug: result.data.slug }
+            params: { username: user.value.username, slug: result.data.slug },
         });
 
         return;
@@ -121,8 +121,8 @@ const getPost = async () => {
                 title: post.title,
                 content: new Delta(JSON.parse(post.content.value)),
                 cover_image_url: post.cover_image_url,
-                tags: post.tags.map((tag) => tag.name)
-            }
+                tags: post.tags.map((tag) => tag.name),
+            },
         );
         isDraftPost.value = post.is_draft || null;
         postDetailsLoading.value = false;
@@ -130,14 +130,14 @@ const getPost = async () => {
     }
     toast({
         title: "Something went wrong.",
-        description: result.message
+        description: result.message,
     });
 };
 const checkIfAuthor = async (authorID) => {
     if (authorID !== user.value.id) {
         toast({
             title: "Something went wrong.",
-            description: `You're not allowed to access this resource.`
+            description: `You're not allowed to access this resource.`,
         });
         await router.push({ name: "home-page" });
     }
@@ -149,18 +149,18 @@ const onUpdate = async () => {
         content: JSON.stringify(form.value.content),
         _method: "PUT",
         post_id: postID.value,
-        is_draft: 0
+        is_draft: 0,
     };
     const result = await postStore.update(payload);
     if (result.success) {
         toast({
             title: "Post successfully updated",
             description:
-                "Congratulations! Your post has been successfully updated. You will be redirected to your post shortly."
+                "Congratulations! Your post has been successfully updated. You will be redirected to your post shortly.",
         });
         await router.push({
             name: "view-post-page",
-            params: { username: user.value.username, slug: result.data.slug }
+            params: { username: user.value.username, slug: result.data.slug },
         });
 
         return;
@@ -173,7 +173,7 @@ const onSaveDraft = async () => {
     const payload = {
         ...form.value,
         content: JSON.stringify(form.value.content),
-        is_draft: 1
+        is_draft: 1,
     };
     let result;
     if (postID.value && operation.value === "edit") {
@@ -186,7 +186,7 @@ const onSaveDraft = async () => {
     if (result.success) {
         toast({
             title: "Post successfully drafted",
-            description: "Your post has been successfully drafted."
+            description: "Your post has been successfully drafted.",
         });
         window.location.reload();
         return;
@@ -207,7 +207,7 @@ if (postID.value) {
                 <template v-if="postDetailsLoading">
                     <div class="flex flex-col items-center">
                         <img
-                            class="w-auto h-40"
+                            class="w-auto h-20 md:h-40"
                             src="/nyan-cat.gif"
                             alt="Auth GIF"
                         />
@@ -215,36 +215,36 @@ if (postID.value) {
                 </template>
                 <template v-else>
                     <main class="relative space-y-3">
-                        <Alert>
+                        <Alert
+                            class="rounded-none shadow-none border-0 md:rounded-lg md:shadow-sm md:border"
+                        >
                             <ServerOffIcon class="w-4 h-4" />
                             <AlertTitle
-                            >Hey! Just a friendly reminder... 👮
-                            </AlertTitle
-                            >
+                                >Hey! Just a friendly reminder... 👮
+                            </AlertTitle>
                             <AlertDescription>
                                 Due to limited server resources, you are only
                                 permitted to publish one post per day. Please
                                 refrain from spamming and ensure that each post
-                                respects the content payload size limit of 3MB. If
-                                you'd like to contribute to upgrading our server,
-                                you can donate here to help improve our services.
+                                respects the content payload size limit of 3MB.
                             </AlertDescription>
                         </Alert>
-                        <Card class="bg-white">
+                        <Card
+                            class="bg-white rounded-none shadow-none border-0 md:rounded-lg md:shadow-sm md:border"
+                        >
                             <CardHeader>
                                 <CardTitle class="flex justify-between">
                                     {{ formTitle }}
                                     <Badge
                                         :variant="
-                                        isDraftPost ? 'outline' : 'default'
-                                    "
+                                            isDraftPost ? 'outline' : 'default'
+                                        "
                                         class="tracking-wide"
                                         v-if="operation === 'edit'"
                                     >
                                         <template v-if="isDraftPost"
-                                        >Unpublished
-                                        </template
-                                        >
+                                            >Unpublished
+                                        </template>
                                         <template v-else>Published</template>
                                     </Badge>
                                 </CardTitle>
@@ -253,8 +253,12 @@ if (postID.value) {
                                 <div class="grid items-center w-full gap-4">
                                     <template v-if="!!error">
                                         <Alert variant="destructive">
-                                            <TriangleAlertIcon class="w-4 h-4" />
-                                            <AlertTitle>Request Error</AlertTitle>
+                                            <TriangleAlertIcon
+                                                class="w-4 h-4"
+                                            />
+                                            <AlertTitle
+                                                >Request Error</AlertTitle
+                                            >
                                             <AlertDescription>
                                                 {{ error }}
                                             </AlertDescription>
@@ -270,8 +274,8 @@ if (postID.value) {
                                     </div>
                                     <div class="flex flex-col space-y-1.5">
                                         <Label for="picture">{{
-                                                coverImageInputLabel
-                                            }}</Label>
+                                            coverImageInputLabel
+                                        }}</Label>
                                         <Input
                                             id="picture"
                                             type="file"
@@ -284,10 +288,10 @@ if (postID.value) {
                                                 <small
                                                     class="underline text-blue-600 cursor-pointer"
                                                     @click="
-                                                    isUploadedCoverImageShow =
-                                                        !isUploadedCoverImageShow
-                                                "
-                                                >{{
+                                                        isUploadedCoverImageShow =
+                                                            !isUploadedCoverImageShow
+                                                    "
+                                                    >{{
                                                         isUploadedCoverImageShow
                                                             ? "Hide"
                                                             : "Show"
@@ -321,7 +325,9 @@ if (postID.value) {
                                     <div>
                                         <Label for="tags">Content</Label>
                                         <div class="pt-2"></div>
-                                        <CustomTextEditor v-model="form.content" />
+                                        <CustomTextEditor
+                                            v-model="form.content"
+                                        />
                                     </div>
                                 </div>
                             </CardContent>
@@ -337,8 +343,7 @@ if (postID.value) {
                                         />
                                     </template>
                                     Publish
-                                </Button
-                                >
+                                </Button>
                                 <Button
                                     :disabled="formLoading"
                                     @click="onUpdate"
@@ -350,8 +355,7 @@ if (postID.value) {
                                         />
                                     </template>
                                     Update post
-                                </Button
-                                >
+                                </Button>
                                 <Button
                                     variant="ghost"
                                     :disabled="formLoading"
@@ -361,18 +365,16 @@ if (postID.value) {
                                         <CustomLoadingSpinner
                                             class="mr-2 w-4 h-4"
                                         />
-                                    </template
-                                    >
+                                    </template>
                                     Save as Draft
-                                </Button
-                                >
+                                </Button>
                             </CardFooter>
                         </Card>
                     </main>
                 </template>
             </div>
-            <div class="col-span-12 lg:col-span-5 xl:col-span-4 max-lg:mt-3 flex flex-col gap-y-4">
-                <SelfPostListCard class="max-lg:hidden" />
+            <div class="hidden md:flex md:col-span-4 flex-col gap-y-4">
+                <SelfPostListCard />
                 <PostingGuideCard />
             </div>
         </div>

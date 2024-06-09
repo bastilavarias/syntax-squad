@@ -38,7 +38,11 @@ onLogin();
 <template>
     <div class="h-screen flex flex-col justify-center items-center">
         <div class="flex flex-col items-center">
-            <img class="w-auto h-40" src="/nyan-cat.gif" alt="Auth GIF" />
+            <img
+                class="w-auto h-20 md:h-40"
+                src="/nyan-cat.gif"
+                alt="Auth GIF"
+            />
         </div>
     </div>
 </template>

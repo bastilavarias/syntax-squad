@@ -160,7 +160,7 @@ const onCreateComment = async () => {
             <template #spinner>
                 <div class="flex flex-col items-center">
                     <img
-                        class="w-auto h-40"
+                        class="w-auto h-20 md:h-40"
                         src="/nyan-cat.gif"
                         alt="Auth GIF"
                     />

@@ -3,9 +3,9 @@
 namespace App\Services;
 
 use App\Models\Post;
-use App\Models\User;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Exception;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
@@ -13,6 +13,10 @@ class PostService
 {
     public function create($payload)
     {
+        $hasPostToday = Post::where("user_id", $payload["auth_user"]["id"])->whereDate('created_at', Carbon::today())->first();
+        if (!empty($hasPostToday)) {
+            throw new Exception('Try again tomorrow, spammer!');
+        }
         $post = Post::create([
             "user_id" => $payload["auth_user"]["id"],
             "title" => $payload["title"],

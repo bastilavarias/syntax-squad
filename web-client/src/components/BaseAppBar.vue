@@ -28,7 +28,7 @@ watch(
         if (value) {
             keyword.value = value;
         }
-    }
+    },
 );
 
 const toggleMobileSearch = () => {
@@ -50,13 +50,11 @@ const onOpenGithub0auth = () => {
 if (route.query.keyword) {
     keyword.value = route.query.keyword;
 }
-
-
 </script>
 
 <template>
     <header
-        class="fixed w-screen min-h-14 flex flex-col z-20 top-0 bg-background/80 backdrop-blur-lg border-b border-border"
+        class="fixed w-screen h-14 flex flex-col z-20 top-0 bg-background/80 backdrop-blur-lg border-b border-border"
     >
         <div class="px-4 lg:container flex items-center h-14 gap-x-2">
             <BaseSidebar />
@@ -65,7 +63,11 @@ if (route.query.keyword) {
 
                 <Search @click="toggleMobileSearch" class="lg:hidden" />
                 <div class="max-lg:hidden md:w-40 lg:w-64">
-                    <SearchBar ref="mobileSearch" @go-search="goToSearchPage" v-model="keyword"></SearchBar>
+                    <SearchBar
+                        ref="mobileSearch"
+                        @go-search="goToSearchPage"
+                        v-model="keyword"
+                    ></SearchBar>
                 </div>
             </nav>
             <nav class="flex items-center gap-x-2 ml-auto">
@@ -81,8 +83,7 @@ if (route.query.keyword) {
                     <GithubIcon class="mr-2" />
                     Login
                     <span class="max-lg:hidden">&nbsp;via GitHub</span>
-                </Button
-                >
+                </Button>
                 <template v-if="authStore.isAuthenticated">
                     <Button variant="outline" as-child>
                         <router-link
@@ -92,7 +93,9 @@ if (route.query.keyword) {
                             }"
                         >
                             <PlusIcon />
-                            <span class="max-sm:hidden ml-1">Create&nbsp;Post</span>
+                            <span class="max-sm:hidden ml-1"
+                                >Create&nbsp;Post</span
+                            >
                         </router-link>
                     </Button>
                     <BaseUserMenuDropdown />
@@ -100,7 +103,11 @@ if (route.query.keyword) {
             </nav>
         </div>
         <div v-if="showMobileSearch" class="px-4 pb-2 w-full lg:hidden">
-            <SearchBar ref="mobileSearch" @go-search="goToSearchPage" v-model="keyword"></SearchBar>
+            <SearchBar
+                ref="mobileSearch"
+                @go-search="goToSearchPage"
+                v-model="keyword"
+            ></SearchBar>
         </div>
     </header>
 </template>

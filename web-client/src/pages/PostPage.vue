@@ -39,13 +39,13 @@ const isEngagementSidebarComponentReady = ref(false);
 const slug = computed(() => route.params.slug);
 const isPageReady = computed(
     () =>
-        post.value && isEngagementSidebarComponentReady.value && !loading.value
+        post.value && isEngagementSidebarComponentReady.value && !loading.value,
 );
 const user = computed(() =>
-    authStore.isAuthenticated ? authStore.user : null
+    authStore.isAuthenticated ? authStore.user : null,
 );
 const isSelf = computed(() =>
-    authStore.isAuthenticated ? post.value.user.id === user.value.id : false
+    authStore.isAuthenticated ? post.value.user.id === user.value.id : false,
 );
 
 watch(
@@ -54,7 +54,7 @@ watch(
         isEngagementSidebarComponentReady.value = false;
         await getPost();
         isEngagementSidebarComponentReady.value = true;
-    }
+    },
 );
 
 const getPost = async () => {
@@ -106,7 +106,11 @@ if (slug) {
     >
         <template v-if="!isPageReady">
             <div class="flex justify-center w-full">
-                <img class="w-auto h-40" src="/nyan-cat.gif" alt="Auth GIF" />
+                <img
+                    class="w-auto h-20 md:h-40"
+                    src="/nyan-cat.gif"
+                    alt="Auth GIF"
+                />
             </div>
         </template>
         <div
@@ -128,7 +132,11 @@ if (slug) {
         <template v-if="isPageReady">
             <div class="md:w-8/12">
                 <main class="relative md:pb-10">
-                    <Card :class="cn('rounded-none md:rounded-lg', $attrs.class ?? '')">
+                    <Card
+                        :class="
+                            cn('rounded-none md:rounded-lg', $attrs.class ?? '')
+                        "
+                    >
                         <img
                             class="w-full h-80 object-cover"
                             :src="post.cover_image_url"

@@ -12,7 +12,6 @@ import InfiniteLoading from "v3-infinite-loading";
 import "v3-infinite-loading/lib/style.css";
 import PageContainer from "@/components/PageContainer.vue";
 
-
 const postStore = usePostStore();
 const { toast } = useToast();
 const router = useRouter();
@@ -29,7 +28,7 @@ watch(
     async (value) => {
         resetPosts();
         await router.push({ name: "home-page", query: { sort: value } });
-    }
+    },
 );
 
 const getPosts = async ($state) => {
@@ -37,7 +36,7 @@ const getPosts = async ($state) => {
         page: postStore.content.page,
         per_page: postStore.content.perPage,
         sort_by: sortBy.value,
-        is_draft: 0
+        is_draft: 0,
     };
     loading.value = true;
     const result = await postStore.list(payload);
@@ -57,7 +56,7 @@ const getPosts = async ($state) => {
     toast({
         variant: "destructive",
         title: "Server error.",
-        description: result.message
+        description: result.message,
     });
 };
 const resetPosts = () => {
@@ -77,7 +76,10 @@ const resetPosts = () => {
             <div class="col-span-12 md:col-span-7 lg:col-span-6">
                 <main class="relative md:pb-10">
                     <div class="md:space-y-3">
-                        <CustomSortBySelect class="mb-3" v-model="sortBy" />
+                        <CustomSortBySelect
+                            class="mb-3 mt-5 ml-2 md:ml-0"
+                            v-model="sortBy"
+                        />
                         <template
                             v-for="(post, index) in postContents"
                             :key="index"
@@ -92,17 +94,20 @@ const resetPosts = () => {
                             <template #spinner>
                                 <div class="flex flex-col items-center">
                                     <img
-                                        class="w-auto h-40"
+                                        class="w-auto h-20 md:h-40"
                                         src="/nyan-cat.gif"
                                         alt="Auth GIF"
                                     />
                                 </div>
                             </template>
                             <template #complete>
-                                <div class=" hidden md:flex flex-col items-center">
-                                <span class="text-muted-foreground text-xs"
-                                >End of SyntaxSquad community posts.</span
+                                <div
+                                    class="hidden md:flex flex-col items-center"
                                 >
+                                    <span class="text-muted-foreground text-xs"
+                                        >End of SyntaxSquad community
+                                        posts.</span
+                                    >
                                 </div>
                             </template>
                         </InfiniteLoading>

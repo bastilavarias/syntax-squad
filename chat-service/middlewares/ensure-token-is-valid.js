@@ -10,14 +10,14 @@ const ensureTokenIsValid = () => async (request, response, next) => {
         );
     }
     try {
-        const apiGatewayEndpoint = `${process.env.API_GATEWAY_ENDPOINT}`;
         const result = await superagent
-            .get(`${apiGatewayEndpoint}/api/auth/check`)
+            .get(`${process.env.API_GATEWAY_ENDPOINT}/api/auth/check`)
             .set("Authorization", token)
             .set("user-agent", "node-js");
         request.user = result.body.data.user;
         next();
     } catch (error) {
+        console.log(error);
         return response.formatter.unauthorized(error);
     }
 };

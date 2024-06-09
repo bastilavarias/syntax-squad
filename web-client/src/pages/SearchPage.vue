@@ -30,7 +30,7 @@ watch(
     () => keyword.value,
     () => {
         resetPosts();
-    }
+    },
 );
 
 const getPosts = async ($state) => {
@@ -39,7 +39,7 @@ const getPosts = async ($state) => {
         page: page.value,
         per_page: perPage.value,
         sort_by: sortBy.value,
-        is_draft: 0
+        is_draft: 0,
     };
     loading.value = true;
     const result = await postStore.list(payload);
@@ -59,7 +59,7 @@ const getPosts = async ($state) => {
     toast({
         variant: "destructive",
         title: "Server error.",
-        description: result.message
+        description: result.message,
     });
 };
 const resetPosts = () => {
@@ -81,54 +81,53 @@ onBeforeMount(() => {
         <div class="grid grid-cols-12 md:gap-5">
             <div class="col-span-12 md:col-span-7 lg:col-span-8">
                 <main class="flex flex-col gap-y-3 relative pb-10">
-                        <Tabs default-value="posts" class="w-full">
-                            <TabsList>
-                                <TabsTrigger value="posts">
-                                    Posts related to
-                                    {{
-                                        customComposable.limitString(keyword, 30)
-                                    }}
-                                </TabsTrigger
+                    <Tabs default-value="posts" class="w-full">
+                        <TabsList>
+                            <TabsTrigger value="posts">
+                                Posts related to
+                                {{ customComposable.limitString(keyword, 30) }}
+                            </TabsTrigger>
+                        </TabsList>
+                        <TabsContent value="posts">
+                            <div class="space-y-3">
+                                <template
+                                    v-for="(post, index) in posts"
+                                    :key="index"
                                 >
-                            </TabsList>
-                            <TabsContent value="posts">
-                                <div class="space-y-3">
-                                    <template
-                                        v-for="(post, index) in posts"
-                                        :key="index"
-                                    >
-                                        <PostItemCard :post="post" />
+                                    <PostItemCard :post="post" />
+                                </template>
+                                <InfiniteLoading
+                                    class="pt-5"
+                                    :identifier="postsIdentifier"
+                                    @infinite="getPosts"
+                                >
+                                    <template #spinner>
+                                        <div class="flex flex-col items-center">
+                                            <img
+                                                class="w-auto h-20 md:h-40"
+                                                src="/nyan-cat.gif"
+                                                alt="Auth GIF"
+                                            />
+                                        </div>
                                     </template>
-                                    <InfiniteLoading
-                                        class="pt-5"
-                                        :identifier="postsIdentifier"
-                                        @infinite="getPosts"
-                                    >
-                                        <template #spinner>
-                                            <div class="flex flex-col items-center">
-                                                <img
-                                                    class="w-auto h-40"
-                                                    src="/nyan-cat.gif"
-                                                    alt="Auth GIF"
-                                                />
-                                            </div>
-                                        </template>
-                                        <template #complete>
-                                            <div class="flex flex-col items-center">
+                                    <template #complete>
+                                        <div class="flex flex-col items-center">
                                             <span
                                                 class="text-muted-foreground text-xs"
-                                            >End of SyntaxSquad searched
+                                                >End of SyntaxSquad searched
                                                 posts.</span
                                             >
-                                            </div>
-                                        </template>
-                                    </InfiniteLoading>
-                                </div>
-                            </TabsContent>
-                        </Tabs>
+                                        </div>
+                                    </template>
+                                </InfiniteLoading>
+                            </div>
+                        </TabsContent>
+                    </Tabs>
                 </main>
             </div>
-            <div class="max-md:hidden flex flex-col gap-y-5 col-span-5 lg:col-span-4">
+            <div
+                class="max-md:hidden flex flex-col gap-y-5 col-span-5 lg:col-span-4"
+            >
                 <RecentPostsCard />
                 <SyntaxSquadAboutCard />
             </div>

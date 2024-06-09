@@ -11,8 +11,8 @@ import PageContainer from "@/components/PageContainer.vue";
             <div class="col-span-2 max-lg:hidden">
                 <CustomSideBar />
             </div>
-            <div class="col-span-12 lg:col-span-6">
-                <main class="relative pb-10 h-full">
+            <div class="col-span-12 lg:col-span-6 bg-black">
+                <main class="relative">
                     <RouterView />
                 </main>
             </div>
