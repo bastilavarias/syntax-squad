@@ -214,7 +214,7 @@ if (postID.value) {
                     </div>
                 </template>
                 <template v-else>
-                    <main class="relative space-y-3">
+                    <div class="relative space-y-3">
                         <Alert
                             class="rounded-none shadow-none border-0 md:rounded-lg md:shadow-sm md:border"
                         >
@@ -370,7 +370,7 @@ if (postID.value) {
                                 </Button>
                             </CardFooter>
                         </Card>
-                    </main>
+                    </div>
                 </template>
             </div>
             <div class="hidden md:flex md:col-span-4 flex-col gap-y-4">

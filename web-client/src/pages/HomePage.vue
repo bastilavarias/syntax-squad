@@ -74,7 +74,7 @@ const resetPosts = () => {
                 <CustomSideBar />
             </div>
             <div class="col-span-12 md:col-span-7 lg:col-span-6">
-                <main class="relative md:pb-10">
+                <div class="relative md:pb-10">
                     <div class="md:space-y-3">
                         <CustomSortBySelect
                             class="mb-3 mt-5 ml-2 md:ml-0"
@@ -112,7 +112,7 @@ const resetPosts = () => {
                             </template>
                         </InfiniteLoading>
                     </div>
-                </main>
+                </div>
             </div>
             <div class="col-span-5 lg:col-span-4 max-lg:hidden">
                 <div class="space-y-5">

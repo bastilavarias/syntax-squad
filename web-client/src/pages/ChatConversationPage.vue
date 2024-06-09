@@ -39,15 +39,15 @@ const inputElement = ref(null);
 const roomInfoLoading = ref(false);
 
 const authuser = computed(() =>
-    authStore.isAuthenticated ? authStore.user : null
+    authStore.isAuthenticated ? authStore.user : null,
 );
 const roomID = computed(() => route.params.roomID);
 const otherMember = computed(
     () =>
         room.value &&
         room.value.members.filter(
-            (member) => member.user_id !== authuser.value.id
-        )[0]
+            (member) => member.user_id !== authuser.value.id,
+        )[0],
 );
 
 watch(
@@ -56,7 +56,7 @@ watch(
         if (socketState.connected) {
             establishSocketListener();
         }
-    }
+    },
 );
 
 const getMessages = async ($state) => {
@@ -164,7 +164,9 @@ onBeforeMount(async () => {
 </script>
 
 <template>
-    <Card class="h-full relative">
+    <Card
+        class="h-full relative rounded-none shadow-none border-0 md:rounded-lg md:shadow-sm md:border"
+    >
         <div class="h-[10%] px-6 flex items-center justify-between">
             <div class="flex items-center justify-between">
                 <template v-if="roomInfoLoading && !room">

@@ -80,7 +80,7 @@ onBeforeMount(() => {
     <PageContainer>
         <div class="grid grid-cols-12 md:gap-5">
             <div class="col-span-12 md:col-span-7 lg:col-span-8">
-                <main class="flex flex-col gap-y-3 relative pb-10">
+                <div class="flex flex-col gap-y-3 relative pb-10">
                     <Tabs default-value="posts" class="w-full">
                         <TabsList>
                             <TabsTrigger value="posts">
@@ -123,7 +123,7 @@ onBeforeMount(() => {
                             </div>
                         </TabsContent>
                     </Tabs>
-                </main>
+                </div>
             </div>
             <div
                 class="max-md:hidden flex flex-col gap-y-5 col-span-5 lg:col-span-4"

@@ -310,11 +310,11 @@ getUser();
             </template>
             <template v-else>
                 <div class="col-span-12 md:col-span-7 lg:col-span-8">
-                    <main
+                    <div
                         class="max-lg:w-full flex flex-col gap-y-3 relative pb-10"
                     >
                         <div
-                            class="flex items-center justify-between space-x-4"
+                            class="flex items-center justify-between space-x-4 p-5 md:p-0"
                         >
                             <div class="flex items-center space-x-4">
                                 <Avatar
@@ -578,7 +578,7 @@ getUser();
                                 </div>
                             </TabsContent>
                         </Tabs>
-                    </main>
+                    </div>
                 </div>
                 <div
                     class="max-md:hidden flex flex-col gap-y-5 col-span-5 lg:col-span-4"

@@ -91,7 +91,9 @@ onUnmounted(() => {
 </script>
 
 <template>
-    <Card class="h-full">
+    <Card
+        class="h-full rounded-none shadow-none border-0 md:rounded-lg md:shadow-sm md:border"
+    >
         <CardHeader class="h-[8%]">
             <CardTitle class="flex justify-between"
                 ><span>Chats</span>

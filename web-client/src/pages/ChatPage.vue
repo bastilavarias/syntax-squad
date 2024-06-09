@@ -7,14 +7,12 @@ import PageContainer from "@/components/PageContainer.vue";
 
 <template>
     <PageContainer>
-        <div class="grid grid-cols-12 lg:gap-5">
+        <div class="grid grid-cols-12 lg:gap-5 h-full">
             <div class="col-span-2 max-lg:hidden">
                 <CustomSideBar />
             </div>
-            <div class="col-span-12 lg:col-span-6 bg-black">
-                <main class="relative">
-                    <RouterView />
-                </main>
+            <div class="col-span-12 lg:col-span-6 h-full">
+                <RouterView />
             </div>
             <div class="col-span-4 max-lg:hidden">
                 <div class="space-y-5">

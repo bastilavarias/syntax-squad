@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import BaseAppBar from "@/components/BaseAppBar.vue";
-import BaseSidebar from "@/components/BaseSidebar.vue";
 </script>
 
 <template>

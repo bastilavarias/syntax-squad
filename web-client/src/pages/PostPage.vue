@@ -131,7 +131,7 @@ if (slug) {
         </div>
         <template v-if="isPageReady">
             <div class="md:w-8/12">
-                <main class="relative md:pb-10">
+                <div class="relative md:pb-10">
                     <Card
                         :class="
                             cn('rounded-none md:rounded-lg', $attrs.class ?? '')
@@ -192,7 +192,7 @@ if (slug) {
                             <PostCommentSection :post-id="post.id" />
                         </CardContent>
                     </Card>
-                </main>
+                </div>
             </div>
             <div class="hidden md:block md:w-2/6">
                 <div class="space-y-5">
