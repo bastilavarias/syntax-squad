@@ -16,7 +16,9 @@ const customComposable = useCustomComposable();
             <div class="flex items-center space-x-2 lg:space-x-3">
                 <Avatar>
                     <AvatarImage :src="user.avatar_url" />
-                    <AvatarFallback>{{ user.name[0] }}</AvatarFallback>
+                    <AvatarFallback>{{
+                        user.name ? user.name[0] : user.username[0]
+                    }}</AvatarFallback>
                 </Avatar>
                 <div class="space-y-1">
                     <router-link
@@ -28,7 +30,12 @@ const customComposable = useCustomComposable();
                         <p
                             class="font-medium leading-none text-black hover:underline hover:cursor-pointer"
                         >
-                            {{ customComposable.limitString(user.name, 70) }}
+                            {{
+                                customComposable.limitString(
+                                    user.name || user.username,
+                                    70,
+                                )
+                            }}
                         </p>
                     </router-link>
                     <p class="text-xs text-muted-foreground">
@@ -37,10 +44,10 @@ const customComposable = useCustomComposable();
                         {{
                             isBefore(
                                 new Date(createdAt),
-                                subDays(new Date(), 3)
+                                subDays(new Date(), 3),
                             )
                                 ? `(${formatDistanceToNow(
-                                      new Date(createdAt)
+                                      new Date(createdAt),
                                   )})`
                                 : ""
                         }}

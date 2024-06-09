@@ -20,7 +20,7 @@ const getPosts = async () => {
         page: 1,
         per_page: 5,
         sort_by: "latest",
-        is_draft: 0
+        is_draft: 0,
     };
     const result = await postStore.list(payload);
     if (result.success) {
@@ -31,7 +31,7 @@ const getPosts = async () => {
     toast({
         variant: "destructive",
         title: "Server error.",
-        description: result.message
+        description: result.message,
     });
 };
 
@@ -60,17 +60,17 @@ getPosts();
                     </div>
                 </template>
                 <template v-for="(post, index) in posts" :key="index">
-                    <div class="flex gap-x-2" >
+                    <div class="flex gap-x-2">
                         <div class="flex flex-col gap-y-2">
                             <div class="flex flex-col space-y-1">
                                 <router-link
                                     :to="{
-                                    name: 'view-post-page',
-                                    params: {
-                                        username: post.user.username,
-                                        slug: post.slug,
-                                    },
-                                }"
+                                        name: 'view-post-page',
+                                        params: {
+                                            username: post.user.username,
+                                            slug: post.slug,
+                                        },
+                                    }"
                                 >
                                     <p
                                         class="max-lg:text-sm mr-1 font-medium leading-none hover:underline hover:cursor-pointer"
@@ -79,16 +79,18 @@ getPosts();
                                         {{
                                             customComposable.limitString(
                                                 post.title,
-                                                70
+                                                70,
                                             )
                                         }}
                                     </p>
                                 </router-link>
                                 <router-link
                                     :to="{
-                                    name: 'profile-page',
-                                    params: { username: post.user.username },
-                                }"
+                                        name: 'profile-page',
+                                        params: {
+                                            username: post.user.username,
+                                        },
+                                    }"
                                 >
                                     <p
                                         class="text-xs text-muted-foreground mr-1 leading-none hover:underline hover:cursor-pointer"
@@ -96,8 +98,9 @@ getPosts();
                                         by
                                         {{
                                             customComposable.limitString(
-                                                post.user.name,
-                                                70
+                                                post.user.name ||
+                                                    post.user.username,
+                                                70,
                                             )
                                         }}
                                     </p>
@@ -105,31 +108,31 @@ getPosts();
                             </div>
                             <div class="flex items-center justify-between">
                                 <div class="flex justify-start space-x-3">
-                                <span
-                                    class="flex items-center text-sm text-muted-foreground gap-1"
-                                >
-                                    <HeartIcon class="w-3 h-3" />
-                                    {{ post.reactions_count }}
-                                </span>
                                     <span
                                         class="flex items-center text-sm text-muted-foreground gap-1"
                                     >
-                                    <BookmarkIcon class="w-3 h-3" />
-                                    {{ post.bookmarks_count }}
-                                </span>
+                                        <HeartIcon class="w-3 h-3" />
+                                        {{ post.reactions_count }}
+                                    </span>
                                     <span
                                         class="flex items-center text-sm text-muted-foreground gap-1"
                                     >
-                                    <MessageCircleIcon class="w-3 h-3" />
-                                    {{ post.comments_count }}
-                                </span>
+                                        <BookmarkIcon class="w-3 h-3" />
+                                        {{ post.bookmarks_count }}
+                                    </span>
+                                    <span
+                                        class="flex items-center text-sm text-muted-foreground gap-1"
+                                    >
+                                        <MessageCircleIcon class="w-3 h-3" />
+                                        {{ post.comments_count }}
+                                    </span>
                                 </div>
-<!--                                <p class="text-xs text-muted-foreground"-->
-<!--                                  -->
-<!--                                >-->
-<!--                                    {{ formatDistanceToNowStrict(post.created_at, { addSuffix: false }) }} ago-->
-<!--                                </p-->
-<!--                                >-->
+                                <!--                                <p class="text-xs text-muted-foreground"-->
+                                <!--                                  -->
+                                <!--                                >-->
+                                <!--                                    {{ formatDistanceToNowStrict(post.created_at, { addSuffix: false }) }} ago-->
+                                <!--                                </p-->
+                                <!--                                >-->
                             </div>
                         </div>
                         <img

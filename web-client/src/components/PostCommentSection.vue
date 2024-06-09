@@ -78,6 +78,7 @@ const onCreateComment = async () => {
             title: "Comment successfully submitted!",
             description: "Your comment was successfully added to discussion.",
         });
+        error.value = null;
         return;
     }
     formLoading.value = false;
@@ -102,7 +103,9 @@ const onCreateComment = async () => {
         <div class="flex space-x-2 items-start" v-if="isAuthenticated">
             <Avatar class="w-6 h-6">
                 <AvatarImage :src="user.avatar_url" />
-                <AvatarFallback>{{ user.name[0] }}</AvatarFallback>
+                <AvatarFallback>{{
+                    user.name ? user.name[0] : user.username[0]
+                }}</AvatarFallback>
             </Avatar>
             <div class="w-full space-y-2">
                 <div>
@@ -132,23 +135,34 @@ const onCreateComment = async () => {
             <div class="flex space-x-1 items-start">
                 <Avatar class="w-6 h-6">
                     <AvatarImage :src="comment.user.avatar_url" />
-                    <AvatarFallback>{{ comment.user.name[0] }}</AvatarFallback>
+                    <AvatarFallback>{{
+                        comment.user.name
+                            ? comment.user.name[0]
+                            : comment.user.username[0]
+                    }}</AvatarFallback>
                 </Avatar>
                 <div
-                    class="bg-gray-50 rounded p-2 text-sm font-light space-y-2 w-full"
+                    class="bg-gray-50 rounded p-2 space-y-2 w-full text-sm font-light"
                 >
-                    <div>
-                        {{ comment.user.name }}
-                        <small
-                            >{{
-                                formatDistanceToNow(comment.created_at)
-                            }}
-                            ago</small
-                        >
-                    </div>
-                    <p>
-                        {{ comment.content }}
-                    </p>
+                    <router-link
+                        :to="{
+                            name: 'profile-page',
+                            params: { username: comment.user.username },
+                        }"
+                    >
+                        <p class="hover:underline break-words">
+                            {{ comment.user.name || comment.user.username }}
+                            <small
+                                >{{
+                                    formatDistanceToNow(comment.created_at)
+                                }}
+                                ago</small
+                            >
+                        </p>
+                        <p class="break-words">
+                            {{ comment.content }}
+                        </p>
+                    </router-link>
                 </div>
             </div>
         </template>

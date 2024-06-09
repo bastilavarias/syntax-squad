@@ -11,7 +11,14 @@ defineProps(["post"]);
 </script>
 
 <template>
-    <Card :class="cn('pb-0 overflow-hidden rounded-none shadow-none border-0 md:rounded-lg md:shadow-sm md:border', $attrs.class ?? '')">
+    <Card
+        :class="
+            cn(
+                'pb-0 overflow-hidden rounded-none shadow-none border-0 md:rounded-lg md:shadow-sm md:border',
+                $attrs.class ?? '',
+            )
+        "
+    >
         <img
             class="w-full h-80 object-cover"
             :src="post.cover_image_url"
@@ -22,41 +29,37 @@ defineProps(["post"]);
             <div class="flex flex-col space-y-2 lg:space-y-3">
                 <router-link
                     :to="{
-                            name: 'view-post-page',
-                            params: {
-                                username: post.user.username,
-                                slug: post.slug,
-                            },
-                        }"
+                        name: 'view-post-page',
+                        params: {
+                            username: post.user.username,
+                            slug: post.slug,
+                        },
+                    }"
                 >
                     <p class="text-2xl lg:text-3xl font-bold">
                         {{ post.title }}
                     </p>
                 </router-link>
                 <div class="flex gap-1">
-                    <template
-                        v-for="(tag, index) in post.tags"
-                        :key="index"
-                    >
+                    <template v-for="(tag, index) in post.tags" :key="index">
                         <Badge variant="outline">
                             <router-link
                                 :to="{
-                                        name: 'search-page',
-                                        query: {
-                                            keyword: tag.name,
-                                        },
-                                    }"
+                                    name: 'search-page',
+                                    query: {
+                                        keyword: tag.name,
+                                    },
+                                }"
                             >
-                                    <span
-                                        class="font-light lowercase text-xs hover:cursor-pointer hover:underline"
-                                    >
-                                        {{ tag.name }}
-                                    </span>
+                                <span
+                                    class="font-light lowercase text-xs hover:cursor-pointer hover:underline"
+                                >
+                                    {{ tag.name }}
+                                </span>
                             </router-link>
                         </Badge>
                     </template>
                 </div>
-
             </div>
             <PostUserItem
                 :user="post.user"
@@ -75,8 +78,11 @@ defineProps(["post"]);
                     <div class="flex space-x-1 items-start">
                         <Avatar class="w-6 h-6">
                             <AvatarImage :src="comment.user.avatar_url" />
-                            <AvatarFallback>{{
-                                    comment.user.name[0]
+                            <AvatarFallback
+                                >{{
+                                    comment.user.name
+                                        ? comment.user.name[0]
+                                        : comment.user.username[0]
                                 }}
                             </AvatarFallback>
                         </Avatar>
@@ -84,9 +90,9 @@ defineProps(["post"]);
                             class="bg-gray-50 rounded p-2 text-sm font-light space-y-2 w-full"
                         >
                             <div>
-                                {{ comment.user.name }}
+                                {{ comment.user.name || comment.user.username }}
                                 <small
-                                >{{
+                                    >{{
                                         formatDistanceToNow(comment.created_at)
                                     }}
                                     ago</small
@@ -102,9 +108,8 @@ defineProps(["post"]);
                     variant="ghost"
                     class="font-light text-xs"
                     v-if="post.comments_count > 3"
-                >See all {{ post.comments_count }} comments
-                </Button
-                >
+                    >See all {{ post.comments_count }} comments
+                </Button>
             </CardContent>
         </template>
     </Card>

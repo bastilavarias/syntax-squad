@@ -323,14 +323,18 @@ getUser();
                                 >
                                     <AvatarImage :src="user.avatar_url" />
                                     <AvatarFallback
-                                        >{{ user.name[0] }}
+                                        >{{
+                                            user.name
+                                                ? user.name[0]
+                                                : user.username[0]
+                                        }}
                                     </AvatarFallback>
                                 </Avatar>
                                 <div class="space-y-2">
                                     <h1
                                         class="text-xl lg:text-2xl font-bold leading-none text-black"
                                     >
-                                        {{ user.name }}
+                                        {{ user.name || "No name" }}
                                     </h1>
                                     <div class="flex flex-col gap-y-1">
                                         <a

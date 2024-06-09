@@ -20,10 +20,10 @@ const loading = ref(true);
 const followersCountLocal = ref(props.user.followers_count || 0);
 
 const authuser = computed(() =>
-    authStore.isAuthenticated ? authStore.user : null
+    authStore.isAuthenticated ? authStore.user : null,
 );
 const isSelf = computed(() =>
-    authStore.isAuthenticated ? props.user.id === authuser.value.id : false
+    authStore.isAuthenticated ? props.user.id === authuser.value.id : false,
 );
 
 const onClick = async () => {
@@ -73,7 +73,9 @@ onMounted(async () => {
             <div class="flex items-center space-x-4">
                 <Avatar>
                     <AvatarImage :src="user.avatar_url" />
-                    <AvatarFallback>{{ user.name[0] }}</AvatarFallback>
+                    <AvatarFallback>{{
+                        user.name ? user.name[0] : user.username[0]
+                    }}</AvatarFallback>
                 </Avatar>
                 <div class="space-y-1">
                     <router-link
@@ -85,7 +87,12 @@ onMounted(async () => {
                         <p
                             class="font-medium leading-none text-black hover:underline hover:cursor-pointer"
                         >
-                            {{ customComposable.limitString(user.name, 70) }}
+                            {{
+                                customComposable.limitString(
+                                    user.name || "No name",
+                                    70,
+                                )
+                            }}
                         </p>
                     </router-link>
                     <router-link

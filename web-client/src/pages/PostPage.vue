@@ -1,16 +1,11 @@
 <script setup lang="ts">
 import { cn } from "@/lib/utils.ts";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent } from "@/components/ui/card";
-import { BookmarkIcon, HeartIcon, MessageCircleIcon } from "lucide-vue-next";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { computed, ref, watch } from "vue";
-import RecentPostsCard from "@/components/RecentPostsCard.vue";
 import MiniProfileCard from "@/components/MiniProfileCard.vue";
 import MorePostsCard from "@/components/MorePostsCard.vue";
 import { Separator } from "@/components/ui/separator";
-import { Textarea } from "@/components/ui/textarea";
 import { Delta } from "@vueup/vue-quill";
 import { usePostStore } from "@/stores/post.ts";
 import { useToast } from "@/components/ui/toast";
@@ -154,7 +149,7 @@ if (slug) {
                             <div>
                                 <div class="space-y-3">
                                     <p
-                                        class="text-5xl font-black leading-none tracking-tight"
+                                        class="text-5xl font-black leading-none tracking-tight break-words"
                                     >
                                         {{ post.title }}
                                     </p>
