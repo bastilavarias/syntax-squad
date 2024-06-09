@@ -28,6 +28,8 @@ services:
       context: ./auth-service
       dockerfile: production.Dockerfile
     container_name: auth-service
+    restart: unless-stopped
+    tty: true
     env_file:
       - ./auth-service/.env
     ports:
@@ -45,6 +47,8 @@ services:
       context: ./chat-service
       dockerfile: production.Dockerfile
     container_name: chat-service
+    restart: unless-stopped
+    tty: true
     env_file:
       - ./chat-service/.env
     ports:
