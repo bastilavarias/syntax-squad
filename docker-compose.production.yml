@@ -10,7 +10,6 @@ services:
       - "80:80"
       - "443:443"
     depends_on:
-      - certbot
       - database
       - post-service
       - chat-service
@@ -23,14 +22,6 @@ services:
       - ./.docker/nginx/certbot/www:/var/www/certbot
     networks:
       - app-network
-
-  certbot:
-    image: certbot/certbot
-    container_name: certbot
-    volumes:
-      - ./.docker/nginx/certbot/conf:/etc/letsencrypt
-      - ./.docker/nginx/certbot/www:/var/www/certbot
-    command: "certonly --webroot -w /var/www/certbot --force-renewal --email sebastiancurtislavarias@gmail.com -d syntaxsquad.site --agree-tos"
 
   auth-service:
     build:
