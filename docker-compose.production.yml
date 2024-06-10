@@ -22,6 +22,11 @@ services:
       - ./.docker/nginx/certbot/www:/var/www/certbot
     networks:
       - app-network
+    deploy:
+      resources:
+        limits:
+          cpus: '0.2'
+          memory: 200M
 
   auth-service:
     build:
@@ -41,6 +46,11 @@ services:
       - /usr/src/app/syntax-squad/auth-service/node_modules
     networks:
       - app-network
+    deploy:
+      resources:
+        limits:
+          cpus: '0.15'
+          memory: 150M
 
   chat-service:
     build:
@@ -60,6 +70,11 @@ services:
       - /usr/src/app/syntax-squad/chat-service/node_modules
     networks:
       - app-network
+    deploy:
+      resources:
+        limits:
+          cpus: '0.2'
+          memory: 200M
 
   post-service:
     build:
@@ -77,6 +92,11 @@ services:
       - ./.docker/php/local.ini:/usr/local/etc/php/local.ini
     networks:
       - app-network
+    deploy:
+      resources:
+        limits:
+          cpus: '0.25'
+          memory: 250M
 
   database:
     image: mysql:8
@@ -91,6 +111,11 @@ services:
       - database-data:/var/lib/mysql/
     networks:
       - app-network
+    deploy:
+      resources:
+        limits:
+          cpus: '0.2'
+          memory: 500M
 
 networks:
   app-network:
