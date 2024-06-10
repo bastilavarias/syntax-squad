@@ -311,10 +311,10 @@ getUser();
             <template v-else>
                 <div class="col-span-12 md:col-span-7 lg:col-span-8">
                     <div
-                        class="max-lg:w-full flex flex-col gap-y-3 relative pb-10"
+                        class="max-md:w-full flex flex-col gap-y-3 relative pb-10"
                     >
                         <div
-                            class="flex items-center justify-between space-x-4 p-5 md:p-0"
+                            class="block md:flex md:items-center md:justify-between md:space-x-4 p-5 md:p-0"
                         >
                             <div class="flex items-center space-x-4">
                                 <Avatar
@@ -338,7 +338,7 @@ getUser();
                                     </h1>
                                     <div class="flex flex-col gap-y-1">
                                         <a
-                                            class="max-lg:text-sm text-muted-foreground hover:underline hover:cursor-pointer flex items-center space-x-1"
+                                            class="max-md:text-sm text-muted-foreground hover:underline hover:cursor-pointer flex items-center space-x-1"
                                             target="_blank"
                                             :href="`https://github.com/${user.username}`"
                                         >
@@ -376,7 +376,7 @@ getUser();
                                         </p>
                                         <Button
                                             variant="ghost"
-                                            class="text-xs w-auto h-7 underline pl-0"
+                                            class="text-xs w-full md:w-auto h-7 underline pl-0 mt-3 md:mt-0"
                                             @click="shouldShowDialog = true"
                                             v-if="
                                                 authStore.isAuthenticated &&
@@ -387,11 +387,11 @@ getUser();
                                     </div>
                                 </div>
                             </div>
-
                             <Button
                                 :variant="
                                     alreadyFollowed ? 'outline' : 'default'
                                 "
+                                class="w-full md:w-auto mt-3 md:mt-0 ml-0"
                                 :disabled="followerLoading"
                                 @click="onFollow"
                                 v-if="authStore.isAuthenticated && !isSelf"

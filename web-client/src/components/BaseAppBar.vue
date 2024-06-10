@@ -62,7 +62,7 @@ if (route.query.keyword) {
                 <AppLogo class="" />
 
                 <Search @click="toggleMobileSearch" class="lg:hidden" />
-                <div class="max-lg:hidden md:w-40 lg:w-64">
+                <div class="max-md:hidden md:w-40 lg:w-64">
                     <SearchBar
                         ref="mobileSearch"
                         @go-search="goToSearchPage"
@@ -76,13 +76,9 @@ if (route.query.keyword) {
                     :loading="loading"
                     v-if="!authStore.isAuthenticated && showLoginButton"
                 >
-                    <template v-if="loading">
-                        <CustomLoadingSpinner class="mr-2 w-4 h-4" />
-                    </template>
-                    <template></template>
                     <GithubIcon class="mr-2" />
                     Login
-                    <span class="max-lg:hidden">&nbsp;via GitHub</span>
+                    <span class="max-md:hidden">&nbsp;via GitHub</span>
                 </Button>
                 <template v-if="authStore.isAuthenticated">
                     <Button variant="outline" as-child>

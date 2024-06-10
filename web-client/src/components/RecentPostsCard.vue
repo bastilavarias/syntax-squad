@@ -73,7 +73,7 @@ getPosts();
                                     }"
                                 >
                                     <p
-                                        class="max-lg:text-sm mr-1 font-medium leading-none hover:underline hover:cursor-pointer"
+                                        class="max-md:text-sm mr-1 font-medium leading-none hover:underline hover:cursor-pointer"
                                         :title="`Posted ${formatDistanceToNow(post.created_at)} ago`"
                                     >
                                         {{

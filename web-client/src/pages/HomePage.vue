@@ -70,7 +70,7 @@ const resetPosts = () => {
 <template>
     <PageContainer>
         <div class="grid grid-cols-12 md:gap-5">
-            <div class="col-span-2 max-lg:hidden">
+            <div class="col-span-2 max-md:hidden">
                 <CustomSideBar />
             </div>
             <div class="col-span-12 md:col-span-7 lg:col-span-6">
@@ -114,7 +114,7 @@ const resetPosts = () => {
                     </div>
                 </div>
             </div>
-            <div class="col-span-5 lg:col-span-4 max-lg:hidden">
+            <div class="col-span-5 lg:col-span-4 max-md:hidden">
                 <div class="space-y-5">
                     <RecentPostsCard />
                     <SyntaxSquadAboutCard />
