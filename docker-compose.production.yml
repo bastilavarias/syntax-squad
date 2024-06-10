@@ -26,7 +26,7 @@ services:
       resources:
         limits:
           cpus: '0.2'
-          memory: 200M
+          memory: 50M
 
   auth-service:
     build:
@@ -50,7 +50,7 @@ services:
       resources:
         limits:
           cpus: '0.15'
-          memory: 150M
+          memory: 100M
 
   chat-service:
     build:
@@ -115,7 +115,7 @@ services:
       resources:
         limits:
           cpus: '0.2'
-          memory: 500M
+          memory: 600M
 
 networks:
   app-network:
