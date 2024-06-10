@@ -14,7 +14,8 @@ RUN apt-get update && apt-get install -y \
     curl \
     libonig-dev \
     libxml2-dev \
-    libzip-dev
+    libzip-dev \
+    cron
 
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
@@ -27,7 +28,6 @@ RUN curl -sS https://getcomposer.org/installer | php -- --version=2.4.1 && mv co
 WORKDIR /var/www/post-service
 
 COPY . /var/www/post-service
-
 COPY --chown=www-data:www-data . /var/www/post-service
 
 RUN chmod -R 777 /var/www/post-service/storage \
@@ -36,6 +36,13 @@ RUN chmod -R 777 /var/www/post-service/storage \
 
 RUN composer install
 
+RUN echo "* * * * * www-data /usr/bin/php /var/www/post-service/artisan schedule:run >> /var/log/cron.log 2>&1" > /etc/cron.d/my-crontab
+RUN chmod 0644 /etc/cron.d/my-crontab
+
+RUN crontab /etc/cron.d/my-crontab
+
+RUN touch /var/log/cron.log
+
 EXPOSE 9000
 
-CMD ["php-fpm"]
+CMD ["sh", "-c", "cron && php-fpm"]
