@@ -149,11 +149,11 @@ if (slug) {
                             <div>
                                 <div class="space-y-3">
                                     <p
-                                        class="text-5xl font-black leading-none tracking-tight break-words"
+                                        class="text-3xl md:text-4xl lg:text-5xl font-black leading-none tracking-tight break-words"
                                     >
                                         {{ post.title }}
                                     </p>
-                                    <div class="flex gap-1">
+                                    <div class="flex gap-1 flex-wrap">
                                         <template
                                             v-for="(tag, index) in post.tags"
                                             :key="index"
