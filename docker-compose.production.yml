@@ -4,7 +4,7 @@ services:
   server:
     image: nginx:alpine
     container_name: server
-    restart: unless-stopped
+    restart: always
     tty: true
     ports:
       - "80:80"
@@ -33,7 +33,7 @@ services:
       context: ./auth-service
       dockerfile: production.Dockerfile
     container_name: auth-service
-    restart: unless-stopped
+    restart: always
     tty: true
     env_file:
       - ./auth-service/.env
@@ -57,7 +57,7 @@ services:
       context: ./chat-service
       dockerfile: production.Dockerfile
     container_name: chat-service
-    restart: unless-stopped
+    restart: always
     tty: true
     env_file:
       - ./chat-service/.env
@@ -81,7 +81,7 @@ services:
       context: ./post-service
       dockerfile: Dockerfile
     container_name: post-service
-    restart: unless-stopped
+    restart: always
     tty: true
     env_file:
       - ./post-service/.env
@@ -101,7 +101,7 @@ services:
   database:
     image: mysql:8
     container_name: database
-    restart: unless-stopped
+    restart: always
     tty: true
     ports:
       - "5506:3306"
