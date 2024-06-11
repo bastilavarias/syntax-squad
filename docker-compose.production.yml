@@ -25,8 +25,8 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '0.1'
-          memory: 120M
+          cpus: '0.05'
+          memory: 51M
 
   auth-service:
     build:
@@ -49,8 +49,8 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '0.1'
-          memory: 120M
+          cpus: '0.05'
+          memory: 51M
 
   chat-service:
     build:
@@ -73,8 +73,8 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '0.18'
-          memory: 216M
+          cpus: '0.13'
+          memory: 133M
 
   post-service:
     build:
@@ -95,8 +95,8 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '0.18'
-          memory: 216M
+          cpus: '0.22'
+          memory: 225M
 
   database:
     image: mysql:8
@@ -114,8 +114,8 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '0.54'
-          memory: 648M
+          cpus: '0.55'
+          memory: 563M
 
 networks:
   app-network:
