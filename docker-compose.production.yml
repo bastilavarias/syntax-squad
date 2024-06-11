@@ -109,6 +109,7 @@ services:
       - ./.env.database
     volumes:
       - database-data:/var/lib/mysql/
+      - .docker/mysql/my.cnf:/etc/mysql/conf.d/my.cnf
     networks:
       - app-network
     deploy:
@@ -116,6 +117,7 @@ services:
         limits:
           cpus: '0.55'
           memory: 563M
+    command: --pid-file=/var/lib/mysql/mysql.pid
 
 networks:
   app-network:
