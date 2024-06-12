@@ -1,5 +1,5 @@
-// TODO Mobile responsiveness enhancement. (70%)
-// TODO Delete post
-// TODO Test why laravel is slow in development
-// Fix chats
-// Fix nodejs maxing out / failing in production
+TODO Mobile responsiveness enhancement. (70%)
+TODO Delete post
+TODO Test why laravel is slow in development
+TODO Fix chats
+TODO  Upgrade the server to 2gb ram before uploading the video
