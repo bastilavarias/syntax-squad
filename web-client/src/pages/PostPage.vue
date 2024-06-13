@@ -97,7 +97,7 @@ if (slug) {
 
 <template>
     <div
-        class="md:pt-10 md:container md:flex md:flex-col lg:flex-row lg:items-start lg:gap-5 h-screen"
+        class="md:pt-10 md:container md:flex md:flex-row md:items-start md:gap-5 h-screen"
     >
         <template v-if="!isPageReady">
             <div class="flex justify-center w-full">
@@ -186,6 +186,23 @@ if (slug) {
                         <CardContent class="pt-6 space-y-10">
                             <PostCommentSection :post-id="post.id" />
                         </CardContent>
+                        <div class="block md:hidden">
+                            <Separator />
+                            <div
+                                class="fixed left-0 bottom-0 bg-white pt-1 w-full border-t-1 z-50"
+                            >
+                                <PostEngagementSidebar
+                                    :id="post.id"
+                                    v-model:reactions="reactions"
+                                    v-model:comments="comments"
+                                    v-model:bookmarks="bookmarks"
+                                    v-model:ready="
+                                        isEngagementSidebarComponentReady
+                                    "
+                                    v-if="post"
+                                />
+                            </div>
+                        </div>
                     </Card>
                 </div>
             </div>

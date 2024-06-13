@@ -104,8 +104,8 @@ onMounted(async () => {
 </script>
 
 <template>
-    <div class="flex flex-col space-y-2">
-        <div class="flex flex-col justify-center items-center">
+    <div class="flex justify-around md:flex-col md:space-y-2">
+        <div class="flex md:flex-col justify-center items-center">
             <Button
                 variant="ghost"
                 size="icon"
@@ -120,14 +120,14 @@ onMounted(async () => {
             </Button>
             <span class="text-sm font-light"> {{ reactions }} </span>
         </div>
-        <div class="flex flex-col justify-center items-center">
+        <div class="flex md:flex-col justify-center items-center">
             <Button variant="ghost" size="icon" class="hover:text-[#ea8000]">
                 <MessageCircleIcon />
             </Button>
             <span class="text-sm font-light"> {{ comments }} </span>
         </div>
 
-        <div class="flex flex-col justify-center items-center">
+        <div class="flex md:flex-col justify-center items-center">
             <Button
                 variant="ghost"
                 size="icon"
