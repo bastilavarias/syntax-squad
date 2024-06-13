@@ -1,2 +1,3 @@
  TODO Mobile responsiveness enhancement. (70%)
  TODO Add reaction in view post mobile
+ TODO Show created posts in form when mobile mode
