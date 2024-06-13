@@ -26,7 +26,7 @@ defineProps(["post"]);
             v-if="post.cover_image_url"
         />
         <CardContent class="space-y-5 pt-4">
-            <div class="flex flex-col space-y-2 lg:space-y-3">
+            <div class="flex flex-col space-y-2 md:space-y-3">
                 <router-link
                     :to="{
                         name: 'view-post-page',
@@ -36,7 +36,7 @@ defineProps(["post"]);
                         },
                     }"
                 >
-                    <p class="text-2xl lg:text-3xl font-bold">
+                    <p class="text-2xl md:text-3xl font-bold">
                         {{ post.title }}
                     </p>
                 </router-link>

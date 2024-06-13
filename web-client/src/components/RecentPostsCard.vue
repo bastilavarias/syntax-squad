@@ -136,7 +136,7 @@ getPosts();
                             </div>
                         </div>
                         <img
-                            class="max-h-14 w-14 lg:max-w-16 lg:h-16 ml-auto object-cover rounded-md"
+                            class="max-lg:hidden max-h-14 w-14 max-w-16 h-16 ml-auto object-cover rounded-md"
                             v-if="post.cover_image_url"
                             :src="post.cover_image_url"
                             alt=""

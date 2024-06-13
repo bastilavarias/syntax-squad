@@ -13,7 +13,7 @@ const customComposable = useCustomComposable();
 <template>
     <div class="space-y-2">
         <div class="flex items-center justify-between space-x-4">
-            <div class="flex items-center space-x-2 lg:space-x-3">
+            <div class="flex items-center space-x-2 md:space-x-3">
                 <Avatar>
                     <AvatarImage :src="user.avatar_url" />
                     <AvatarFallback>{{

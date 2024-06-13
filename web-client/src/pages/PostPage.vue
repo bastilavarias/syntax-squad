@@ -149,7 +149,7 @@ if (slug) {
                             <div>
                                 <div class="space-y-3">
                                     <p
-                                        class="text-3xl md:text-4xl lg:text-5xl font-black leading-none tracking-tight break-words"
+                                        class="text-3xl md:text-4xl md:text-5xl font-black leading-none tracking-tight break-words"
                                     >
                                         {{ post.title }}
                                     </p>

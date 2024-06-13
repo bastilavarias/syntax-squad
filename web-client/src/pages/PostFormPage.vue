@@ -202,8 +202,8 @@ if (postID.value) {
 
 <template>
     <PageContainer>
-        <div class="grid grid-cols-12 lg:gap-5">
-            <div class="col-span-12 lg:col-span-7 xl:col-span-8">
+        <div class="grid grid-cols-12 md:gap-5">
+            <div class="col-span-12 md:col-span-7">
                 <template v-if="postDetailsLoading">
                     <div class="flex flex-col items-center">
                         <img
@@ -373,7 +373,9 @@ if (postID.value) {
                     </div>
                 </template>
             </div>
-            <div class="hidden md:flex md:col-span-4 flex-col gap-y-4">
+            <div
+                class="max-md:hidden flex col-span-3 md:col-span-4 flex-col gap-y-4"
+            >
                 <SelfPostListCard />
                 <PostingGuideCard />
             </div>

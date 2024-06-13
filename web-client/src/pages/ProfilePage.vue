@@ -298,7 +298,7 @@ getUser();
 
 <template>
     <PageContainer>
-        <div class="grid grid-cols-12 md:gap-5">
+        <div class="grid grid-cols-12 md:gap-3 md:gap-5">
             <template v-if="!isPageReady">
                 <div class="flex justify-center col-span-12">
                     <img
@@ -309,7 +309,7 @@ getUser();
                 </div>
             </template>
             <template v-else>
-                <div class="col-span-12 md:col-span-7 lg:col-span-8">
+                <div class="col-span-12 md:col-span-9 md:col-span-8">
                     <div
                         class="max-md:w-full flex flex-col gap-y-3 relative pb-10"
                     >
@@ -318,7 +318,7 @@ getUser();
                         >
                             <div class="flex items-center space-x-4">
                                 <Avatar
-                                    class="size-[100px] lg:size-[128px]"
+                                    class="size-[100px] md:size-[128px]"
                                     size="lg"
                                 >
                                     <AvatarImage :src="user.avatar_url" />
@@ -332,7 +332,7 @@ getUser();
                                 </Avatar>
                                 <div class="space-y-2">
                                     <h1
-                                        class="text-xl lg:text-2xl font-bold leading-none text-black"
+                                        class="text-xl md:text-2xl font-bold leading-none text-black"
                                     >
                                         {{ user.name || "No name" }}
                                     </h1>
@@ -585,7 +585,7 @@ getUser();
                     </div>
                 </div>
                 <div
-                    class="max-md:hidden flex flex-col gap-y-5 col-span-5 lg:col-span-4"
+                    class="max-md:hidden flex flex-col gap-y-5 md:col-span-3 md:col-span-4"
                 >
                     <RecentPostsCard :exclude="[]" :user-id="user.id" />
                     <SyntaxSquadAboutCard />

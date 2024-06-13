@@ -56,13 +56,13 @@ if (route.query.keyword) {
     <header
         class="fixed w-screen h-14 flex flex-col z-20 top-0 bg-background/80 backdrop-blur-lg border-b border-border"
     >
-        <div class="px-4 lg:container flex items-center h-14 gap-x-2">
+        <div class="px-4 md:container flex items-center h-14 gap-x-2">
             <BaseSidebar />
             <nav class="flex items-center gap-x-2">
                 <AppLogo class="" />
 
-                <Search @click="toggleMobileSearch" class="lg:hidden" />
-                <div class="max-md:hidden md:w-40 lg:w-64">
+                <Search @click="toggleMobileSearch" class="md:hidden" />
+                <div class="max-md:hidden md:w-40 md:w-64">
                     <SearchBar
                         ref="mobileSearch"
                         @go-search="goToSearchPage"
@@ -98,7 +98,7 @@ if (route.query.keyword) {
                 </template>
             </nav>
         </div>
-        <div v-if="showMobileSearch" class="px-4 pb-2 w-full lg:hidden">
+        <div v-if="showMobileSearch" class="px-4 pb-2 w-full md:hidden">
             <SearchBar
                 ref="mobileSearch"
                 @go-search="goToSearchPage"

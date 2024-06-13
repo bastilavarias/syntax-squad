@@ -19,7 +19,7 @@ module.exports = {
             padding: "2rem",
             screens: {
                 sm: "100%",
-                md: "100%",
+                md: "720",
                 lg: "1080",
                 xl: "1280px",
             },
