@@ -42,7 +42,9 @@ const onLogout = () => {
                 <Avatar class="h-8 w-8">
                     <AvatarImage :src="user.avatar_url" />
 
-                    <AvatarFallback>SL</AvatarFallback>
+                    <AvatarFallback>{{
+                        user.name ? user.name : user.username
+                    }}</AvatarFallback>
                 </Avatar>
             </Button>
         </DropdownMenuTrigger>

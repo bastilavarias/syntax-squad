@@ -13,11 +13,11 @@ const create = async (payload) => {
     const memberIDs = [payload.user.id, payload.body.member_id];
     const existingRoom = await database("chat_room_members")
         .select("room_id")
-        .whereIn("user_id", memberIDs)
-        .groupBy("room_id")
-        .first();
-    if (existingRoom) {
-        roomID = existingRoom.room_id;
+        .where("user_id", memberIDs[0])
+        .orWhere("user_id", memberIDs[1]);
+    const isRoomExists = existingRoom.length === 2;
+    if (isRoomExists) {
+        roomID = existingRoom[0].room_id;
         await database("chat_messages").insert({
             room_id: roomID,
             user_id: payload.user.id,
@@ -66,8 +66,8 @@ const list = async (payload) => {
         .select("chat_room_members.room_id")
         .select(
             database.raw(
-                "MAX(chat_messages.created_at) as latest_message_created_at"
-            )
+                "MAX(chat_messages.created_at) as latest_message_created_at",
+            ),
         )
         .join("chat_messages", function () {
             this.on("chat_messages.room_id", "=", "chat_room_members.room_id");
@@ -81,8 +81,8 @@ const list = async (payload) => {
                 await Promise.all(
                     await rooms.data.map(async (room) => {
                         return await getBasicRoom(room.room_id);
-                    })
-                )
+                    }),
+                ),
         );
 };
 
@@ -111,7 +111,7 @@ const getBasicRoom = async (roomID) => {
                         .first();
 
                     return member;
-                })
+                }),
             );
         });
     room.latest_message = await database("chat_messages")

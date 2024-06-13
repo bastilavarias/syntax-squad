@@ -10,18 +10,18 @@ const props = defineProps(["room"]);
 const authStore = useAuthStore();
 
 const authuser = computed(() =>
-    authStore.isAuthenticated ? authStore.user : null
+    authStore.isAuthenticated ? authStore.user : null,
 );
 const otherMember = computed(() =>
-    props.room.members.find((member) => member.user_id !== authuser.value.id)
+    props.room.members.find((member) => member.user_id !== authuser.value.id),
 );
 const lastMessageIsYou = computed(
-    () => props.room.latest_message.user_id === authuser.value.id
+    () => props.room.latest_message.user_id === authuser.value.id,
 );
 const shouldShowUnreadBadge = computed(() =>
     !lastMessageIsYou.value
         ? props.room.latest_message.read_by_receiver === 0
-        : false
+        : false,
 );
 </script>
 
@@ -41,7 +41,9 @@ const shouldShowUnreadBadge = computed(() =>
                         <Avatar>
                             <AvatarImage :src="otherMember.user.avatar_url" />
                             <AvatarFallback>{{
-                                otherMember.user.name[0]
+                                otherMember.user.name
+                                    ? otherMember.user.name[0]
+                                    : otherMember.user.username[0]
                             }}</AvatarFallback>
                         </Avatar>
                         <div class="flex-1">
@@ -53,13 +55,17 @@ const shouldShowUnreadBadge = computed(() =>
                                             v-if="shouldShowUnreadBadge"
                                         />
                                         <span class="font-semibold">
-                                            {{ otherMember.user.name }}
+                                            {{
+                                                otherMember.user.name
+                                                    ? otherMember.user.name
+                                                    : otherMember.user.username
+                                            }}
                                         </span>
                                     </div>
                                     <span class="text-xs text-muted-foreground">
                                         {{
                                             formatDistanceToNow(
-                                                room.latest_message.created_at
+                                                room.latest_message.created_at,
                                             )
                                         }}
                                     </span>
@@ -73,6 +79,8 @@ const shouldShowUnreadBadge = computed(() =>
                                     lastMessageIsYou
                                         ? "You"
                                         : room.latest_message.user.name
+                                          ? room.latest_message.user.name
+                                          : room.latest_message.user.username
                                 }}: {{ room.latest_message.message }}
                             </div>
                         </div>

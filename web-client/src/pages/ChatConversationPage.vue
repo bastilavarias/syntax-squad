@@ -180,7 +180,9 @@ onBeforeMount(async () => {
                                     :src="otherMember.user.avatar_url"
                                 />
                                 <AvatarFallback>{{
-                                    otherMember.user.name[0]
+                                    otherMember.user.name
+                                        ? otherMember.user.name[0]
+                                        : otherMember.user.usename
                                 }}</AvatarFallback>
                             </Avatar>
                             <div class="flex justify-center flex-col">
