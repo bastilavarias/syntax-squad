@@ -96,5 +96,16 @@ export const usePostStore = defineStore("post", {
                 return await apiClient.toReadableResponse("error", e);
             }
         },
+
+        async delete(postID: number) {
+            try {
+                const response = await apiClient.delete({
+                    route: `post/${postID}`,
+                });
+                return await apiClient.toReadableResponse("complete", response);
+            } catch (e) {
+                return await apiClient.toReadableResponse("error", e);
+            }
+        },
     },
 });

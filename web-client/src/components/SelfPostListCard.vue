@@ -41,21 +41,22 @@ const customComposable = useCustomComposable();
 const currPage = ref(1);
 const perPage = ref(5);
 const sortBy = ref("touched");
-const loading = ref(true);
+const listPostsLoading = ref(true);
 const posts = ref([]);
 const postsCount = ref(0);
+const deletePostLoading = ref(false);
 
 const user = computed(() =>
-    authStore.isAuthenticated ? authStore.user : null
+    authStore.isAuthenticated ? authStore.user : null,
 );
 
 watch(
     () => currPage.value,
-    async () => await getPostList()
+    async () => await getPostList(),
 );
 
 const getPostList = async () => {
-    loading.value = true;
+    listPostsLoading.value = true;
     posts.value = [];
     const payload: ListPostsPayload = {
         page: currPage.value,
@@ -67,7 +68,7 @@ const getPostList = async () => {
     if (result.success) {
         postsCount.value = result.data.total || 0;
         posts.value = result.data.data;
-        loading.value = false;
+        listPostsLoading.value = false;
         return;
     }
     await router.push({ name: "home-page" });
@@ -90,13 +91,36 @@ const onGoPostPage = (post) => {
         params: { username: post.user.username, slug: post.slug },
     });
 };
+const onDeletePost = async (postID: number) => {
+    deletePostLoading.value = true;
+    const result = await postStore.delete(postID);
+    if (result.success) {
+        await getPostList();
+        toast({
+            title: "Post successfully deleted",
+            description:
+                "Your post has been successfully deleted. You will be redirected to the create form shortly.",
+        });
+        await router.push({
+            name: "post-form-page",
+            params: { operation: "new" },
+        });
+        return;
+    }
+    deletePostLoading.value = false;
+    toast({
+        variant: "destructive",
+        title: "Server error.",
+        description: result.message,
+    });
+};
 
 getPostList();
 </script>
 
 <template>
     <Card class="min-h-[500px]">
-        <template v-if="loading">
+        <template v-if="listPostsLoading">
             <div class="h-[500px] bg-gray-50 flex justify-center items-center">
                 <CustomLoadingSpinner class="h-5 w-5" />
             </div>
@@ -128,7 +152,7 @@ getPostList();
                                         {{
                                             customComposable.limitString(
                                                 post.title,
-                                                70
+                                                70,
                                             )
                                         }}
                                     </p>
@@ -149,7 +173,7 @@ getPostList();
                                             {{
                                                 customComposable.limitString(
                                                     post.title,
-                                                    50
+                                                    50,
                                                 )
                                             }}
                                         </DropdownMenuLabel>
@@ -168,7 +192,15 @@ getPostList();
                                             </DropdownMenuItem>
                                         </DropdownMenuGroup>
                                         <DropdownMenuSeparator />
-                                        <DropdownMenuItem class="text-red-600">
+                                        <DropdownMenuItem
+                                            class="text-red-600"
+                                            @click="onDeletePost(post.id)"
+                                        >
+                                            <template v-if="deletePostLoading">
+                                                <CustomLoadingSpinner
+                                                    class="mr-2 w-4 h-4"
+                                                />
+                                            </template>
                                             Delete post
                                         </DropdownMenuItem>
                                     </DropdownMenuContent>

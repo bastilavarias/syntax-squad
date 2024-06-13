@@ -1,4 +1,3 @@
  TODO Mobile responsiveness enhancement. (70%)
- TODO Delete post
  TODO Test why laravel is slow in development
  TODO Add reaction in view post mobile
