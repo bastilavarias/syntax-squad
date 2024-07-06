@@ -19,12 +19,19 @@ import { CreatePostPayload, usePostStore } from "@/stores/post.ts";
 import { useToast } from "@/components/ui/toast/use-toast";
 import { useRoute, useRouter } from "vue-router";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { ServerOffIcon, TriangleAlertIcon } from "lucide-vue-next";
+import { ServerOffIcon, TriangleAlertIcon, Table2Icon } from "lucide-vue-next";
 import CustomLoadingSpinner from "@/components/CustomLoadingSpinner.vue";
 import { useAuthStore } from "@/stores/auth.ts";
 import { Delta } from "@vueup/vue-quill";
 import { Badge } from "@/components/ui/badge";
 import PageContainer from "@/components/PageContainer.vue";
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogHeader,
+    DialogTitle,
+} from "@/components/ui/dialog";
 
 const postStore = usePostStore();
 const { toast } = useToast();
@@ -48,6 +55,7 @@ const operation = ref(route.params.operation);
 const postID = ref(route.query.postID ?? null);
 const isUploadedCoverImageShow = ref(false);
 const isDraftPost = ref(null);
+const shouldShowDialog = ref(false);
 
 const user = computed(() =>
     authStore.isAuthenticated ? authStore.user : null,
@@ -194,6 +202,9 @@ const onSaveDraft = async () => {
     formLoading.value = false;
     error.value = result.message;
 };
+const onOpenDialog = () => {
+    shouldShowDialog.value = !shouldShowDialog.value;
+};
 
 if (postID.value) {
     getPost();
@@ -232,21 +243,40 @@ if (postID.value) {
                         <Card
                             class="bg-white rounded-none shadow-none border-0 md:rounded-lg md:shadow-sm md:border"
                         >
-                            <CardHeader>
-                                <CardTitle class="flex justify-between">
-                                    {{ formTitle }}
-                                    <Badge
-                                        :variant="
-                                            isDraftPost ? 'outline' : 'default'
-                                        "
-                                        class="tracking-wide"
-                                        v-if="operation === 'edit'"
+                            <CardHeader class="flex justify-between">
+                                <CardTitle
+                                    class="flex justify-between items-center"
+                                >
+                                    <div
+                                        class="flex justify-between items-center"
                                     >
-                                        <template v-if="isDraftPost"
-                                            >Unpublished
-                                        </template>
-                                        <template v-else>Published</template>
-                                    </Badge>
+                                        {{ formTitle }}
+                                        <Badge
+                                            :variant="
+                                                isDraftPost
+                                                    ? 'outline'
+                                                    : 'default'
+                                            "
+                                            class="tracking-wide ml-1"
+                                            v-if="operation === 'edit'"
+                                        >
+                                            <template v-if="isDraftPost"
+                                                >Unpublished
+                                            </template>
+                                            <template v-else
+                                                >Published</template
+                                            >
+                                        </Badge>
+                                    </div>
+
+                                    <Button
+                                        class="md:hidden"
+                                        variant="ghost"
+                                        size="icon"
+                                        @click="onOpenDialog"
+                                    >
+                                        <Table2Icon class="w-4 h-4" />
+                                    </Button>
                                 </CardTitle>
                             </CardHeader>
                             <CardContent>
@@ -374,11 +404,20 @@ if (postID.value) {
                 </template>
             </div>
             <div
-                class="max-md:hidden flex col-span-3 md:col-span-4 flex-col gap-y-4"
+                class="max-md:hidden flex col-span-3 md:col-span-5 flex-col gap-y-4"
             >
                 <SelfPostListCard />
                 <PostingGuideCard />
             </div>
         </div>
+        <Dialog v-model:open="shouldShowDialog">
+            <DialogContent>
+                <DialogHeader>
+                    <DialogTitle>Your Posts</DialogTitle>
+                </DialogHeader>
+
+                <SelfPostListCard :simple="true" />
+            </DialogContent>
+        </Dialog>
     </PageContainer>
 </template>

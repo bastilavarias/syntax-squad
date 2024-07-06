@@ -298,7 +298,7 @@ getUser();
 
 <template>
     <PageContainer>
-        <div class="grid grid-cols-12 md:gap-3 md:gap-5">
+        <div class="grid grid-cols-12 md:gap-3 lg:gap-5">
             <template v-if="!isPageReady">
                 <div class="flex justify-center col-span-12">
                     <img
@@ -309,7 +309,7 @@ getUser();
                 </div>
             </template>
             <template v-else>
-                <div class="col-span-12 md:col-span-9 md:col-span-8">
+                <div class="col-span-12 md:col-span-9 lg:col-span-8">
                     <div
                         class="max-md:w-full flex flex-col gap-y-3 relative pb-10"
                     >
@@ -585,7 +585,7 @@ getUser();
                     </div>
                 </div>
                 <div
-                    class="max-md:hidden flex flex-col gap-y-5 md:col-span-3 md:col-span-4"
+                    class="max-md:hidden flex flex-col gap-y-5 md:col-span-3 lg:col-span-4"
                 >
                     <RecentPostsCard :exclude="[]" :user-id="user.id" />
                     <SyntaxSquadAboutCard />

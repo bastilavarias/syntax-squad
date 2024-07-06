@@ -78,8 +78,8 @@ onBeforeMount(() => {
 
 <template>
     <PageContainer>
-        <div class="grid grid-cols-12 md:gap-3 md:gap-5">
-            <div class="col-span-12 md:col-span-9 md:col-span-8">
+        <div class="grid grid-cols-12 md:gap-3 lg:gap-5">
+            <div class="col-span-12 md:col-span-9 lg:col-span-8">
                 <div class="flex flex-col gap-y-3 relative pb-10">
                     <Tabs default-value="posts" class="w-full">
                         <TabsList>
@@ -126,7 +126,7 @@ onBeforeMount(() => {
                 </div>
             </div>
             <div
-                class="max-md:hidden flex flex-col gap-y-5 col-span-5 md:col-span-3 md:col-span-4"
+                class="max-md:hidden flex flex-col gap-y-5 col-span-5 md:col-span-3 lg:col-span-4"
             >
                 <RecentPostsCard />
                 <SyntaxSquadAboutCard />

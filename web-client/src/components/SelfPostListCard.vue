@@ -32,6 +32,9 @@ import {
     PaginationList,
     PaginationListItem,
 } from "@/components/ui/pagination";
+import { cn } from "@/lib/utils.ts";
+
+const props = defineProps(["simple"]);
 
 const authStore = useAuthStore();
 const postStore = usePostStore();
@@ -119,17 +122,30 @@ getPostList();
 </script>
 
 <template>
-    <Card class="min-h-[500px]">
+    <Card
+        :class="
+            cn(
+                '',
+                props.simple
+                    ? 'max-h-[500px] shadow-none border-0 overflow-auto'
+                    : 'min-h-[500px]',
+            )
+        "
+    >
         <template v-if="listPostsLoading">
             <div class="h-[500px] bg-gray-50 flex justify-center items-center">
                 <CustomLoadingSpinner class="h-5 w-5" />
             </div>
         </template>
         <template v-else>
-            <CardHeader class="flex justify-between">
+            <CardHeader class="flex justify-between" v-if="!simple">
                 <CardTitle class="text-xl">Your posts</CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent
+                :class="
+                    cn('', props.simple ? 'shadow-0 border-0 px-0 pt-4' : '')
+                "
+            >
                 <div class="space-y-3">
                     <template v-for="(post, index) in posts" :key="post.id">
                         <div class="space-y-2">
