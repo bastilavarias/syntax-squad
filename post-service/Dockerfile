@@ -45,6 +45,6 @@ RUN touch /var/log/cron.log
 
 RUN sed -i 's/listen = .*/listen = 0.0.0.0:5001/' /usr/local/etc/php-fpm.d/zz-docker.conf
 
-EXPOSE 9000
+EXPOSE 5001
 
 CMD ["sh", "-c", "cron && php-fpm"]
