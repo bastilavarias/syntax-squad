@@ -26,7 +26,7 @@ server.use("/api/auth", api);
 server.use(passport.initialize());
 jwtPassport(passport);
 
-const port = 3001;
+const port = 2000;
 server.listen(port, () => {
     console.log(`Service running at localhost:${port}`);
 });

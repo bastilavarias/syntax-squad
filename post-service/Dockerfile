@@ -43,6 +43,8 @@ RUN crontab /etc/cron.d/my-crontab
 
 RUN touch /var/log/cron.log
 
+RUN sed -i 's/listen = .*/listen = 0.0.0.0:5001/' /usr/local/etc/php-fpm.d/zz-docker.conf
+
 EXPOSE 9000
 
 CMD ["sh", "-c", "cron && php-fpm"]

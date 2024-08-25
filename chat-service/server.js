@@ -27,7 +27,7 @@ application.use(bodyParser.json());
 application.use(bodyParser.urlencoded({ extended: true }));
 application.use("/api/chat", api);
 
-const port = 3002;
+const port = 2001;
 server.listen(port, () => {
     console.log(`Service running at localhost:${port}`);
 });
