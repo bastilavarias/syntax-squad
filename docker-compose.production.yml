@@ -23,7 +23,7 @@ services:
   syntax_squad_auth_service:
     build:
       context: ./auth-service
-      dockerfile: Dockerfile
+      dockerfile: production.Dockerfile
     container_name: syntax_squad_auth_service
     restart: unless-stopped
     tty: true
@@ -42,7 +42,7 @@ services:
   syntax_squad_chat_service:
     build:
       context: ./chat-service
-      dockerfile: Dockerfile
+      dockerfile: production.Dockerfile
     container_name: syntax_squad_chat_service
     restart: unless-stopped
     tty: true
