@@ -1,3 +1,2 @@
 .idea
-.docker/nginx/log
 .env.database

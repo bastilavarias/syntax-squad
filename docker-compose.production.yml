@@ -1,127 +1,99 @@
 version: '3.8'
 
 services:
-  server:
+  syntax_squad_server:
     image: nginx:alpine
-    container_name: server
-    restart: always
+    container_name: syntax_squad_server
+    restart: unless-stopped
     tty: true
     ports:
-      - "80:80"
-      - "443:443"
+      - "1002:1002"
     depends_on:
-      - database
-      - post-service
-      - chat-service
-      - auth-service
+      - syntax_squad_database
+      - syntax_squad_post_service
+      - syntax_squad_chat_service
+      - syntax_squad_auth_service
     volumes:
       - ./post-service:/var/www/post-service
-      - ./.docker/nginx/conf/production:/etc/nginx/conf.d
+      - ./.docker/nginx/conf/local:/etc/nginx/conf.d
       - ./.docker/nginx/log:/var/log/nginx
-      - ./.docker/nginx/certbot/conf:/etc/letsencrypt
-      - ./.docker/nginx/certbot/www:/var/www/certbot
     networks:
-      - app-network
-    deploy:
-      resources:
-        limits:
-          cpus: '0.05'
-          memory: 51M
+      - network
 
-  auth-service:
+  syntax_squad_auth_service:
     build:
       context: ./auth-service
-      dockerfile: production.Dockerfile
-    container_name: auth-service
-    restart: always
+      dockerfile: Dockerfile
+    container_name: syntax_squad_auth_service
+    restart: unless-stopped
     tty: true
     env_file:
       - ./auth-service/.env
     ports:
-      - "3001:3001"
+      - "2000:2000"
     volumes:
       - ./auth-service:/usr/src/app/syntax-squad/auth-service
       - ./auth-service/package.json:/usr/src/app/syntax-squad/auth-service/package.json
       - ./auth-service/package-lock.json:/usr/src/app/syntax-squad/auth-service/package-lock.json
       - /usr/src/app/syntax-squad/auth-service/node_modules
     networks:
-      - app-network
-    deploy:
-      resources:
-        limits:
-          cpus: '0.05'
-          memory: 51M
+      - network
 
-  chat-service:
+  syntax_squad_chat_service:
     build:
       context: ./chat-service
-      dockerfile: production.Dockerfile
-    container_name: chat-service
-    restart: always
+      dockerfile: Dockerfile
+    container_name: syntax_squad_chat_service
+    restart: unless-stopped
     tty: true
     env_file:
       - ./chat-service/.env
     ports:
-      - "3002:3002"
+      - "2001:2001"
     volumes:
       - ./chat-service:/usr/src/app/syntax-squad/chat-service
       - ./chat-service/package.json:/usr/src/app/syntax-squad/chat-service/package.json
       - ./chat-service/package-lock.json:/usr/src/app/syntax-squad/chat-service/package-lock.json
       - /usr/src/app/syntax-squad/chat-service/node_modules
     networks:
-      - app-network
-    deploy:
-      resources:
-        limits:
-          cpus: '0.13'
-          memory: 133M
+      - network
 
-  post-service:
+  syntax_squad_post_service:
     build:
       context: ./post-service
       dockerfile: Dockerfile
-    container_name: post-service
-    restart: always
+    container_name: syntax_squad_post_service
+    restart: unless-stopped
     tty: true
     env_file:
       - ./post-service/.env
     ports:
-      - "9000:9000"
+      - "5001:5001"
     volumes:
       - ./post-service:/var/www/post-service
       - ./.docker/php/local.ini:/usr/local/etc/php/local.ini
     networks:
-      - app-network
-    deploy:
-      resources:
-        limits:
-          cpus: '0.22'
-          memory: 225M
+      - network
 
-  database:
+  syntax_squad_database:
     image: mysql:8
-    container_name: database
-    restart: always
+    container_name: syntax_squad_database
+    restart: unless-stopped
     tty: true
-    ports:
-      - "5506:3306"
     env_file:
       - ./.env.database
+    ports:
+      - "3307:3307"
+    expose:
+      - 3307
     volumes:
-      - database-data:/var/lib/mysql/
-      - .docker/mysql/my.cnf:/etc/mysql/conf.d/my.cnf
+      - database_volume:/var/lib/mysql/
     networks:
-      - app-network
-    deploy:
-      resources:
-        limits:
-          cpus: '0.55'
-          memory: 563M
-    command: --pid-file=/var/lib/mysql/mysql.pid
+      - network
 
 networks:
-  app-network:
+  network:
     driver: bridge
 
 volumes:
-  database-data:
+  database_volume:
